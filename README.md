@@ -6,6 +6,6 @@ Rohan Bhandari
 
 Joanna John
 
-Sam Menkus
+Samuel Menkus
 
 Patrick Scott
