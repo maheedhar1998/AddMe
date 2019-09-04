@@ -1,7 +1,11 @@
 # Add Me
 # group members
-Maheedhar Mandapati\n
-Rohan Bhandari\n
-Joanna John\n
-Sam Menkus\n
+Maheedhar Mandapati
+
+Rohan Bhandari
+
+Joanna John
+
+Sam Menkus
+
 Patrick Scott
