@@ -1,5 +1,5 @@
 # Add Me
-# group members
+# Group Members
 Maheedhar Mandapati
 
 Rohan Bhandari
