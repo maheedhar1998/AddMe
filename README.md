@@ -1,11 +1,11 @@
 # Add Me
-# group members
+# Group Members
 Maheedhar Mandapati
 
 Rohan Bhandari
 
 Joanna John
 
-Sam Menkus
+Samuel Menkus
 
 Patrick Scott
