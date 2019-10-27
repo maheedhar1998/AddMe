@@ -16,33 +16,33 @@ In order to build this project you will need to install
 ***
 # Setup
 The first time you run the Ionic app you will need to install the necessary node modules.  
-* ```npm i```
+* ```npm i```  
 Before you can run the app natively on any device you need to add the corresponding platform ```<platform>``` Android or IOS
 	 * ```ionic cordova platform add <platform>```
 ***
 # Running
 To run the app locally on your laptop
-* ```ionic serve```
+* ```ionic serve```  
 To run on a mobile device via Ionic Devapp
-* ```ionic serve --devapp```
+* ```ionic serve --devapp```  
 To run on an emulator
-* ```ionic cordova emulate <platform> ```
+* ```ionic cordova emulate <platform>```
 ***
 # Deployment
 To run on a mobile device natively
-* ```ionic cordova run <platform>```
+* ```ionic cordova run <platform>```  
 To build a native installable app
 * ```ionic cordova build <platform>```
 ***
 # Authors
 Maheedhar Mandapati  
-  maheedhar1998@hotmail.com  
+   maheedhar1998@hotmail.com  
 Rohan Bhandari  
-  rohanb@email.sc.edu  
+   rohanb@email.sc.edu  
 Joanna John  
-  joannajohnsc@gmail.com  
+   joannajohnsc@gmail.com  
 Samuel Menkus  
-  smenkus1@gmail.com  
+   smenkus1@gmail.com  
 Patrick Scott  
-  patrickscott2013@gmail.com
+   patrickscott2013@gmail.com
 ***
