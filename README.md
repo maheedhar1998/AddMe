@@ -41,7 +41,7 @@ To build a native installable app
 ***
 # Authors
 
-Name | Emails
+Name | Email
 ------------------- | -------------------------
 Maheedhar Mandapati | maheedhar1998@hotmail.com  
 Rohan Bhandari | rohanb@email.sc.edu
