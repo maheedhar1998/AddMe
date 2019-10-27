@@ -33,31 +33,19 @@ To run on an emulator
 ***
 # Deployment
 To run on a mobile device natively
-* ```ionic cordova run <platform>``` 
+* ```ionic cordova run <platform>```
 
 To build a native installable app
 * ```ionic cordova build <platform>```
 
 ***
 # Authors
-<<<<<<< HEAD
+
 Name | Emails
----- | ------
+------------------- | -------------------------
 Maheedhar Mandapati | maheedhar1998@hotmail.com  
 Rohan Bhandari | rohanb@email.sc.edu
 Joanna John | joannajohnsc@gmail.com
 Samuel Menkus | smenkus1@gmail.com
 Patrick Scott | patrickscott2013@gmail.com
-=======
-Maheedhar Mandapati  
-   maheedhar1998@hotmail.com  
-Rohan Bhandari  
-   rohanb@email.sc.edu  
-Joanna John  
-   joannajohnsc@gmail.com  
-Samuel Menkus  
-   smenkus1@gmail.com  
-Patrick Scott  
-   patrickscott2013@gmail.com
->>>>>>> 7cddf903979a0e36212929d71a0c27a2e82019f5
 ***
