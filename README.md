@@ -35,14 +35,11 @@ To build a native installable app
 * ```ionic cordova build <platform>```
 ***
 # Authors
-Maheedhar Mandapati  
-* maheedhar1998@hotmail.com  
-Rohan Bhandari  
-* rohanb@email.sc.edu  
-Joanna John  
-* joannajohnsc@gmail.com  
-Samuel Menkus  
-* smenkus1@gmail.com  
-Patrick Scott  
-* patrickscott2013@gmail.com
+Name | Emails
+---- | ------
+Maheedhar Mandapati | maheedhar1998@hotmail.com  
+Rohan Bhandari | rohanb@email.sc.edu
+Joanna John | joannajohnsc@gmail.com
+Samuel Menkus | smenkus1@gmail.com
+Patrick Scott | patrickscott2013@gmail.com
 ***
