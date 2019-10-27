@@ -36,13 +36,13 @@ To build a native installable app
 ***
 # Authors
 Maheedhar Mandapati  
-   maheedhar1998@hotmail.com  
+* maheedhar1998@hotmail.com  
 Rohan Bhandari  
-   rohanb@email.sc.edu  
+* rohanb@email.sc.edu  
 Joanna John  
-   joannajohnsc@gmail.com  
+* joannajohnsc@gmail.com  
 Samuel Menkus  
-   smenkus1@gmail.com  
+* smenkus1@gmail.com  
 Patrick Scott  
-   patrickscott2013@gmail.com
+* patrickscott2013@gmail.com
 ***
