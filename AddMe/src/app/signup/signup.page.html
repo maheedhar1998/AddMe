@@ -8,7 +8,7 @@
   <form [formGroup]="validateSignupForm" (ngSubmit)="submitSignUpForm(validateSignupForm)">
     <ion-item>
       <ion-label>Name</ion-label>
-      <ion-input type="text" formControlName="name"></ion-input>
+      <ion-input type="text" formControlName="name" [(ngModel)]="name"></ion-input>
     </ion-item>
 
     <div class="validation-errors">
@@ -22,7 +22,7 @@
 
     <ion-item>
       <ion-label>Username</ion-label>
-      <ion-input type="text" formControlName="username"></ion-input>
+      <ion-input type="text" formControlName="username" [(ngModel)]="username"></ion-input>
     </ion-item>
 
     <div class="validation-errors">
@@ -37,7 +37,7 @@
     <div formGroupName="matchingPasswords">
       <ion-item>
         <ion-label>Password</ion-label>
-        <ion-input type="password" formControlName="password"></ion-input>
+        <ion-input type="password" formControlName="password" [(ngModel)]="password"></ion-input>
       </ion-item>
 
       <div class="validation-errors">
@@ -72,12 +72,12 @@
         </div>
       </ng-container>
     </div>
-  
+
 
     <div formGroupName="matchingEmails">
       <ion-item>
         <ion-label>Email</ion-label>
-        <ion-input type="email" formControlName="email"></ion-input>
+        <ion-input type="email" formControlName="email" [(ngModel)]="email"></ion-input>
       </ion-item>
 
       <div class="validation-errors">
@@ -115,7 +115,7 @@
 
     <ion-item>
       <ion-label>Phone</ion-label>
-      <ion-input type="tel" formControlName="phone"></ion-input>
+      <ion-input type="tel" formControlName="phone" [(ngModel)]="phone"></ion-input>
     </ion-item>
 
     <div class="validation-errors">
