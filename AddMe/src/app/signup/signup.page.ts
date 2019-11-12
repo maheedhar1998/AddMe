@@ -15,8 +15,19 @@ export class SignupPage implements OnInit {
   private validationMessages = ValidationMessages
   private matchingPasswordsGroup: FormGroup
   private matchingEmailsGroup: FormGroup
+  private name: string;
+  private username: string;
+  private password: string;
+  private email: string;
+  private phone: string;
 
-  constructor(private formBuilder: FormBuilder, private router: Router) {}
+  constructor(private formBuilder: FormBuilder, private router: Router) {
+    this.name = "";
+    this.username = "";
+    this.password = "";
+    this.email = "";
+    this.phone = "";
+  }
 
   ngOnInit() {
     this.matchingPasswordsGroup = new FormGroup({
@@ -60,6 +71,7 @@ export class SignupPage implements OnInit {
     if(signupForm.status === "VALID")
     {
       // FORM INFO IS VALID -> SEND TO FIREBASE...
+      
     }
 
     return
