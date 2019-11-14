@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormBuilder, FormGroup, Validators } from '@angular/forms'
-import { EqualityValidator, UsernameValidator } from './validation/validators'
+import { EqualityValidator } from './validation/validators'
 import ValidationMessages from './validation/validationMessages'
 import { Router } from '@angular/router'
+import { FirebaseBackendService } from '../firebase-backend.service';
 
 @Component({
   selector: 'app-signup',
@@ -20,6 +21,7 @@ export class SignupPage implements OnInit {
   private password: string;
   private email: string;
   private phone: string;
+  private firebase: FirebaseBackendService;
 
   constructor(private formBuilder: FormBuilder, private router: Router) {
     this.name = "";
@@ -27,12 +29,13 @@ export class SignupPage implements OnInit {
     this.password = "";
     this.email = "";
     this.phone = "";
+    this.firebase = new FirebaseBackendService(null);
   }
 
   ngOnInit() {
     this.matchingPasswordsGroup = new FormGroup({
       password: new FormControl('', Validators.compose([
-        Validators.minLength(5),
+        Validators.minLength(6),
         Validators.required,
         Validators.pattern('^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])[a-zA-Z0-9]+$') // Password must contain at least one uppercase, one lowercase, and one number.
       ])),
@@ -54,8 +57,6 @@ export class SignupPage implements OnInit {
     this.validateSignupForm = this.formBuilder.group({
       name: new FormControl('', Validators.required),
       username: new FormControl('', Validators.compose([
-        // TODO - Valid username is determined by whether it is available or not. Waiting on Firebase stuff
-        // UsernameValidator.validUsername,
         Validators.required,
         Validators.maxLength(25),
         Validators.minLength(5)
@@ -70,8 +71,9 @@ export class SignupPage implements OnInit {
   {
     if(signupForm.status === "VALID")
     {
-      // FORM INFO IS VALID -> SEND TO FIREBASE...
-      
+      this.firebase.signupWithEmail(signupForm.value.matchingEmails.email, signupForm.value.matchingPasswords.password)
+      // Where to redirect?
+      // this.router.navigate([''])
     }
 
     return
