@@ -12,23 +12,27 @@ export class LoginPage {
   private password: string;
   private fire: FirebaseBackendService;
 
-  constructor(private route: Router) {
+  constructor(private router: Router) {
     this.email = "";
     this.password = "";
     this.fire = new FirebaseBackendService(null);
   }
 
   signup() {
-    this.route.navigate(['signup'])
+    this.router.navigate(['signup'])
   }
   login() {
     if(this.email == "" || this.password == "") {
       alert("Please enter an Email and/or Password");
     } else {
-      var x = this.fire.loginWithEmail(this.email, this.password);
-      if(x) {
-        this.route.navigate(['home']);
-      }
+      this.fire.loginWithEmail(this.email, this.password).then(() => {
+        this.router.navigate(['home']);
+      })
+      .catch(err => {
+        alert("The Email or Password is incorrect.")
+        console.log(err)
+      })
+      
     }
   }
 }
