@@ -4,6 +4,7 @@ import { EqualityValidator } from './validation/validators'
 import ValidationMessages from './validation/validationMessages'
 import { Router } from '@angular/router'
 import { FirebaseBackendService } from '../firebase-backend.service';
+import { async } from 'rxjs/internal/scheduler/async';
 
 @Component({
   selector: 'app-signup',
@@ -67,17 +68,16 @@ export class SignupPage implements OnInit {
     });
   }
 
-  submitSignUpForm(signupForm)
+  async submitSignUpForm(signupForm)
   {
     if(signupForm.status === "VALID")
     {
-      var prom = this.firebase.signupWithEmail(signupForm.value.matchingEmails.email, signupForm.value.matchingPasswords.password)
-      // Where to redirect?
       var uid = "";
-      prom.then(val => {
+      await this.firebase.signupWithEmail(signupForm.value.matchingEmails.email, signupForm.value.matchingPasswords.password).then(val => {
         uid = val.user.uid;
+        console.log(val);
       });
-      this.firebase.sendUserDataSignUp(signupForm.value.name, signupForm.value.username, signupForm.value.email, signupForm.value.phone, null, null, uid);
+      this.firebase.sendUserDataSignUp(signupForm.value.name, signupForm.value.username, signupForm.value.matchingEmails.email, signupForm.value.phone, null, null, uid);
       this.router.navigate(['login']);
     }
 
