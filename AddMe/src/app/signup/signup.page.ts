@@ -71,9 +71,14 @@ export class SignupPage implements OnInit {
   {
     if(signupForm.status === "VALID")
     {
-      this.firebase.signupWithEmail(signupForm.value.matchingEmails.email, signupForm.value.matchingPasswords.password)
+      var prom = this.firebase.signupWithEmail(signupForm.value.matchingEmails.email, signupForm.value.matchingPasswords.password)
       // Where to redirect?
-      // this.router.navigate([''])
+      var uid = "";
+      prom.then(val => {
+        uid = val.user.uid;
+      });
+      this.firebase.sendUserDataSignUp(signupForm.value.name, signupForm.value.username, signupForm.value.email, signupForm.value.phone, null, null, uid);
+      this.router.navigate(['login']);
     }
 
     return
