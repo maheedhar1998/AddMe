@@ -19,5 +19,20 @@ export class FirebaseBackendService {
     return firebase.auth().createUserWithEmailAndPassword(email, password)
   }
 
-  
+  //
+  sendUserDataSignUp(name_user: string, username_user: string, email_user: string, phoneNumber_user: string, dateOfBirth: Date, photo_user: string, uid: string ) {
+    this.uid = uid;
+    var user = {};
+    user[this.uid] = {
+      id : this.uid,
+      name: name_user,
+      username : username_user,
+      email : email_user,
+      phoneNumber_user : phoneNumber_user,
+      DOB : dateOfBirth,
+      photo : photo_user
+    };
+
+    firebase.database().ref('Users').update(user);
+  }
 }
