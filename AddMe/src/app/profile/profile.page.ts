@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-
+import { FirebaseBackendService } from '../firebase-backend.service';
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.page.html',
