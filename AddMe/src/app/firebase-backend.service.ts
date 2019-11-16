@@ -38,4 +38,89 @@ export class FirebaseBackendService {
       console.log("success");
     });
   }
+  // Getting user data from firebase
+  async getUserData() {
+    var userProfile;
+    await firebase.database().ref('Users/'+this.uid).once('value', function(snap) {
+      userProfile = {
+        uid: snap.val().id,
+        name: snap.val().name,
+        username: snap.val().username,
+        email: snap.val().email,
+        phoneNumber: snap.val().phoneNumber
+      };
+    });
+    return userProfile;
+  }
 }
+
+export class social {
+  private type : string;
+  private profile : string;
+  private socialAccounts : socialAccount[];
+
+  constructor(tempType: string, tempProfile: string, tempSocialAccount: socialAccount[]) {
+    this.type = tempType;
+    this.profile = tempProfile;
+    this.socialAccounts = tempSocialAccount;
+  }
+
+  public get getType(): string {
+    return this.type;
+  }
+
+  public set setType(value: string) {
+    this.type = value;
+  }
+
+  public get getProfile(): string {
+    return this.profile;
+  }
+
+  public set setProfile(value: string) {
+    this.profile = value;
+  }
+
+  public get getSocialAccount(): socialAccount[] { 
+    return this.socialAccounts;
+  }
+  // TODO : Appending and deleting socialAccounts
+
+}
+export class socialAccount {
+  private id : string;
+  private user: string;
+  private url: string;
+
+  constructor(tempId: string, tempUser: string, tempUrl: string) {
+    this.id = tempId;
+    this.url = tempUrl;
+    this.user = tempUser;
+  }
+
+  public get getId(): string {
+    return this.id;
+  }
+
+  public set setId(value: string) {
+    this.id = value;
+  }
+
+  public get getUrl(): string {
+    return this.url;
+  }
+
+  public set setUrl(value: string) {
+    this.url = value;
+  }
+
+  public get getUser(): string {
+    return this.user;
+  }
+
+  public set setUser(value: string) {
+    this.user = value;
+  }
+}
+
+
