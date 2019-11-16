@@ -38,4 +38,18 @@ export class FirebaseBackendService {
       console.log("success");
     });
   }
+  // Getting user data from firebase
+  async getUserData() {
+    var userProfile;
+    await firebase.database().ref('Users/'+this.uid).once('value', function(snap) {
+      userProfile = {
+        uid: snap.val().id,
+        name: snap.val().name,
+        username: snap.val().username,
+        email: snap.val().email,
+        phoneNumber: snap.val().phoneNumber
+      };
+    });
+    return userProfile;
+  }
 }
