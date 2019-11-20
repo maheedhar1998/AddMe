@@ -52,6 +52,11 @@ export class FirebaseBackendService {
     });
     return userProfile;
   }
+  async logOut(): Promise<firebase.auth.UserCredential> {
+    return await firebase.auth().signOut().then(res => {
+      console.log("Logged Out");
+    });
+  }
 }
 
 export class social {
@@ -81,7 +86,7 @@ export class social {
     this.profile = value;
   }
 
-  public get getSocialAccount(): socialAccount[] { 
+  public get getSocialAccount(): socialAccount[] {
     return this.socialAccounts;
   }
   // TODO : Appending and deleting socialAccounts
@@ -122,5 +127,3 @@ export class socialAccount {
     this.user = value;
   }
 }
-
-
