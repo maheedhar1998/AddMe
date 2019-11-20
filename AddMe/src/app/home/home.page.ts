@@ -9,7 +9,12 @@ import { Router } from '@angular/router';
 export class HomePage {
 
   constructor(private router: Router) {}
+
   goToContacts() {
-    this.router.navigate(['contacts'])
+    this.router.navigate(['contacts']);
+  }
+
+  logOut() {
+    this.router.navigate(['login']);
   }
 }
