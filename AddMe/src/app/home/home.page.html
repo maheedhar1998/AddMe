@@ -1,25 +1,27 @@
 <ion-header>
   <ion-toolbar>
+    <ion-button slot="start" shape="round" (click)="goToCamera()">
+      <ion-icon name="camera"></ion-icon>
+    </ion-button>
     <ion-button slot="end" (click)="logOut()">Log Out</ion-button>
     <ion-title class="ion-text-center">
-      Home Page
+      Home
     </ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
+  <ion-tabs>
+    <ion-tab-bar slot="bottom">
+      <ion-tab-button tab="Home" class="ion-text-center" selected="true">
+        <ion-icon name="home"></ion-icon>
+        <ion-label>Home</ion-label>
+      </ion-tab-button>
+
+      <ion-tab-button tab="Contacts" class="ion-text-center" (click)="goToContacts()">
+        <ion-icon name="contact"></ion-icon>
+        <ion-label>Contacts</ion-label>
+      </ion-tab-button>
+    </ion-tab-bar>
+  </ion-tabs>
 </ion-content>
-
-<ion-tabs>
-  <ion-tab-bar slot="bottom">
-    <ion-tab-button tab="Home" class="ion-text-center">
-      <ion-icon name="home"></ion-icon>
-      <ion-label>Home</ion-label>
-    </ion-tab-button>
-
-    <ion-tab-button tab="Contacts" class="ion-text-center" (click)="goToContacts()">
-      <ion-icon name="contact"></ion-icon>
-      <ion-label>Contacts</ion-label>
-    </ion-tab-button>
-  </ion-tab-bar>
-</ion-tabs>

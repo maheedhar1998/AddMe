@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-camera',
@@ -7,7 +8,11 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CameraPage implements OnInit {
 
-  constructor() { }
+  constructor(private router: Router) { }
+
+  goToHome() {
+    this.router.navigate(['home']);
+  }
 
   ngOnInit() {
   }

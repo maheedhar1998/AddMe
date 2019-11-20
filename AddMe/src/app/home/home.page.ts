@@ -14,6 +14,10 @@ export class HomePage {
     this.router.navigate(['contacts']);
   }
 
+  goToCamera() {
+    this.router.navigate(['camera']);
+  }
+
   logOut() {
     this.router.navigate(['login']);
   }
