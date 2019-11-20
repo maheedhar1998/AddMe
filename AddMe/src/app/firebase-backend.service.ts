@@ -147,3 +147,80 @@ export class QrCode {
     this.contact = contact_new;
   }
 }
+export class contact {
+  private id : string;
+  private name: string;
+  private username: string;
+  private email: string;
+  private phoneNumber: string;
+  private DOB: Date;
+  private photo: string;
+  private accessSocial: social[];
+
+  constructor(tempId: string, tempUser: string, tempUrl: string, tempEmail: string, tempPhoneNum: string, tempDate: Date, tempPhoto: string, tempAccessSocial: social[]) {
+    this.id = tempId;
+    this.name = tempUrl;
+    this.username = tempUser;
+    this.email = tempEmail;
+    this.phoneNumber = tempPhoneNum;
+    this.DOB = tempDate;
+    this.photo = tempPhoto;
+    this.accessSocial = tempAccessSocial;
+  }
+
+  public get getId(): string {
+    return this.id;
+  }
+
+  public set setId(value: string) {
+    this.id = value;
+  }
+
+  public get getName(): string {
+    return this.name;
+  }
+
+  public set setName(value: string) {
+    this.name = value;
+  }
+
+  public get getEmail(): string {
+    return this.email;
+  }
+
+  public set setEmail(value: string) {
+    this.email = value;
+  }
+
+  public getPhoneNumber(): string {
+    return this.phoneNumber;
+  }
+
+  public set setPhoneNumber(value: string) {
+    this.phoneNumber = value;
+  }
+
+  public get getDOB(): Date {
+    return this.DOB;
+  }
+
+  public set setDOB(value: Date) {
+    this.DOB = value;
+  }
+
+  public get getPhoto(): string {
+    return this.photo;
+  }
+
+  public set setPhoto(value: string) {
+    this.photo = value;
+  }
+
+  public get getAccessSocial(): social[] {
+    return this.accessSocial;
+  }
+
+  public set setAccessSocial(value: social[]) {
+    this.accessSocial = value;
+  }
+}
