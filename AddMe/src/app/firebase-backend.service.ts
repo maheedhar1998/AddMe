@@ -52,6 +52,11 @@ export class FirebaseBackendService {
     });
     return userProfile;
   }
+  async logOut() {
+    await firebase.auth().signOut().then(res => {
+      console.log("Logged Out");
+    });
+  }
 }
 
 export class social {
@@ -81,7 +86,7 @@ export class social {
     this.profile = value;
   }
 
-  public get getSocialAccount(): socialAccount[] { 
+  public get getSocialAccount(): socialAccount[] {
     return this.socialAccounts;
   }
   // TODO : Appending and deleting socialAccounts
@@ -122,5 +127,100 @@ export class socialAccount {
     this.user = value;
   }
 }
+export class contact {
+  private id : string;
+  private name: string;
+  private username: string;
+  private email: string;
+  private phoneNumber: string;
+  private DOB: Date;
+  private photo: string;
+  private accessSocial: social[];
 
+  constructor(tempId: string, tempUser: string, tempUrl: string, tempEmail: string, tempPhoneNum: string, tempDate: Date, tempPhoto: string, tempAccessSocial: social[]) {
+    this.id = tempId;
+    this.name = tempUrl;
+    this.username = tempUser;
+    this.email = tempEmail;
+    this.phoneNumber = tempPhoneNum;
+    this.DOB = tempDate;
+    this.photo = tempPhoto;
+    this.accessSocial = tempAccessSocial;
+  }
 
+  public get getId(): string {
+    return this.id;
+  }
+
+  public set setId(value: string) {
+    this.id = value;
+  }
+
+  public get getName(): string {
+    return this.name;
+  }
+
+  public set setName(value: string) {
+    this.name = value;
+  }
+
+  public get getEmail(): string {
+    return this.email;
+  }
+
+  public set setEmail(value: string) {
+    this.email = value;
+  }
+
+  public getPhoneNumber(): string {
+    return this.phoneNumber;
+  }
+
+  public set setPhoneNumber(value: string) {
+    this.phoneNumber = value;
+  }
+
+  public get getDOB(): Date {
+    return this.DOB;
+  }
+
+  public set setDOB(value: Date) {
+    this.DOB = value;
+  }
+
+  public get getPhoto(): string {
+    return this.photo;
+  }
+
+  public set setPhoto(value: string) {
+    this.photo = value;
+  }
+
+  public get getAccessSocial(): social[] {
+    return this.accessSocial;
+  }
+
+  public set setAccessSocial(value: social[]) {
+    this.accessSocial = value;
+  }
+}
+export class QrCode {
+  private qid: string;
+  private qContact: contact;
+  constructor(q_id: string, q_contact: contact) {
+    this.qid = q_id;
+    this.qContact = q_contact;
+  }
+  public get getQid(): string {
+    return this.qid;
+  }
+  public set setQid(q_id: string) {
+    this.qid = q_id;
+  }
+  public get getContact(): contact {
+    return this.qContact;
+  }
+  public set setContact(contact_new: contact) {
+    this.qContact = contact_new;
+  }
+}

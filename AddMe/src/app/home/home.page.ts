@@ -1,14 +1,17 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-
+import { FirebaseBackendService } from '../firebase-backend.service';
+import * as firebase from 'firebase';
 @Component({
   selector: 'app-home',
   templateUrl: 'home.page.html',
   styleUrls: ['home.page.scss'],
 })
 export class HomePage {
-
-  constructor(private router: Router) {}
+  private firebase: FirebaseBackendService;
+  constructor(private router: Router) {
+    this.firebase = new FirebaseBackendService(firebase.auth().currentUser.uid);
+  }
 
   goToContacts() {
     this.router.navigate(['contacts']);
@@ -23,6 +26,7 @@ export class HomePage {
   }
 
   logOut() {
+    this.firebase.logOut();
     this.router.navigate(['login']);
   }
 }
