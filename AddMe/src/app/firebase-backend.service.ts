@@ -127,3 +127,23 @@ export class socialAccount {
     this.user = value;
   }
 }
+export class QrCode {
+  private qid: string;
+  private qContact: contact;
+  constructor(q_id: string, q_contact: contact) {
+    this.qid = q_id;
+    this.qContact = q_contact;
+  }
+  public get getQid(): string {
+    return this.qid;
+  }
+  public set setQid(q_id: string) {
+    this.qid = q_id;
+  }
+  public get getContact(): contact {
+    return this.qContact;
+  }
+  public set setContact(contact_new: contact) {
+    this.contact = contact_new;
+  }
+}
