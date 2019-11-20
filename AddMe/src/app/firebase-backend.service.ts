@@ -52,8 +52,8 @@ export class FirebaseBackendService {
     });
     return userProfile;
   }
-  async logOut(): Promise<firebase.auth.UserCredential> {
-    return await firebase.auth().signOut().then(res => {
+  async logOut() {
+    await firebase.auth().signOut().then(res => {
       console.log("Logged Out");
     });
   }
