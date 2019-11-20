@@ -1,9 +1,62 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>profile</ion-title>
+<ion-header transluscent>
+  <ion-toolbar class="ion-text-center">
+    <ion-title>
+      <ion-card>
+        <img src={{profile.profile.img}}>
+        <ion-card-content>
+          <ion-card-title>{{profile.name}}</ion-card-title>
+        </ion-card-content>
+      </ion-card>
+    </ion-title>
+    <ion-button slot="start" color="light" click="camera()">
+        <ion-icon name="camera"></ion-icon>
+    </ion-button>
+    <ion-button slot="end" color="light" click="settings()">
+      <ion-icon name="settings"></ion-icon>
+    </ion-button>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
+<ion-list>
+  <ion-item-group>
+    <ion-item-divider slot="start">
+      <ion-label>Instagram</ion-label>
+    </ion-item-divider>
+    <ion-item slot="start">
+      <ion-label>
+        multiple instagram accounts here
+      </ion-label>
+    </ion-item>
+
+    <ion-item-divider slot="start">
+        <ion-label>Snapchat</ion-label>
+      </ion-item-divider>
+      <ion-item slot="start">
+        <ion-label>
+          multiple Snapchat accounts here
+        </ion-label>
+      </ion-item>
+
+      <ion-item-divider slot="start">
+          <ion-label>Twitter</ion-label>
+        </ion-item-divider>
+        <ion-item slot="start">
+          <ion-label>
+            multiple Twitter accounts here
+          </ion-label>
+        </ion-item>
+
+        <ion-item-divider slot="start">
+            <ion-label>Phone</ion-label>
+          </ion-item-divider>
+          <ion-item slot="start">
+            <ion-label>
+              multiple phone numbers here
+            </ion-label>
+          </ion-item>
+
+  </ion-item-group>
+</ion-list>
 
 </ion-content>
