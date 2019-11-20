@@ -10,7 +10,14 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content padding>
+  <!-- <ion-row>
+    <ion-col class="ion-text-center"> -->
+      <ion-button (click)="goToQRCode()">
+        <ion-icon name="qr-scanner"></ion-icon>
+      </ion-button>
+    <!-- </ion-col>
+  </ion-row> -->
   <ion-tabs>
     <ion-tab-bar slot="bottom">
       <ion-tab-button tab="Home" class="ion-text-center" selected="true">

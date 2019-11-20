@@ -18,6 +18,10 @@ export class HomePage {
     this.router.navigate(['camera']);
   }
 
+  goToQRCode() {
+    this.router.navigate(['qrcode']);
+  }
+
   logOut() {
     this.router.navigate(['login']);
   }
