@@ -17,6 +17,14 @@ export class HomePage {
     this.router.navigate(['contacts']);
   }
 
+  goToCamera() {
+    this.router.navigate(['camera']);
+  }
+
+  goToQRCode() {
+    this.router.navigate(['qrcode']);
+  }
+
   logOut() {
     this.firebase.logOut();
     this.router.navigate(['login']);
