@@ -10,7 +10,11 @@ import * as firebase from 'firebase';
 export class HomePage {
   private firebase: FirebaseBackendService;
   constructor(private router: Router) {
-    this.firebase = new FirebaseBackendService(firebase.auth().currentUser.uid);
+    if(firebase.auth().currentUser) {
+      this.firebase = new FirebaseBackendService(firebase.auth().currentUser.uid);
+    } else {
+      this.router.navigate(['login']);
+    }
   }
 
   goToContacts() {
