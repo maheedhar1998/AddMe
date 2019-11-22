@@ -3,6 +3,9 @@
     <ion-button slot="start" shape="round" (click)="goToCamera()">
       <ion-icon name="camera"></ion-icon>
     </ion-button>
+    <ion-button slot="start" shape="round" (click)="goToSettings()">
+        <ion-icon name="settings"></ion-icon>
+      </ion-button>
     <ion-button slot="end" (click)="logOut()">Log Out</ion-button>
     <ion-title class="ion-text-center">
       Home
@@ -10,26 +13,96 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content padding>
-  <!-- <ion-row>
-    <ion-col class="ion-text-center"> -->
-      <!-- <ion-button (click)="goToQRCode()">
-        <ion-icon name="qr-scanner"></ion-icon>
-      </ion-button> -->
-    <!-- </ion-col>
-  </ion-row> -->
+<ion-content>
+    <ion-tabs>
+      <ion-tab-bar slot="bottom">
+        <ion-tab-button tab="Home" class="ion-text-center" selected="true">
+          <ion-icon name="home"></ion-icon>
+          <ion-label>Home</ion-label>
+        </ion-tab-button>
+    
+        <ion-tab-button tab="Contacts" class="ion-text-center" (click)="goToContacts()">
+          <ion-icon name="contact"></ion-icon>
+          <ion-label>Contacts</ion-label>
+        </ion-tab-button>
+      </ion-tab-bar>    
+      </ion-tabs> 
+      
+  <ion-grid>
+    <ion-row justify-content-center align-items-center style="height: 100%">
+      <ion-button>Personal</ion-button>
+      <ion-button color="tertiary">Business</ion-button>   
+    </ion-row>
+  </ion-grid>
+  
+  <ion-item lines="none" style="width:20%;left:39.5%; background:red;">
+      <ion-avatar slot="start">
+        <img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAAAAACH5BAAAAAAALAAAAAABAAEAAAICTAEAOw==">
+      </ion-avatar>
+      <ion-label style="padding:10px;" text-center>
+        <h1>
+          John Doe
+        </h1>
+      </ion-label>
 
-  <ion-tabs>
-    <ion-tab-bar slot="bottom">
-      <ion-tab-button tab="Home" class="ion-text-center" selected="true">
-        <ion-icon name="home"></ion-icon>
-        <ion-label>Home</ion-label>
-      </ion-tab-button>
+      
+    </ion-item>
 
-      <ion-tab-button tab="Contacts" class="ion-text-center" (click)="goToContacts()">
-        <ion-icon name="contact"></ion-icon>
-        <ion-label>Contacts</ion-label>
-      </ion-tab-button>
-    </ion-tab-bar>
-  </ion-tabs>
+    <ion-row>
+        <ion-col class="ion-text-center"> 
+           <ion-button (click)="goToQRCode()" size="small" class="ion-padding">
+             <!-- <ion-text class="ion-padding"> -->
+               <!-- <h3>QR Scanner</h3> -->
+             <!-- </ion-text> -->
+            <ion-icon name="qr-scanner"></ion-icon>
+          </ion-button> 
+         </ion-col>
+      </ion-row> 
+
+    <ion-list style="width:13%; margin-left:auto; margin-right:auto; margin-top:20px;">
+      <ion-item lines="none">
+        <ion-button slot="start" shape="round" size="default">
+          <!-- <ion-icon name="logo-instagram"></ion-icon> -->
+          Instagram
+        </ion-button>
+      </ion-item>
+      <ion-item lines="none">
+        <ion-button slot="start" shape="round" size="default">
+          <!-- <ion-icon name="logo-facebook"></ion-icon> -->
+          Facebook
+        </ion-button>
+      </ion-item>
+      <ion-item lines="none">
+        <ion-button slot="start" shape="round" size="default">
+          <!-- <ion-icon name="logo-twitter"></ion-icon> -->
+          Twitter
+        </ion-button>
+      </ion-item>
+      <ion-item lines="none">
+        <ion-button slot="start" shape="round" size="default">
+          <!-- <ion-icon name="logo-snapchat"></ion-icon> -->
+          Snapchat
+        </ion-button>
+      </ion-item>
+
+    </ion-list>
+ 
+
 </ion-content>
+
+<!-- 
+<ion-content>
+ <ion-row>
+    <ion-col class="ion-text-center"> 
+       <ion-button (click)="goToQRCode()">
+        <ion-icon name="qr-scanner"></ion-icon>
+      </ion-button> 
+     </ion-col>
+  </ion-row> 
+</ion-content> -->
+
+<!-- <ion-content>
+
+ 
+</ion-content> -->
+
