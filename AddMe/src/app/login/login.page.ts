@@ -1,7 +1,7 @@
 import { Component} from '@angular/core';
 import { Router } from '@angular/router';
 import * as firbase from 'firebase';
-import { FirebaseBackendService, user, contact, qrCode, social,socialAccount } from '../firebase-backend.service';
+import { FirebaseBackendService } from '../firebase-backend.service';
 @Component({
   selector: 'app-login',
   templateUrl: './login.page.html',
@@ -24,7 +24,6 @@ export class LoginPage {
   login() {
     if(this.email == "" || this.password == "") {
       alert("Please enter an Email and/or Password");
-      console.log(new user(null,null,null,null,null,null,null,null,null,null));
     } else {
       this.fire.loginWithEmail(this.email, this.password).then(() => {
         this.router.navigate(['home']);
