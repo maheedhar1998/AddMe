@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { QRCodeModule } from 'angularx-qrcode';
 
 @Component({
   selector: 'app-qrcode',
@@ -7,6 +8,8 @@ import { Router } from '@angular/router';
   styleUrls: ['./qrcode.page.scss'],
 })
 export class QRcodePage implements OnInit {
+  qrData = 'https://github.com/SCCapstone/AddMe';
+  elementType: 'url' | 'canvas' | 'img' = 'canvas';
 
   constructor(private router: Router) {}
 
