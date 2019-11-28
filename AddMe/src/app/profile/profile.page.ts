@@ -19,10 +19,6 @@ export class ProfilePage implements OnInit {
     this.profile = this.firebase.getUserData();
     console.log(this.profile);
   }
-
-  goToCamera() {
-    this.router.navigate(['camera']);
-  }
   
   goToContacts() {
     this.router.navigate(['contacts']);
