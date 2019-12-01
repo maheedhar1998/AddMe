@@ -28,7 +28,9 @@ export class HomePage {
   goToQRCode() {
     this.router.navigate(['qrcode']);
   }
-
+  goToProfile() {
+    this.router.navigate(['profile']);
+  }
   logOut() {
     this.firebase.logOut();
     this.router.navigate(['login']);
