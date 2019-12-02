@@ -9,7 +9,6 @@ import { Router } from '@angular/router';
 })
 export class ProfilePage implements OnInit {
   private profile: {};
-  private uid: string;
   private firebase: FirebaseBackendService;
   constructor(private router: Router) {
     // TODO update so the page gets logged in user's uid
