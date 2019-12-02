@@ -18,15 +18,19 @@ export class CameraPage implements OnInit {
   ngOnInit() {
     this.qrScanner.prepare().then((state: QRScannerStatus) => {
       if(state.authorized) {
-        let scan = this.qrScanner.scan().subscribe((txt: string) => {
-          console.log("scanned: ", txt);
+        alert("authorized");
+        this.qrScanner.useBackCamera();
+
+        this.qrScanner.show();
+        this.qrScanner.scan().subscribe(txt => {
+          alert(txt);
           this.qrScanner.hide();
-          scan.unsubscribe();
         });
       } else if(state.denied) {
+        alert("denied");
         this.qrScanner.openSettings();
       }
-    }).catch((e: any) => console.log('Error: ', e));
+    }).catch((e: any) => alert('Error: '+e));
   }
 
 }
