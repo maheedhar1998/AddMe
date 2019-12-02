@@ -22,6 +22,14 @@ export class ProfilePage implements OnInit {
     }
   }
 
+  goToContacts() {
+    this.router.navigate(['contacts']);
+  }
+
+  goToHome() {
+    this.router.navigate(['home']);
+  }
+
   ngOnInit() {
   }
 
