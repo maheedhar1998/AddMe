@@ -4,7 +4,7 @@
       <ion-back-button defaultHref="/"></ion-back-button>
     </ion-buttons>
     <ion-title>
-      <ion-label>{{uid.name}} ProfileName</ion-label>
+      <ion-label>{{profile.name}} ProfileName</ion-label>
     </ion-title>
   </ion-toolbar>
 </ion-header>
@@ -12,7 +12,7 @@
 <ion-content>
   <div class="dp">
     <ion-item lines="none">
-      <ion-img src="{{uid.photo}}"></ion-img>
+      <ion-img src="{{profile.photo}}"></ion-img>
     </ion-item>
   </div>
 
@@ -25,7 +25,7 @@
   </div>
   
 <ion-list>
-  <ion-item-divider *ngFor="let divider of uid.social">{{divider.profile}}
+  <ion-item-divider *ngFor="let divider of profile.social">{{divider.profile}}
     <ion-item *ngFor="let account of divider.socialAccount">{{account.id}}
     </ion-item>
     </ion-item-divider>
