@@ -17,8 +17,8 @@ export class ProfilePage implements OnInit {
     this.uid = "";
     this.firebase = new FirebaseBackendService(this.uid);
     this.profile = this.firebase.getUserData();
-    console.log(this.profile);
-  }
+    console.log(this.profile);  
+    }
   
   goToContacts() {
     this.router.navigate(['contacts']);

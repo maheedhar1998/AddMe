@@ -1,65 +1,47 @@
-<ion-header>
-  <ion-toolbar class="ion-text-center">
+<ion-header transluscent>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/"></ion-back-button>
+    </ion-buttons>
     <ion-title>
-      <ion-label>Profile</ion-label>
+      <ion-label>{{uid.name}} ProfileName</ion-label>
     </ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content fullscreen>
-  <ion-list>
-    <ion-item *ngFor="let item of items ">
-        <ion-thumbnail  class="ion-text-center">
-            <ion-img [src]="item.profile.img"></ion-img>
-          </ion-thumbnail>
-        <ion-label>{{profile.name}}</ion-label>
-      </ion-item>
-    </ion-list>
-<ion-list>
-  <ion-item-group>
-    <ion-item-divider slot="start">
-      <ion-label>Instagram</ion-label>
-    </ion-item-divider>
-    <ion-item slot="start">
-      <ion-label>Instagram account(s)</ion-label>
+<ion-content>
+  <div class="dp">
+    <ion-item lines="none">
+      <ion-img src="{{uid.photo}}"></ion-img>
     </ion-item>
+  </div>
 
-    <ion-item-divider slot="start">
-        <ion-label>Snapchat</ion-label>
-      </ion-item-divider>
-      <ion-item slot="start">
-        <ion-label>Snapchat account(s)</ion-label>
-      </ion-item>
-
-      <ion-item-divider slot="start">
-          <ion-label>Twitter</ion-label>
-        </ion-item-divider>
-        <ion-item slot="start">
-          <ion-label>Twitter account(s)</ion-label>
-        </ion-item>
-
-        <ion-item-divider slot="start" color="">
-            <ion-label>Phone</ion-label>
-          </ion-item-divider>
-          <ion-item slot="start">
-            <ion-label>phone number(s)</ion-label>
-          </ion-item>
-
-  </ion-item-group>
-</ion-list>
-
+  <div>
+    <ion-item lines="none">
+      <ion-button expand="block" color="white" class="edit">
+        Edit Profile
+      </ion-button>
+    </ion-item>
+  </div>
+  
+<ion-list>
+  <ion-item-divider *ngFor="let divider of uid.social">{{divider.profile}}
+    <ion-item *ngFor="let account of divider.socialAccount">{{account.id}}
+    </ion-item>
+    </ion-item-divider>
+  </ion-list>
 </ion-content>
 
 <ion-tabs>
-    <ion-tab-bar slot="bottom">
-      <ion-tab-button tab="Home" class="ion-text-center" selected="true">
-        <ion-icon name="home"></ion-icon>
-        <ion-label>Home</ion-label>
-      </ion-tab-button>
+  <ion-tab-bar slot="bottom">
+    <ion-tab-button tab="Home" class="ion-text-center" selected="true">
+      <ion-icon name="home"></ion-icon>
+      <ion-label>Home</ion-label>
+    </ion-tab-button>
   
-      <ion-tab-button tab="Contacts" class="ion-text-center" (click)="goToContacts()">
-        <ion-icon name="contact"></ion-icon>
-        <ion-label>Contacts</ion-label>
-      </ion-tab-button>
-    </ion-tab-bar>
-  </ion-tabs>
+    <ion-tab-button tab="Contacts" class="ion-text-center" (click)="goToContacts()">
+      <ion-icon name="contact"></ion-icon>
+      <ion-label>Contacts</ion-label>
+    </ion-tab-button>
+  </ion-tab-bar>
+</ion-tabs>
