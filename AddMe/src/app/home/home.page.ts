@@ -11,8 +11,6 @@ import { ThrowStmt } from '@angular/compiler';
 export class HomePage {
   private firebase: FirebaseBackendService;
   constructor(private router: Router) {
-    
-    
     firebase.auth().onAuthStateChanged(firebaseUser => {
       if(!firebaseUser)
       {
@@ -38,11 +36,17 @@ export class HomePage {
   goToQRCode() {
     this.router.navigate(['qrcode']);
   }
+<<<<<<< HEAD
 
   goToSettings() {
     this.router.navigate(['settings']);
   }
 
+=======
+  goToProfile() {
+    this.router.navigate(['profile']);
+  }
+>>>>>>> b1681b909995ce874a0a8089147dc41495cdcf41
   logOut() {
     this.firebase.logOut();
     this.router.navigate(['login']);
