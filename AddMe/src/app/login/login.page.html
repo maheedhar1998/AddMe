@@ -1,37 +1,53 @@
 <ion-header>
-  <ion-toolbar class="ion-text-center">
+  <ion-toolbar>
     <ion-title>Login</ion-title>
-    <ion-button class="signup"
-     color="light" slot="end" size="small" (click)="signup()"> Sign Up
-    <ion-icon name="add-circle" slot="end"></ion-icon>
+    <ion-button slot="end" color="dark" fill="clear" size="small" (click)="signup()">
+      <ion-icon name="person-add" slot="start"></ion-icon>
+      Sign Up
     </ion-button>
   </ion-toolbar>
 </ion-header>
-
 <ion-content>
-  <div class="content">
-    <span>
+  <div id="content">
     <ion-card>
       <ion-item lines="none">
-        <ion-icon name="mail" slot="start"></ion-icon>
+        <ion-icon name="mail" slot="start" size="large" color="dark">
+        </ion-icon>
         <ion-label position="floating">Email</ion-label>
-        <ion-input type="email" [(ngModel)]="email" clearInput value="clear me"></ion-input>
+        <ion-input type="email" [(ngModel)]="email"></ion-input>
       </ion-item>
     </ion-card>
-
     <ion-card>
       <ion-item lines="none">
-        <ion-icon name="unlock" slot="start"></ion-icon>
+        <ion-icon name="key" slot="start" size="large" color="dark">
+        </ion-icon>
         <ion-label position="floating">Password</ion-label>
-        <ion-input type="password" [(ngModel)]="password" clearInput value="clear me" clearOnEdit="true"></ion-input>
+        <ion-input type="password" [(ngModel)]="password"></ion-input>
       </ion-item>
     </ion-card>
-
     <ion-row>
-      <ion-col class="ion-text-center">
-        <ion-button color="dark" (click)="login()"> Login </ion-button>
+      <ion-col text-center>
+        <ion-button color="dark" fill="clear" (click)="login()">
+            <ion-icon name="log-in"></ion-icon>
+          Login
+        </ion-button>
       </ion-col>
     </ion-row>
-  </span>
+    <ion-row>
+      <ion-col text-center>
+        <ion-button color="dark" fill = "clear" (click)="loginGoogle()">
+          <ion-icon name="logo-google" color="warning" slot="start"></ion-icon>
+          Login
+        </ion-button>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col text-center>
+        <ion-button color="dark" fill = "clear" (click)="loginFb()">
+          <ion-icon name="logo-facebook" color="primary" slot="start"></ion-icon>
+          Login
+        </ion-button>
+      </ion-col>
+    </ion-row>
   </div>
 </ion-content>
