@@ -20,9 +20,8 @@ export class HomePage {
       {
         this.firebase = new FirebaseBackendService(firebase.auth().currentUser.uid);
       }
-      
-    })
 
+    });
   }
 
   goToContacts() {
@@ -44,10 +43,10 @@ export class HomePage {
   goToProfile() {
     this.router.navigate(['profile']);
   }
+
   logOut() {
     this.firebase.logOut();
     this.router.navigate(['login']);
   }
-  
-}
 
+}
