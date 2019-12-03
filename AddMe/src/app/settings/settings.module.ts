@@ -5,13 +5,12 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { IonicModule } from '@ionic/angular';
 
-import { QRcodePage } from './qrcode.page';
-import { NgxQRCodeModule } from 'ngx-qrcode2';
+import { SettingsPage } from './settings.page';
 
 const routes: Routes = [
   {
     path: '',
-    component: QRcodePage
+    component: SettingsPage
   }
 ];
 
@@ -20,9 +19,8 @@ const routes: Routes = [
     CommonModule,
     FormsModule,
     IonicModule,
-    RouterModule.forChild(routes),
-    NgxQRCodeModule
+    RouterModule.forChild(routes)
   ],
-  declarations: [QRcodePage]
+  declarations: [SettingsPage]
 })
-export class QRcodePageModule {}
+export class SettingsPageModule {}

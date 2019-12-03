@@ -32,7 +32,6 @@ export class LoginPage {
         alert("The Email or Password is incorrect.")
         console.log(err)
       })
-      
     }
   }
 }

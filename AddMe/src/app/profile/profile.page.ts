@@ -1,20 +1,39 @@
 import { Component, OnInit } from '@angular/core';
 import { FirebaseBackendService } from '../firebase-backend.service';
+import * as firebase from 'firebase';
+import { Router } from '@angular/router';
+import * as backend from '../backendClasses';
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.page.html',
   styleUrls: ['./profile.page.scss'],
 })
 export class ProfilePage implements OnInit {
-  private profile: {};
-  private uid: string;
+  private profile: backend.user;
   private firebase: FirebaseBackendService;
-  constructor() {
-    // TODO update so the page gets logged in user's uid
-    this.uid = "";
-    this.firebase = new FirebaseBackendService(this.uid);
-    this.profile = this.firebase.getUserData();
-    console.log(this.profile);
+  constructor(private router: Router) {
+    firebase.auth().onAuthStateChanged(firebaseUser => {
+      if(!firebaseUser)
+      {
+        this.router.navigate(['login']);
+      }
+      else
+      {
+        this.firebase = new FirebaseBackendService(firebase.auth().currentUser.uid);
+        this.firebase.getUserData().then(dat => {
+          this.profile = dat;
+          console.log(this.profile);
+        });
+      }
+    });
+  }
+
+  goToContacts() {
+    this.router.navigate(['contacts']);
+  }
+
+  goToHome() {
+    this.router.navigate(['home']);
   }
 
   ngOnInit() {
