@@ -8,5 +8,50 @@
 </ion-header>
 
 <ion-content>
+  <style>
+    #qr
+    {
+      height:100%;
+      width:100vw;
+      overflow:hidden;
+      display:inline-flex;
+      justify-content:center;
+      align-items:center;
+    }
 
+    ngx-qrcode
+    {
+      height:100vh;
+      width:100vw;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+    }
+
+    #qrcode
+    {
+      height:100vh;
+      width:100vw;
+      display:inline-flex;
+      justify-content:center;
+      align-items:center;
+    }
+
+    .qr-class
+    {
+      height:100vh;
+      width:100vw;
+      display:inline-flex;
+      justify-content:center;
+      align-items:center;
+    }
+  </style>
+  <div id="qr" *ngIf="qrData" text-center>
+    <ngx-qrcode id="qrcode"
+      [qrc-element-type]="elementType"
+      [qrc-value]="qrData"
+      qrc-class="qr-class"
+      qrc-erjrorCorrectionLevel="H">
+    </ngx-qrcode>
+  </div>
 </ion-content>
