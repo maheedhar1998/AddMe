@@ -9,7 +9,8 @@ const routes: Routes = [
   { path: 'contacts', loadChildren: './contacts/contacts.module#ContactsPageModule' },
   { path: 'qrcode', loadChildren: './qrcode/qrcode.module#QRcodePageModule' },
   { path: 'camera', loadChildren: './camera/camera.module#CameraPageModule' },
-  { path: 'profile', loadChildren: './profile/profile.module#ProfilePageModule' },
+  { path: 'profile', loadChildren: './profile/profile.module#ProfilePageModule' },  { path: 'settings', loadChildren: './settings/settings.module#SettingsPageModule' },
+
 ];
 
 @NgModule({
