@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { QRCodeModule } from 'angularx-qrcode';
 
 @Component({
   selector: 'app-qrcode',
