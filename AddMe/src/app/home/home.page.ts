@@ -11,8 +11,6 @@ import { ThrowStmt } from '@angular/compiler';
 export class HomePage {
   private firebase: FirebaseBackendService;
   constructor(private router: Router) {
-
-
     firebase.auth().onAuthStateChanged(firebaseUser => {
       if(!firebaseUser)
       {
@@ -23,8 +21,7 @@ export class HomePage {
         this.firebase = new FirebaseBackendService(firebase.auth().currentUser.uid);
       }
 
-    })
-
+    });
   }
 
   goToContacts() {
@@ -41,6 +38,10 @@ export class HomePage {
 
   goToSettings() {
     this.router.navigate(['settings']);
+  }
+
+  goToProfile() {
+    this.router.navigate(['profile']);
   }
 
   logOut() {

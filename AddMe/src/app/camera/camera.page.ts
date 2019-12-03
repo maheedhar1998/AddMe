@@ -24,7 +24,7 @@ export class CameraPage implements OnInit {
         this.qrScanner.show();
         this.qrScanner.scan().subscribe(txt => {
           alert(txt);
-          this.qrScanner.hide();
+          //this.qrScanner.hide();
         });
       } else if(state.denied) {
         alert("denied");
