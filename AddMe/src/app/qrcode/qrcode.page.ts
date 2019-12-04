@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { FirebaseBackendService } from '../firebase-backend.service';
+import * as firebase from 'firebase';
+import * as backend from '../backendClasses';
 
 @Component({
   selector: 'app-qrcode',
@@ -7,10 +10,28 @@ import { Router } from '@angular/router';
   styleUrls: ['./qrcode.page.scss'],
 })
 export class QRcodePage implements OnInit {
-  qrData = 'https://github.com/SCCapstone/AddMe';
+  qrData = '';
   elementType: 'url' | 'canvas' | 'img' = 'canvas';
+  private profile: backend.user;
+  private firebase: FirebaseBackendService;
 
-  constructor(private router: Router) {}
+  constructor(private router: Router) {
+    firebase.auth().onAuthStateChanged(firebaseUser => {
+      if(!firebaseUser)
+      {
+        this.router.navigate(['login']);
+      }
+      else
+      {
+        this.firebase = new FirebaseBackendService(firebase.auth().currentUser.uid);
+        this.firebase.getUserData().then(dat => {
+          this.profile = dat;
+          console.log(this.profile);
+          this.qrData = JSON.stringify(this.profile.qrCodes[0]);
+        });
+      }
+    });
+  }
 
   goToHome(){
     this.router.navigate(['home']);
