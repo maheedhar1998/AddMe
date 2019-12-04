@@ -10,7 +10,7 @@ import * as backend from '../backendClasses';
   styleUrls: ['./qrcode.page.scss'],
 })
 export class QRcodePage implements OnInit {
-  qrData = '';
+  qrData: string = '';
   elementType: 'url' | 'canvas' | 'img' = 'canvas';
   private profile: backend.user;
   private firebase: FirebaseBackendService;
@@ -26,8 +26,7 @@ export class QRcodePage implements OnInit {
         this.firebase = new FirebaseBackendService(firebase.auth().currentUser.uid);
         this.firebase.getUserData().then(dat => {
           this.profile = dat;
-          console.log(this.profile);
-          this.qrData = JSON.stringify(this.profile.qrCodes[0]);
+          console.log(this.profile.getQrCodes);
         });
       }
     });
