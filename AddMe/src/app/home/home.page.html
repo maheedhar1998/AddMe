@@ -17,8 +17,10 @@
 
 <ion-content>
 
-    <ion-item (click)="goToProfile()">
+    <ion-item (click)="goToProfile()" class="user">
      <!-- TODO insert picture -->
+     <ion-img src="{{profile.photo}}"></ion-img>
+     <ion-text>{{profile.name}}</ion-text>
     </ion-item>
     <ion-row>
         <ion-col class="ion-text-center">
