@@ -26,7 +26,7 @@ export class QRcodePage implements OnInit {
         this.firebase = new FirebaseBackendService(firebase.auth().currentUser.uid);
         this.firebase.getUserData().then(dat => {
           this.profile = dat;
-          console.log(this.profile.getQrCodes);
+          this.qrData = JSON.stringify(this.profile.getQrCodes);
         });
       }
     });
