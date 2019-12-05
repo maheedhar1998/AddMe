@@ -23,22 +23,39 @@
         <ion-label>Home</ion-label>
       </ion-tab-button>
 
-      <ion-tab-button tab="Contacts" class="ion-text-center" (click)="goToContacts()">
-        <ion-icon name="contact"></ion-icon>
-        <ion-label>Contacts</ion-label>
-      </ion-tab-button>
-     </ion-tab-bar>
-    </ion-tabs>
-  <ion-item (click)="goToProfile()">
-   <!-- TODO insert picture -->
-  </ion-item>
-  <ion-row>
-    <ion-col class="ion-text-center">
-      <ion-button (click)="goToQRCode()" size="large" fill="clear">
-        <ion-icon size="large" color="dark" src = "../assets/iconmonstr-qr-code-2.svg"></ion-icon>
-      </ion-button>
-    </ion-col>
-  </ion-row>
+    <ion-item (click)="goToProfile()" class="user">
+     <!-- TODO insert picture -->
+     <ion-img src="{{profile.photo}}"></ion-img>
+     <ion-text>{{profile.name}}</ion-text>
+    </ion-item>
+    <ion-row>
+        <ion-col class="ion-text-center">
+           <ion-button (click)="goToQRCode()" size="large" class="ion-padding">
+            <ion-icon src = "../assets/iconmonstr-qr-code-2.svg"></ion-icon>
+          </ion-button>
+         </ion-col>
+      </ion-row>
+
+    <ion-list>
+      <ion-item lines="none">
+          <ion-icon class = "pad" src = "../assets/instagram-2-1.svg"></ion-icon>
+          <ion-text>Instagram</ion-text>
+      </ion-item>
+      <ion-item lines="none">
+          <ion-icon class = "pad" src = "../assets/facebook-2.svg"></ion-icon>
+          <ion-text> Facebook </ion-text>
+      </ion-item>
+      <ion-item lines="none">
+          <ion-icon class = "pad" src = "../assets/twitter.svg" ></ion-icon>
+          <ion-text>Twitter</ion-text>
+      </ion-item>
+      <ion-item lines="none">
+          <ion-icon class = "pad" src = "../assets/snapchat.svg" ></ion-icon>
+          <ion-text> Snapchat </ion-text>
+      </ion-item>
+
+    </ion-list>
+
 
   <ion-list>
     <ion-item lines="none">
