@@ -27,7 +27,7 @@ export class QRcodePage implements OnInit {
         this.firebase.getUserData().then(dat => {
           this.profile = dat;
           console.log(this.profile);
-          this.qrData = JSON.stringify(this.profile.qrCodes[0]);
+          this.qrData = "https://github.com/SCCapstone/AddMe/wiki/Samuel-Menkus-Log#week-of-november-18-2019-through-november-24-2019";
         });
       }
     });
