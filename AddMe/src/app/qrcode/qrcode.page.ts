@@ -27,6 +27,7 @@ export class QRcodePage implements OnInit {
         this.firebase.getUserData().then(dat => {
           this.profile = dat;
           this.qrData = JSON.stringify(this.profile.getQrCodes);
+          console.log(this.qrData);
         });
       }
     });

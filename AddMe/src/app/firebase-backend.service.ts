@@ -32,10 +32,11 @@ export class FirebaseBackendService {
     });
   }
   // Getting user data from firebase
-  async getUserData() {
+  async getUserData(): Promise<backend.user> {
     var userProfile: backend.user;
     await firebase.database().ref('Users/'+this.uid).once('value', function(snap) {
-      userProfile = snap.val();
+      var val = snap.val();
+      userProfile = new backend.user(val.uid, val.name, val.username, val.email, val.phoneNumber, val.DOB, val.photo, val.socials, val.contacts, val.qrCodes,);
     });
     return userProfile;
   }
