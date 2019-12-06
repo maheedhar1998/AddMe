@@ -8,29 +8,33 @@ import { QRScanner, QRScannerStatus } from '@ionic-native/qr-scanner/ngx';
   styleUrls: ['./camera.page.scss'],
 })
 export class CameraPage implements OnInit {
-
-  constructor(private router: Router, private qrScanner: QRScanner) { }
+  constructor(private router: Router, private qrScanCtrl: QRScanner) { }
 
   goToHome() {
     this.router.navigate(['home']);
   }
+  ngOnInit(){
+    this.qrScanCtrl.prepare()
+    .then((status: QRScannerStatus) => {
+      if (status.authorized) {
+        // Open camera preview
+        this.qrScanCtrl.show();
+        const scanSub = this.qrScanCtrl.scan().subscribe((text: string) => {
+          // At this point, a QR code was recognized and scanned
+          alert(`QR Code Scanned!: ${text}`)
+          // The QR data is stored in 'text'...
 
-  ngOnInit() {
-    this.qrScanner.prepare().then((state: QRScannerStatus) => {
-      if(state.authorized) {
-        alert("authorized");
-        this.qrScanner.useBackCamera();
-
-        this.qrScanner.show();
-        this.qrScanner.scan().subscribe(txt => {
-          alert(txt);
-          //this.qrScanner.hide();
+          // Close QR scanner
+          this.qrScanCtrl.hide();
+          this.qrScanCtrl.destroy();
+          scanSub.unsubscribe()
         });
-      } else if(state.denied) {
-        alert("denied");
-        this.qrScanner.openSettings();
-      }
-    }).catch((e: any) => alert('Error: '+e));
+      } 
+      else if (status.denied) {
+        alert('camera permission denied');
+        this.qrScanCtrl.openSettings();
+      } 
+    })
+    .catch((e: any) => {alert(e)});
   }
-
 }

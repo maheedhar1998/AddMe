@@ -3,6 +3,8 @@ import { Router } from '@angular/router';
 import { FirebaseBackendService } from '../firebase-backend.service';
 import * as firebase from 'firebase';
 import { ThrowStmt } from '@angular/compiler';
+import * as backend from '../backendClasses';
+
 @Component({
   selector: 'app-home',
   templateUrl: 'home.page.html',
@@ -10,6 +12,7 @@ import { ThrowStmt } from '@angular/compiler';
 })
 export class HomePage {
   private firebase: FirebaseBackendService;
+  private profile: backend.user = new backend.user(null,null,null,null,null,null,null,null,null,null);
   constructor(private router: Router) {
     firebase.auth().onAuthStateChanged(firebaseUser => {
       if(!firebaseUser)
@@ -19,6 +22,9 @@ export class HomePage {
       else
       {
         this.firebase = new FirebaseBackendService(firebase.auth().currentUser.uid);
+        this.firebase.getUserData().then(dat => {
+          this.profile = dat;
+        });
       }
 
     });

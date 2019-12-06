@@ -1,12 +1,11 @@
 <ion-header>
   <ion-toolbar>
     <ion-title class="ion-text-center">Sign Up</ion-title>
-    <ion-button fill = "clear" color = "dark" slot="end" (click)="goToLogin()"> 
-        <ion-icon name="log-in"></ion-icon>
-        Log In
+    <ion-button slot="start" fill="clear" shape="round" (click)="goToLogin()">
+      <ion-icon color="dark" name="arrow-back"></ion-icon>
     </ion-button>
   </ion-toolbar>
-  
+
 </ion-header>
 
 <ion-content>
@@ -107,7 +106,7 @@
           </div>
         </ng-container>
       </div>
-  </div>
+    </div>
 
     <!-- These validations are for the Email form group -->
     <div class="validation-errors">
