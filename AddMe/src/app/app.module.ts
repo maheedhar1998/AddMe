@@ -24,7 +24,7 @@ import * as firebase from 'firebase';
   bootstrap: [AppComponent]
 })
 export class AppModule {
-  constructor() {
+  constructor(private statusBar: StatusBar) {
     // Your web app's Firebase configuration
     var firebaseConfig = {
       apiKey: "AIzaSyBVy4hzthYjRKiPg5t-bMtB_gOT5oouQkQ",
@@ -39,7 +39,8 @@ export class AppModule {
     // Initialize Firebase
     firebase.initializeApp(firebaseConfig);
     firebase.analytics();
+    this.statusBar.overlaysWebView(true);
+    this.statusBar.styleLightContent();
+    this.statusBar.backgroundColorByName('white');
   }
 }
-
-
