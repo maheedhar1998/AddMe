@@ -3,6 +3,60 @@ import { Injectable } from '@angular/core';
 @Injectable({
   providedIn: 'root'
 })
+export class Message {
+  private senderUid: string;
+  private receiverUid: string;
+  private time: Date;
+  private status: string;
+  private message: {
+    type: string,
+    content: string
+  };
+  constructor(sender_uid: string, receiver_uid: string, tempTime: Date, tempStatus: string, type: string, content: string) {
+    this.setSenderUid = sender_uid;
+    this.setReceiverUid = receiver_uid;
+    this.setTime = tempTime;
+    this.setStatus = tempStatus;
+    this.setType =  type;
+    this.setContent = content;
+  }
+  public get getSenderUid(): string {
+    return this.senderUid;
+  }
+  public set setSenderUid(uid: string) {
+    this.senderUid = uid;
+  }
+  public get getReceiverUid(): string {
+    return this.receiverUid;
+  }
+  public set setReceiverUid(uid: string) {
+    this.receiverUid = uid;
+  }
+  public get getTime(): Date {
+    return this.time;
+  }
+  public set setTime(tim: Date) {
+    this.time = tim;
+  }
+  public get getStatus(): string {
+    return this.status;
+  }
+  public set setStatus(stat: string) {
+    this.status = stat;
+  }
+  public get getType(): string {
+    return this.message.type;
+  }
+  public set setType(typ: string) {
+    this.message.type = typ;
+  }
+  public get getContent(): string {
+    return this.message.content;
+  }
+  public set setContent(cont: string) {
+    this.message.content = cont;
+  }
+}
 
 export class social {
   private type : string;
