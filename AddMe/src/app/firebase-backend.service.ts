@@ -13,7 +13,7 @@ export class FirebaseBackendService {
     this.uid = uId;
   }
 
-  loginWithEmail(email: string, password: string): Promise<firebase.auth.UserCredential> {
+  public loginWithEmail(email: string, password: string): Promise<firebase.auth.UserCredential> {
     return firebase.auth().signInWithEmailAndPassword(email, password)
   }
 
@@ -22,7 +22,7 @@ export class FirebaseBackendService {
   }
 
   // Send users data to firebse and sets in the way desribed by architecture milestone
-  sendUserDataSignUp(name_user: string, username_user: string, email_user: string, phoneNumber_user: string, dateOfBirth: Date, photo_user: string, uid: string ) {
+  public sendUserDataSignUp(name_user: string, username_user: string, email_user: string, phoneNumber_user: string, dateOfBirth: Date, photo_user: string, uid: string ) {
     this.uid = uid;
     var user: backend.user = new backend.user(this.uid, name_user, username_user, email_user, phoneNumber_user, dateOfBirth, photo_user, null, null, null);
     console.log(this.uid);

@@ -9,114 +9,18 @@
 
 <ion-content>
   <ion-list>
-      <ion-item>
-        <ion-icon name="contact" color="medium" size="large"></ion-icon>
-        <ion-label>Allen</ion-label>
-      </ion-item>
-      <ion-item>
-        <ion-icon name="contact" color="medium" size="large"></ion-icon>
-        <ion-label>Amaya Gaines</ion-label>
-      </ion-item>
-      <ion-item>
-        <ion-icon name="contact" color="medium" size="large"></ion-icon>
-        <ion-label>Andrea</ion-label>
-      </ion-item>
-      <ion-item>
-        <!-- <ion-avatar slot="start"><img src=""></ion-avatar> -->
-        <ion-icon name="contact" color="medium" size="large"></ion-icon>
-        <ion-label>Anissa Blackman</ion-label>
-      </ion-item>
-      <ion-item>
-        <ion-icon name="contact" color="medium" size="large"></ion-icon>
-        <ion-label>Araceli Cruz</ion-label>
-      </ion-item>
-      <ion-item>
-        <ion-icon name="contact" color="medium" size="large"></ion-icon>
-        <ion-label>Brenda Jackson</ion-label>
-      </ion-item>
-      <ion-item>
-        <ion-icon name="contact" color="medium" size="large"></ion-icon>
-        <ion-label>cece</ion-label>
-      </ion-item>
-      <ion-item>
-        <ion-icon name="contact" color="medium" size="large"></ion-icon>
-        <ion-label>Candice Campbell</ion-label>
-      </ion-item>
-      <ion-item>
-        <ion-icon name="contact" color="medium" size="large"></ion-icon>
-        <ion-label>Dad</ion-label>
-      </ion-item>
-      <!-- <ion-item>
-        <ion-avatar slot="start"><img src=""></ion-avatar>
-        <ion-label>Danush</ion-label>
-      </ion-item> -->
-      <ion-item>
-        <ion-icon name="contact" color="medium" size="large"></ion-icon>
-        <ion-label>Darleen Creech</ion-label>
-      </ion-item>
-      <!-- <ion-item>
-        <ion-avatar slot="start"><img src=""></ion-avatar>
-        <ion-label>Douglass Behen</ion-label>
-      </ion-item> -->
-      <ion-item>
-        <ion-icon name="contact" color="medium" size="large"></ion-icon>
-        <ion-label>Dianne glover</ion-label>
-      </ion-item>
-      <ion-item>
-        <ion-icon name="contact" color="medium" size="large"></ion-icon>
-        <ion-label>Ebone Shines</ion-label>
-      </ion-item>
-      <!-- <ion-item>
-        <ion-avatar slot="start"><img src=""></ion-avatar>
-        <ion-label>Ebone Shines</ion-label>
-      </ion-item> -->
-      <!-- <ion-item>
-        <ion-avatar slot="start"><img src=""></ion-avatar>
-        <ion-label>Ebone Shines</ion-label>
-      </ion-item> -->
-      <ion-item>
-        <ion-icon name="contact" color="medium" size="large"></ion-icon>
-        <ion-label>Lara</ion-label>
-      </ion-item>
-      <ion-item>
-        <ion-icon name="contact" color="medium" size="large"></ion-icon>
-        <ion-label>Louise Siebo</ion-label>
-      </ion-item>
-        <!-- <ion-item>
-          <ion-avatar slot="start"><img src=""></ion-avatar>
-          <ion-label>Manju Suresh</ion-label>
-        </ion-item> -->
-        <ion-item>
-          <ion-icon name="contact" color="medium" size="large"></ion-icon>
-          <ion-label>Ming Minor</ion-label>
-        </ion-item>
-        <!-- <ion-item>
-          <ion-avatar slot="start"><img src=""></ion-avatar>
-          <ion-label>Moaki</ion-label>
-        </ion-item> -->
-        <ion-item>
-          <ion-icon name="contact" color="medium" size="large"></ion-icon>
-          <ion-label>Mr.Hair</ion-label>
-        </ion-item>
-        <ion-item>
-          <ion-icon name="contact" color="medium" size="large"></ion-icon>
-          <ion-label>Mrs.Pearl</ion-label>
-        </ion-item>
-        <!-- <ion-item>
-          <ion-avatar slot="start"><img src=""></ion-avatar>
-          <ion-label>Sis Mo</ion-label>
-        </ion-item> -->
-        <!-- <ion-item>
-          <ion-avatar slot="start"><img src=""></ion-avatar>
-          <ion-label>Thuy</ion-label>
-        </ion-item> -->
-        <ion-item>
-          <ion-icon name="contact" color="medium" size="large"></ion-icon>
-          <ion-label>Zang Qiang</ion-label>
-        </ion-item>
-    </ion-list>
+    <ion-item *ngFor="let contact of contacts">
+      <ion-avatar slot="start" class="avatar">
+        <img src="{{contact.photo}}">
+      </ion-avatar>
+      <ion-title size="large">{{contact.name}}
+        <ion-title size="small" style="color: grey;">
+          @{{contact.username}}
+        </ion-title>
+      </ion-title>
+    </ion-item>
+  </ion-list>
 </ion-content>
-
 
 <ion-footer>
   <ion-toolbar>
