@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-
+import * as firebase from 'firebase';
 import { FirebaseBackendService } from './firebase-backend.service';
 
 describe('FirebaseBackendService', () => {
