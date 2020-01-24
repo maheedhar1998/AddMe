@@ -1,0 +1,41 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title class="ion-text-center">Contacts</ion-title>
+  </ion-toolbar>
+  <ion-toolbar>
+    <ion-searchbar></ion-searchbar>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list>
+    <ion-item *ngFor="let contact of contacts">
+      <ion-avatar slot="start" class="avatar">
+        <img src="{{contact.photo}}">
+      </ion-avatar>
+      <ion-title size="large">{{contact.name}}
+        <ion-title size="small" style="color: grey;">
+          @{{contact.username}}
+        </ion-title>
+      </ion-title>
+    </ion-item>
+  </ion-list>
+</ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+    <ion-tabs>
+      <ion-tab-bar slot="bottom">
+       <ion-tab-button tab="Home" class="ion-text-center" (click)="goToHome()">
+         <ion-icon name="home"></ion-icon>
+         <ion-label>Home</ion-label>
+       </ion-tab-button>
+
+       <ion-tab-button tab="Contacts" class="ion-text-center" selected="true">
+         <ion-icon name="contact"></ion-icon>
+         <ion-label>Contacts</ion-label>
+       </ion-tab-button>
+     </ion-tab-bar>
+   </ion-tabs>
+ </ion-toolbar>
+</ion-footer>
