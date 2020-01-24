@@ -32,6 +32,8 @@
     "cordova-plugin-qrscanner": "3.0.1",
     "core-js": "^2.5.4",
     "firebase": "^7.3.0",
+    "jasmine": "^3.5.0",
+    "jasmine-node": "^3.0.0",
     "ngx-qrcode2": "0.0.9",
     "node": "^12.13.0",
     "ode": "0.0.3",
@@ -41,7 +43,7 @@
   },
   "devDependencies": {
     "@angular-devkit/architect": "~0.801.2",
-    "@angular-devkit/build-angular": "~0.801.2",
+    "@angular-devkit/build-angular": "^0.803.23",
     "@angular-devkit/core": "~8.1.2",
     "@angular-devkit/schematics": "~8.1.2",
     "@angular/cli": "8.1.3",
