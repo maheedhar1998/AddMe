@@ -13,5 +13,53 @@
   </ion-header>
 
 <ion-content>
+  <ion-card>
+    <ion-item lines="none">
+      <ion-label position="floating">Username</ion-label>
+      <ion-input type="text" [(ngModel)]="username"></ion-input>
+    </ion-item>
+  </ion-card>
 
+  <ion-card>
+    <ion-item lines="none">
+      <ion-label position="floating">Email</ion-label>
+      <ion-input type="email" [(ngModel)]="email"></ion-input>
+    </ion-item>
+  </ion-card>
+  
+  <ion-card>
+    <ion-item lines="none">
+      <ion-label position="floating">Password</ion-label>
+      <ion-input type="password" [(ngModel)]="password"></ion-input>
+    </ion-item>
+  </ion-card>
+
+  <ion-card>
+    <ion-item lines="none">
+      <ion-label position="floating">Email</ion-label>
+      <ion-input type="email" [(ngModel)]="email"></ion-input>
+    </ion-item>
+  </ion-card>
+
+  <ion-card>
+    <ion-item lines="none">
+      <ion-label position="floating">Phone</ion-label>
+      <ion-input type="tel" [(ngModel)]="Phone"></ion-input>
+    </ion-item>
+  </ion-card>
+
+  <ion-card>
+    <ion-item lines="none">
+      <ion-label position="floating">Date of Birth</ion-label>
+      <ion-input type="date" [(ngModel)]="dob"></ion-input>
+    </ion-item>
+  </ion-card>
+
+  <ion-button color="primary">
+    Save Changes
+  </ion-button>
+
+  <ion-button color="danger">
+    Delete Account
+  </ion-button>
 </ion-content>
