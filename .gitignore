@@ -29,6 +29,5 @@ npm-debug.log*
 /platforms
 /plugins
 /www
-
-firebaseConfig.js
 firebaseTestCredentials.js
+firebaseConfig.js
