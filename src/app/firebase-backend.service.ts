@@ -14,11 +14,11 @@ export class FirebaseBackendService {
   }
 
   public loginWithEmail(email: string, password: string): Promise<firebase.auth.UserCredential> {
-    return firebase.auth().signInWithEmailAndPassword(email, password)
+    return firebase.auth().signInWithEmailAndPassword(email, password);
   }
 
   async signupWithEmail(email, password): Promise<firebase.auth.UserCredential> {
-    return await firebase.auth().createUserWithEmailAndPassword(email, password)
+    return await firebase.auth().createUserWithEmailAndPassword(email, password);
   }
 
   // Send users data to firebse and sets in the way desribed by architecture milestone
