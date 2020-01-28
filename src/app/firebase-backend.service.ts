@@ -42,8 +42,12 @@ export class FirebaseBackendService {
   }
   // Updating user contact list with new contact
   async updateUserContacts(cont: backend.contact) {
+    var userContacts: backend.contact [];
     await this.getUserData().then(usr => {
-      // usr
+      userContacts = usr.getContacts;
+      userContacts.push(cont);
+      // TODO Update the contact on firebase
+      // await firebase.database().ref('Users/'+this.uid).once('value', fucntion())
     });
   }
   async logOut() {
