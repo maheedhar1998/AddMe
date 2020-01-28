@@ -1,9 +1,9 @@
-export default {
+module.exports =  {
     validUser: {
         email: 'comog69676@topmail1.net',
         password: 'Password1'
     },
-    validUser1: {
+    invalidUser: {
         email: 'comg69@topmail.net',
         password: 'pswd'
     },

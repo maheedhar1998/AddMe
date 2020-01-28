@@ -40,6 +40,12 @@ export class FirebaseBackendService {
     });
     return userProfile;
   }
+  // Updating user contact list with new contact
+  async updateUserContacts(cont: backend.contact) {
+    await this.getUserData().then(usr => {
+      // usr
+    });
+  }
   async logOut() {
     await firebase.auth().signOut().then(res => {
       console.log("Logged Out");

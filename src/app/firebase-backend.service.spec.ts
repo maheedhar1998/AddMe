@@ -26,7 +26,7 @@ describe('FirebaseBackendService', () => {
   })
 
   it('should not log in with invalid credentials', async () => {
-    await service.loginWithEmail(testCredentials.validUser1.email, testCredentials.validUser1.password).then(usr => {
+    await service.loginWithEmail(testCredentials.invalidUser.email, testCredentials.invalidUser.password).then(usr => {
       fail();
     }).catch(err => {
       console.log("Invalid Credentials");
