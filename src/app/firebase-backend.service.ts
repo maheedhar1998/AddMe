@@ -8,7 +8,6 @@ import * as backend from './backendClasses';
 })
 export class FirebaseBackendService {
   private uid: string;
-  private route: Router;
   constructor(uId: string) {
     this.uid = uId;
   }
@@ -41,15 +40,19 @@ export class FirebaseBackendService {
     return userProfile;
   }
   // Updating user contact list with new contact
-  async updateUserContacts(cont: backend.contact) {
+  async addToUserContacts(cont: backend.contact) {
     var userContacts: backend.contact [];
     await this.getUserData().then(usr => {
       userContacts = usr.getContacts;
       userContacts.push(cont);
       // TODO Update the contact on firebase
-      // await firebase.database().ref('Users/'+this.uid).once('value', fucntion())
+      var updates = {};
+      updates['Users/'+this.uid+'/contacts'] = userContacts;
+      firebase.database().ref().update(updates);
     });
   }
+  // 
+  // Logs Out
   async logOut() {
     await firebase.auth().signOut().then(res => {
       console.log("Logged Out");
