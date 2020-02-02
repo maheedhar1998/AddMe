@@ -1,15 +1,15 @@
 <ion-header transluscent>
   <ion-toolbar>
-    <ion-buttons slot="start">
-      <ion-back-button defaultHref="/"></ion-back-button>
-    </ion-buttons>
+    <ion-button slot="end" shape="round" fill="clear" (click)="goToSettings()">
+      <ion-icon color="dark" name="settings"></ion-icon>
+    </ion-button>
     <ion-title>
       <ion-label>{{profile.name}}</ion-label>
     </ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
+ion-content>
   <ion-img src="{{profile.photo}}"></ion-img>
 
   <ion-item lines="none">
