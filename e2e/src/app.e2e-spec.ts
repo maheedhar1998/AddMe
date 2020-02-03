@@ -7,8 +7,9 @@ describe('new App', () => {
     page = new AppPage();
   });
 
-  it('should be blank', () => {
-    page.navigateTo();
-    expect(page.getParagraphText()).toContain('The world is your oyster.');
+  it('goes to login page', () => {
+    page.navigateToRoot();
+    console.log(page.checkPage());
+    expect(page.checkPage()).toBe('http://localhost:4200/');
   });
 });
