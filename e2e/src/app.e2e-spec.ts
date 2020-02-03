@@ -7,9 +7,9 @@ describe('new App', () => {
     page = new AppPage();
   });
 
-  it('should be blank', () => {
+  it('goes to login page', () => {
     page.navigateToRoot();
-    page.inputLoginCredentialsAndLogin();
-    // expect(page.checkPage()).toBe('home');
+    console.log(page.checkPage());
+    expect(page.checkPage()).toBe('http://localhost:4200/');
   });
 });

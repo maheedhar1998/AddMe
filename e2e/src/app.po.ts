@@ -1,21 +1,23 @@
 import { browser, by, element } from 'protractor';
 import { validUser } from '../../firebaseTestCredentials'
+import { delay } from 'q';
 
 
 export class AppPage {
   navigateToRoot() {
-    return browser.get('/');
+    return browser.get('/login');
   }
-  inputLoginCredentialsAndLogin() {
-    var email = element(by.css('${this.tag}${#email}'));
-    var password = element(by.css('${this.tag}${#password}'));
-    email.click();
-    email.sendKeys(validUser.email);
-    password.sendKeys(validUser.password);
-    element(by.id('login')).click();
-    return
-  }
+  // inputLoginCredentialsAndLogin() {
+  //   delay(30000);
+  //   var email = element(by.css(`${'ion-content'}${'#email'}`));
+  //   var password = element(by.css(`${'ion-content'}${'#password'}`));
+  //   email.click();
+  //   email.sendKeys(validUser.email);
+  //   password.sendKeys(validUser.password);
+  //   element(by.id('login')).click();
+  //   return
+  // }
   checkPage() {
-    return browser.getCurrentUrl();
+    return browser.baseUrl;
   }
 }
