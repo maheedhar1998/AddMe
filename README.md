@@ -31,6 +31,13 @@ To run on a mobile device via Ionic Devapp
 To run on an emulator
    * ```ionic cordova emulate <platform>```
 ***
+# Testing
+To run unit tests for the app
+   * ```npm test```
+
+To run behavioral/end to end tests for the app
+   * ```ng e2e```
+***
 # Deployment
 To run on a mobile device natively
 * ```ionic cordova run <platform>```
