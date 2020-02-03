@@ -275,6 +275,35 @@ export class qrCode {
   }
 }
 
+export class profile {
+  private name: string;
+  private qrcode: qrCode;
+  constructor(nam: string, qr_code: qrCode) {
+    this.setName = nam;
+    this.setQrCode = qr_code;
+  }
+  public get getName(): string {
+    return this.name;
+  }
+  public set setName(nam: string) {
+    if(nam == null) {
+      this.name = "N/A";
+    } else {
+      this.name = nam;
+    }
+  }
+  public get getQrCode(): qrCode {
+    return this.qrcode;
+  }
+  public set setQrCode(qr_code: qrCode) {
+    if(qr_code == null) {
+      this.qrcode = new qrCode(null,null);
+    } else {
+      this.qrcode = qr_code;
+    }
+  }
+}
+
 export class user {
   private uid: string;
   private name: string;

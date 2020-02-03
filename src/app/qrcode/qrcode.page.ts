@@ -26,7 +26,11 @@ export class QRcodePage implements OnInit {
         this.firebase = new FirebaseBackendService(firebase.auth().currentUser.uid);
         this.firebase.getUserData().then(dat => {
           this.profile = dat;
-          this.qrData = JSON.stringify(this.profile.getQrCodes);
+          if(JSON.stringify(this.profile.getQrCodes).length <= 2900) {
+            this.qrData = JSON.stringify(this.profile.getQrCodes);
+          } else {
+            this.qrData = JSON.stringify(this.profile.getQrCodes);
+          }
           console.log(this.qrData);
         });
       }
