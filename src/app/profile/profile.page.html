@@ -1,66 +1,126 @@
-<ion-header transluscent>
-  <ion-toolbar>
-    <ion-button slot="end" shape="round" fill="clear" (click)="goToSettings()">
-      <ion-icon color="dark" name="settings"></ion-icon>
-    </ion-button>
-    <ion-title>
-      <ion-label>{{profile.name}}</ion-label>
+<ion-header>
+  <ion-card>
+    <ion-card-header>
+      <div no-lines>
+      <ion-item no-lines>
+        <ion-img src="{{profile.photo}}"></ion-img>{{profile.name}}
+        <ion-button style="float: right;" fill="clear" shape="round" (click)="goToSettings()">
+          <ion-icon color="dark" name="settings"></ion-icon>
+        </ion-button>
+      </ion-item>
+      <ion-icon name="mail" style="float: right; color:black;" size="large" padding-right="10px"></ion-icon>
+      <ion-icon name="text" style="float: right; color:black;" size="large" padding-right="10px"></ion-icon>
+      <ion-icon name="call" style="float: right; color:black;" size="large"></ion-icon>  
+    </div>
+  </ion-card-header>
+    <ion-card-content>
+      <ion-title>
+      <ion-item>USER BIO</ion-item>
     </ion-title>
-  </ion-toolbar>
+    </ion-card-content>
+  </ion-card>
 </ion-header>
 
-<ion-content>
-  <ion-card>
-    <ion-img src="{{profile.photo}}" slot="start"></ion-img>
-  </ion-card>
-  <ion-grid>
-    <!-- <ion-row>
-      <ion-col>
-        <div class ="wrapper" size="12">
-          <ion-card>
-            <ion-img src="{{profile.photo}}" slot="start"></ion-img>
-            <ion-card-content slot="end">
-              <div class="name">
-                {{profile.name}}
-              </div>
-            </ion-card-content>
-          </ion-card>
+<ion-content fullscreen>  
+  <ion-grid class="ion-no-padding">
+    <ion-row flex-wrap="wrap-reverse">
+      <ion-col justify-content="center">
+        <div class="instagram" align-self="center">
+          <ion-icon src = "../assets/instagram-2-1.svg" size="large"></ion-icon>
         </div>
       </ion-col>
-    </ion-row> -->
 
-    </ion-row>
-    <ion-row class="ion-align-items-center">
-      <ion-col>
-        <div>
-          1 of 4
+      <ion-col justify-content="center">
+        <div class="facebook" align-self="center">
+          <ion-icon src = "../assets/facebook-2.svg" size="large"></ion-icon>
         </div>
       </ion-col>
-      <ion-col>
 
-        <div>
-          2 of 4
+       <ion-col justify-content="center">
+        <div class="snapchat" align-self="center">
+          <ion-icon src = "../assets/snapchat.svg" size="large"></ion-icon>
         </div>
       </ion-col>
-       <ion-col>
 
-        <div>
-          3 of 4
+       <ion-col justify-content="center">
+        <div class="tiktok" align-self="center">
+          Tik Tok
         </div>
       </ion-col>
-       <ion-col>
+
+      <ion-col justify-content="center">
+        <div class="github" align-self="center">
+          Github
+        </div>
+      </ion-col>
+
+      <ion-col justify-content="center">
+        <div class="twitter" align-self="center">
+          <ion-icon src = "../assets/twitter.svg" size="large"></ion-icon>
+        </div>
+      </ion-col>
+
+       <ion-col justify-content="center">
+        <div class="linkedin" align-self="center">
+          Linkedin
+        </div>
+      </ion-col>
+
+       <ion-col justify-content="center">
+        <div class="whatsapp" align-self="center">
+          WhatsApp
+        </div>
+      </ion-col>
+
+      <ion-col justify-content="center">
+        <div class="tinder" align-self="center">
+          Tinder
+        </div>
+      </ion-col>
+
+      <ion-col class="steam" justify-content="center">
         <div>
-          4 of 4
+          steam
+        </div>
+      </ion-col>
+
+       <ion-col justify-content="center">
+        <div class="gmail" align-self="center">
+          Gmail
+        </div>
+      </ion-col>
+
+       <ion-col justify-content="center">
+        <div class="outlook" align-self="center">
+          Outlook
+        </div>
+      </ion-col>
+
+      <ion-col justify-content="center">
+        <div class="venmo" align-self="center">
+          Venmo
+        </div>
+      </ion-col>
+
+      <ion-col justify-content="center">
+        <div class="paypal" align-self="center">
+          PayPal
+        </div>
+      </ion-col>
+
+       <ion-col justify-content="center">
+        <div class="linkedin" align-self="center">
+          Linkedin
+        </div>
+      </ion-col>
+
+       <ion-col justify-content="center">
+        <div class="whatsapp" align-self="center">
+          WhatsApp
         </div>
       </ion-col>
     </ion-row>
   </ion-grid>
-
-  <ion-item lines="none">
-    <ion-button expand="block" color="white" class="edit">
-      Edit Profile
-    </ion-button>
-  </ion-item>
 
   <ion-list>
     <ion-item-divider *ngFor="let divider of profile.socials">{{divider.profile}}
