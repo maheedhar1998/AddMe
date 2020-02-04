@@ -8,17 +8,16 @@ import * as backend from './backendClasses';
 })
 export class FirebaseBackendService {
   private uid: string;
-  private route: Router;
   constructor(uId: string) {
     this.uid = uId;
   }
 
   public loginWithEmail(email: string, password: string): Promise<firebase.auth.UserCredential> {
-    return firebase.auth().signInWithEmailAndPassword(email, password)
+    return firebase.auth().signInWithEmailAndPassword(email, password);
   }
 
   async signupWithEmail(email, password): Promise<firebase.auth.UserCredential> {
-    return await firebase.auth().createUserWithEmailAndPassword(email, password)
+    return await firebase.auth().createUserWithEmailAndPassword(email, password);
   }
 
   // Send users data to firebse and sets in the way desribed by architecture milestone
@@ -40,6 +39,20 @@ export class FirebaseBackendService {
     });
     return userProfile;
   }
+  // Updating user contact list with new contact
+  async addToUserContacts(cont: backend.contact) {
+    var userContacts: backend.contact [];
+    await this.getUserData().then(usr => {
+      userContacts = usr.getContacts;
+      userContacts.push(cont);
+      // TODO Update the contact on firebase
+      var updates = {};
+      updates['Users/'+this.uid+'/contacts'] = userContacts;
+      firebase.database().ref().update(updates);
+    });
+  }
+  // 
+  // Logs Out
   async logOut() {
     await firebase.auth().signOut().then(res => {
       console.log("Logged Out");
