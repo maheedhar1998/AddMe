@@ -1,141 +1,41 @@
-<!-- <ion-header>
-<ion-toolbar>
-<ion-button slot="start" shape="round" fill="clear"(click)="goToCamera()">
-<ion-icon color="dark" name="camera"></ion-icon>
-</ion-button>
-<ion-button slot="end" shape="round" fill="clear" (click)="goToSettings()">
-<ion-icon color="dark" name="settings"></ion-icon>
-</ion-button>
-<ion-button slot="end" shape="round" fill="clear" (click)="logOut()">
-<ion-icon color="dark" name="log-out"></ion-icon>
-</ion-button>
-<ion-title class="ion-text-center">
-Home
-</ion-title>
-</ion-toolbar>
-</ion-header>
-
-<ion-content>
-<ion-card (click)="goToProfile()" class="user">
-<ion-card-content>
-<ion-img src="{{profile.photo}}"></ion-img>
-<ion-card-title class="ion-text-center">{{profile.name}}</ion-card-title>
-</ion-card-content>
-</ion-card>
-<ion-row>
-<ion-col class="ion-text-center">
-<ion-button (click)="goToQRCode()" size="large" class="ion-padding" fill ="clear">
-  <ion-icon src = "../assets/iconmonstr-qr-code-2.svg" color = "dark"></ion-icon>
-</ion-button>
-</ion-col>
-</ion-row>
-<ion-list>
-<ion-item lines="none">
-<ion-icon class = "pad" src = "../assets/instagram-2-1.svg"></ion-icon>
-<ion-text>Instagram</ion-text>
-</ion-item>
-<ion-item lines="none">
-<ion-icon class = "pad" src = "../assets/facebook-2.svg"></ion-icon>
-<ion-text> Facebook </ion-text>
-</ion-item>
-<ion-item lines="none">
-<ion-icon class = "pad" src = "../assets/twitter.svg" ></ion-icon>
-<ion-text>Twitter</ion-text>
-</ion-item>
-<ion-item lines="none">
-<ion-icon class = "pad" src = "../assets/snapchat.svg" ></ion-icon>
-<ion-text> Snapchat </ion-text>
-</ion-item>
-<ion-item lines="none">
-<ion-icon class = "pad" src = "../assets/linkedin.svg" ></ion-icon>
-<ion-text> Linkedin </ion-text>
-</ion-item>
-<ion-item lines="none">
-<ion-icon class = "pad" src = "../assets/github.svg" ></ion-icon>
-<ion-text> GitHub </ion-text>
-</ion-item>
-<ion-item lines="none">
-<ion-icon class = "pad" src = "../assets/whatsapp.svg" ></ion-icon>
-<ion-text> Whatsapp </ion-text>
-</ion-item>
-<ion-item lines="none">
-<ion-icon class = "pad" src = "../assets/tiktok.svg" ></ion-icon>
-<ion-text> TikTok </ion-text>
-</ion-item>
-</ion-list>
-</ion-content>
-<ion-footer>
-<ion-toolbar>
-<ion-tabs>
-<ion-tab-bar slot="bottom">
-  <ion-tab-button tab="Home" class="ion-text-center" selected="true">
-    <ion-icon name="home"></ion-icon>
-    <ion-label>Home</ion-label>
-  </ion-tab-button>
-
-  <ion-tab-button tab="Contacts" class="ion-text-center" (click)="goToContacts()">
-    <ion-icon name="contact"></ion-icon>
-    <ion-label>Contacts</ion-label>
-  </ion-tab-button>
-</ion-tab-bar>
-</ion-tabs>
-</ion-toolbar>
-</ion-footer> -->
 <ion-header>
-<ion-toolbar> 
+<ion-toolbar>
 <ion-searchbar class="search">  </ion-searchbar>
 </ion-toolbar>
 </ion-header>
 
 <ion-content>
-<!-- main profile -->
-<ion-item id = "main">    
-<ion-avatar>     
-  <ion-img src = "{{profile.photo}}"></ion-img>
-</ion-avatar>
-      <ion-label  id = "main-head">
-        {{profile.name}}
-      </ion-label>
-      <ion-label id = "main-title"> 
-        Available
-      </ion-label>
-</ion-item>
-
-<div>
-<ion-card>
-<ion-card-content>
-  <ion-avatar>
-    <ion-img src = "../assets/warren.jpg"></ion-img>
-  </ion-avatar>
-</ion-card-content>
-</ion-card>
-<ion-card>
-<ion-card-content>
-  <ion-avatar>
-    <ion-img src = "../assets/bill.jpg"></ion-img>
-  </ion-avatar>
-</ion-card-content>
-</ion-card>
-<ion-card>
-<ion-card-content>
-  <ion-avatar>
-    <ion-img src = "../assets/elon.jpg"></ion-img>
-  </ion-avatar>
-</ion-card-content>
-</ion-card>
-<ion-card>
-<ion-card-content>
-  <ion-avatar>
-    <ion-img src = "../assets/mark.jpg"></ion-img>
-  </ion-avatar>
-</ion-card-content>
-</ion-card>
-<ion-card>
-<ion-card-content>
-  <ion-avatar>
-    <ion-img src = "../assets/bill.jpg"></ion-img>
-  </ion-avatar>
-</ion-card-content>
-</ion-card>
-</div>
+  <!-- main profile -->
+  <ion-item id = "main">
+    <ion-avatar>
+      <ion-img src = "{{profile.photo}}"></ion-img>
+    </ion-avatar>
+    <ion-label  id = "main-head">
+      {{profile.name}}
+    </ion-label>
+    <ion-text id = "main-title">
+      Available
+    </ion-text>
+  </ion-item>
+  <!-- default QR Code -->
+  <div>
+    <div id="qr" *ngIf="qrData">
+      <ngx-qrcode id="qrcode"
+        [qrc-element-type]="elementType"
+        [qrc-value]="qrData"
+        qrc-class="qr-class"
+        qrc-erjrorCorrectionLevel="H">
+      </ngx-qrcode>
+    </div>
+  </div>
+  <!-- list of contacts -->
+  <div id="contacts">
+    <ion-card *ngFor="let contact of profile.contacts">
+      <ion-card-content>
+        <ion-avatar>
+          <ion-img src = "{{contact.photo}}"></ion-img>
+        </ion-avatar>
+      </ion-card-content>
+    </ion-card>
+  </div>
 </ion-content>
