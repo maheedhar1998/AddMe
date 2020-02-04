@@ -39,7 +39,7 @@ export class FirebaseBackendService {
     });
     return userProfile;
   }
-  // Updating user contact list with new contact
+  // adding user contact list with new contact
   async addToUserContacts(cont: backend.contact) {
     var userContacts: backend.contact [];
     await this.getUserData().then(usr => {
@@ -52,8 +52,25 @@ export class FirebaseBackendService {
     });
   }
   // Adding user socialAccount
-  async addSocialAccount() {
-    
+  // typ the stringed version of which social media
+  async addSocialAccount(typ: string, newAccount: backend.socialAccount) {
+    var userSocials: backend.social [];
+    await this.getUserData().then(usr => {
+      userSocials = usr.getSocials;
+      let found: boolean = false;
+      for(let i:number=0; i<userSocials.length && !found; i++) {
+        if(userSocials[i].getType == typ) {
+          userSocials[i].getSocialAccounts.push(newAccount);
+          found = true;
+        }
+      }
+      if(!found) {
+        userSocials.push(new backend.social(typ, null, [newAccount]));
+      }
+      var updates = {};
+      updates['Users/'+this.uid+'/socials'] = userSocials;
+      firebase.database().ref().update(updates);
+    });
   }
   // Logs Out
   async logOut() {
