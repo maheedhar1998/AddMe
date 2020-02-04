@@ -51,7 +51,10 @@ export class FirebaseBackendService {
       firebase.database().ref().update(updates);
     });
   }
-  // 
+  // Adding user socialAccount
+  async addSocialAccount() {
+    
+  }
   // Logs Out
   async logOut() {
     await firebase.auth().signOut().then(res => {
