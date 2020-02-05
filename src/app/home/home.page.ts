@@ -28,7 +28,6 @@ export class HomePage {
           this.qrData = JSON.stringify(this.profile.getQrCodes).substr(0,100);
         });
       }
-
     });
   }
 
