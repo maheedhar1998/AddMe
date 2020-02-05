@@ -12,6 +12,7 @@ import * as backend from '../backendClasses';
 })
 export class HomePage {
   private firebase: FirebaseBackendService;
+  private qrData: string;
   private profile: backend.user = new backend.user(null,null,null,null,null,null,null,null,null,null);
   constructor(private router: Router) {
     firebase.auth().onAuthStateChanged(firebaseUser => {
@@ -24,9 +25,9 @@ export class HomePage {
         this.firebase = new FirebaseBackendService(firebase.auth().currentUser.uid);
         this.firebase.getUserData().then(dat => {
           this.profile = dat;
+          this.qrData = 'https://www.facebook.com/maheedhar1998'//JSON.stringify(this.profile.getQrCodes).substr(0,100);
         });
       }
-
     });
   }
 
