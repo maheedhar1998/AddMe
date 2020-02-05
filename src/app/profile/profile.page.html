@@ -1,27 +1,19 @@
-<ion-header>
+<ion-content fullscreen>
   <ion-card>
-    <ion-card-header>
-      <div no-lines>
-      <ion-item no-lines>
-        <ion-img src="{{profile.photo}}"></ion-img>{{profile.name}}
-        <ion-button style="float: right;" fill="clear" shape="round" (click)="goToSettings()">
-          <ion-icon color="dark" name="settings"></ion-icon>
-        </ion-button>
-      </ion-item>
-      <ion-icon name="mail" style="float: right; color:black;" size="large" padding-right="10px"></ion-icon>
-      <ion-icon name="text" style="float: right; color:black;" size="large" padding-right="10px"></ion-icon>
-      <ion-icon name="call" style="float: right; color:black;" size="large"></ion-icon>  
-    </div>
-  </ion-card-header>
     <ion-card-content>
-      <ion-title>
-      <ion-item>USER BIO</ion-item>
-    </ion-title>
+      <ion-avatar>
+        <ion-img src="{{profile.photo}}"></ion-img>
+      </ion-avatar>
+      <ion-list>
+        <ion-item>
+          <ion-label>{{profile.name}}</ion-label>
+        </ion-item>
+        <ion-item>
+          <ion-icon name="logo-facebook" slot="start" color="primary"></ion-icon>
+        </ion-item>
+      </ion-list>
     </ion-card-content>
   </ion-card>
-</ion-header>
-
-<ion-content fullscreen>  
   <ion-grid class="ion-no-padding">
     <ion-row flex-wrap="wrap-reverse">
       <ion-col justify-content="center">
@@ -121,11 +113,4 @@
       </ion-col>
     </ion-row>
   </ion-grid>
-
-  <ion-list>
-    <ion-item-divider *ngFor="let divider of profile.socials">{{divider.profile}}
-      <ion-item *ngFor="let account of divider.socialAccounts">{{account.id}}
-      </ion-item>
-    </ion-item-divider>
-  </ion-list>
 </ion-content>
