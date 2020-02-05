@@ -1,16 +1,18 @@
 <ion-header>
+  <ion-button style="float: right;" fill="clear" shape="round" (click)="goToSettings()">
+    <ion-icon color="dark" name="settings"></ion-icon>
+  </ion-button>
+</ion-header>
+<ion-header>
   <ion-card>
     <ion-card-header>
       <div no-lines>
       <ion-item no-lines>
         <ion-img src="{{profile.photo}}"></ion-img>{{profile.name}}
-        <ion-button style="float: right;" fill="clear" shape="round" (click)="goToSettings()">
-          <ion-icon color="dark" name="settings"></ion-icon>
-        </ion-button>
-      </ion-item>
-      <ion-icon name="mail" style="float: right; color:black;" size="large" padding-right="10px"></ion-icon>
-      <ion-icon name="text" style="float: right; color:black;" size="large" padding-right="10px"></ion-icon>
-      <ion-icon name="call" style="float: right; color:black;" size="large"></ion-icon>  
+        <ion-icon name="mail" style="float: right; color:black;" size="large" padding-right="10px"></ion-icon>
+        <ion-icon name="text" style="float: right; color:black;" size="large" padding-right="10px"></ion-icon>
+        <ion-icon name="call" style="float: right; color:black;" size="large"></ion-icon>  
+    </ion-item>
     </div>
   </ion-card-header>
     <ion-card-content>
@@ -68,13 +70,13 @@
 
        <ion-col justify-content="center">
         <div class="whatsapp" align-self="center">
-          WhatsApp
+          <ion-icon src = "../assets/whatsapp-symbol.svg" size="large"></ion-icon>
         </div>
       </ion-col>
 
       <ion-col justify-content="center">
         <div class="tinder" align-self="center">
-          Tinder
+          <ion-icon src = "../assets/tinder-icon.svg" size="large"></ion-icon>
         </div>
       </ion-col>
 
@@ -116,7 +118,7 @@
 
        <ion-col justify-content="center">
         <div class="whatsapp" align-self="center">
-          WhatsApp
+          <ion-icon src = "../assets/icons9-whatsapp.svg" size="large"></ion-icon>
         </div>
       </ion-col>
     </ion-row>
