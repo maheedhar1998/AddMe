@@ -1,21 +1,24 @@
-<ion-content fullscreen>
+<ion-header>
   <ion-card>
     <ion-card-content>
       <ion-avatar>
         <ion-img src="{{profile.photo}}"></ion-img>
       </ion-avatar>
-      <ion-list>
-        <ion-item>
+      <ion-list no-lines>
+        <ion-item no-lines>
           <ion-label>{{profile.name}}</ion-label>
         </ion-item>
-        <ion-item>
+        <ion-item no-lines>
           <ion-icon name="logo-facebook" slot="start" color="primary"></ion-icon>
         </ion-item>
       </ion-list>
     </ion-card-content>
   </ion-card>
-  <ion-grid class="ion-no-padding">
-    <ion-row flex-wrap="wrap-reverse">
+</ion-header>
+
+<ion-content fullscreen>
+  <ion-grid>
+    <ion-row vertical-align="middle">
       <ion-col justify-content="center">
         <div class="instagram" align-self="center">
           <ion-icon src = "../assets/instagram-2-1.svg" size="large"></ion-icon>
@@ -24,7 +27,7 @@
 
       <ion-col justify-content="center">
         <div class="facebook" align-self="center">
-          <ion-icon src = "../assets/facebook-2.svg" size="large"></ion-icon>
+          <ion-icon src = "../assets/facebook-icon.svg" size="large"></ion-icon>
         </div>
       </ion-col>
 
@@ -39,10 +42,12 @@
           <ion-icon src = "../assets/tiktok-logo.svg" size="large"></ion-icon>
         </div>
       </ion-col>
+    </ion-row>
 
+    <ion-row>
       <ion-col justify-content="center">
         <div class="github" align-self="center">
-          Github
+          <ion-icon src = "../assets/github.svg" size="large"></ion-icon>
         </div>
       </ion-col>
 
@@ -54,7 +59,7 @@
 
        <ion-col justify-content="center">
         <div class="linkedin" align-self="center">
-          Linkedin
+          <ion-icon src = "../assets/linkedin-icon-2.svg" size="large"></ion-icon>
         </div>
       </ion-col>
 
@@ -63,7 +68,9 @@
           <ion-icon src = "../assets/whatsapp-symbol.svg" size="large"></ion-icon>
         </div>
       </ion-col>
+    </ion-row>
 
+    <ion-row>
       <ion-col justify-content="center">
         <div class="tinder" align-self="center">
           <ion-icon src = "../assets/tinder-icon.svg" size="large"></ion-icon>
@@ -72,43 +79,45 @@
 
       <ion-col class="steam" justify-content="center">
         <div>
-          steam
+          <ion-icon src = "../assets/steam-icon-logo.svg" size="large"></ion-icon>
         </div>
       </ion-col>
 
        <ion-col justify-content="center">
         <div class="gmail" align-self="center">
-          Gmail
+          <ion-icon src = "../assets/gmail-icon.svg" size="large"></ion-icon>
         </div>
       </ion-col>
 
        <ion-col justify-content="center">
         <div class="outlook" align-self="center">
-          Outlook
+          <ion-icon src = "../assets/outlook-1.svg" size="large"></ion-icon>
         </div>
       </ion-col>
+    </ion-row>
 
+    <ion-row>
       <ion-col justify-content="center">
         <div class="venmo" align-self="center">
-          Venmo
+          <ion-icon src = "../assets/venmo.svg" size="large"></ion-icon>
         </div>
       </ion-col>
 
       <ion-col justify-content="center">
         <div class="paypal" align-self="center">
-          PayPal
+          <ion-icon src = "../assets/paypal-icon.svg" size="large"></ion-icon>
         </div>
       </ion-col>
 
        <ion-col justify-content="center">
         <div class="linkedin" align-self="center">
-          Linkedin
+          <ion-icon src = "../assets/discord.svg" size="large"></ion-icon>
         </div>
       </ion-col>
 
        <ion-col justify-content="center">
         <div class="whatsapp" align-self="center">
-          <ion-icon src = "../assets/icons9-whatsapp.svg" size="large"></ion-icon>
+          <ion-icon src = "../assets/kakaotalk.svg" size="large"></ion-icon>
         </div>
       </ion-col>
     </ion-row>
