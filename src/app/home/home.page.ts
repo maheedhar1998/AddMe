@@ -56,4 +56,7 @@ export class HomePage {
     this.router.navigate(['login']);
   }
 
+  swipe(ev: any) {
+    this.router.navigate(['profile']);
+  }
 }
