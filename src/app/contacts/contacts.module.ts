@@ -10,7 +10,6 @@ import { ContactsPage } from './contacts.page';
 const routes: Routes = [
   {
     path: '',
-    component: ContactsPage
   }
 ];
 
@@ -21,6 +20,6 @@ const routes: Routes = [
     IonicModule,
     RouterModule.forChild(routes)
   ],
-  declarations: [ContactsPage]
+  declarations: []
 })
 export class ContactsPageModule {}

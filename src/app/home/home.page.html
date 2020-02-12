@@ -6,7 +6,7 @@
 
 <ion-content (swipe)="swipe($event)">
   <!-- main profile -->
-  <ion-item id = "main">
+  <ion-item id = "main" (click)="goToProfile()">
     <ion-avatar>
       <ion-img src = "{{profile.photo}}"></ion-img>
     </ion-avatar>

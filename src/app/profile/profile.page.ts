@@ -25,7 +25,7 @@ export class ProfilePage implements OnInit {
         this.firebase = new FirebaseBackendService(firebase.auth().currentUser.uid);
         this.firebase.getUserData().then(dat => {
           this.profile = dat;
-          console.log(this.profile);
+          // console.log(this.profile);
         });
       }
     });
@@ -42,9 +42,10 @@ export class ProfilePage implements OnInit {
   ngOnInit() {
   }
 
-  async openPopover(ev: any) {
+  async openPopover(ev: any, typ: string) {
     const pop = await this.popOver.create({
       component: ContactsPage,
+      componentProps: {'type': typ},
       translucent: true,
       backdropDismiss: true,
       cssClass: 'popover',
