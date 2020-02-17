@@ -1,15 +1,33 @@
-ion-avatar {
-  height: 20vh;
-  width: 30%;
+// ion-avatar {
+//   height: 20vh;
+//   width: 30%;
+// }
+// ion-avatar {
+//   min-width: 5rem;
+//   min-height: 5rem;
+//   margin-top: 20px;
+//   margin-left: 20px;
+//   margin-bottom: 50px;
+//   img {
+//       max-width: 5rem;
+//       min-width: 5rem;
+//       border: 2px solid black;
+//   }
+// }
+
+.bio {
+  text-align: center;
 }
-ion-card {
-  ion-list {
-    position: absolute;
-    right: 0%;
-    width: 70%;
-    top: 20%;
+ion-list {
+  position: absolute;
+  float: right;
+  right: 0%;
+  width: 66%;
+  top: 5%;
   }
-}
-.popover {
-  
+
+
+ion-row {
+  height: 75%;
+  vertical-align: middle;
 }
