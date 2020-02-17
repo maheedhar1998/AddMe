@@ -78,16 +78,16 @@ export class FirebaseBackendService {
     var socialAccs: backend.socialAccount[];
     await this.getUserData().then(usr => {
       let found: boolean = false;
-      for(let i: number = 0; i<usr.getSocials.length && !found; i++) {
-        usr.getSocials[i].setType = 'facebook';
-        console.log(usr.getSocials[i].getType)
-        if(usr.getSocials[i].getType == type) {
-          socialAccs = usr.getSocials[i].getSocialAccounts;
+      let socials: backend.social[] = usr.getSocials;
+      for(let i: number = 0; i<socials.length && !found; i++) {
+        console.log(socials[i]);
+        if(socials[i].getType == type) {
+          socialAccs = socials[i].getSocialAccounts;
           found = true;
         }
       }
       if(!found){
-        socialAccs = [new backend.socialAccount('hi',null,null)];
+        socialAccs = [new backend.socialAccount('maheedhar1998','maheedhar1998','https://www.facebook.com/maheedhar1998')];
       }
     });
     return socialAccs;

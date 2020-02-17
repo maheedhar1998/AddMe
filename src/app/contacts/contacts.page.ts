@@ -38,5 +38,7 @@ export class ContactsPage implements OnInit {
 
   ngOnInit() {
   }
-
+  window() {
+    window.open(this.socialAccounts[0].getUrl);
+  }
 }

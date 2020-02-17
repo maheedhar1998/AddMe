@@ -1,7 +1,7 @@
 <ion-content>
   <ion-card>
     <ion-card-title>{{type}}</ion-card-title>
-    <ion-item *ngFor="let account of socialAccounts">
+    <ion-item *ngFor="let account of socialAccounts" (click)="window()">
       <ion-label>{{account.getUser}}</ion-label>
     </ion-item>
   </ion-card>
