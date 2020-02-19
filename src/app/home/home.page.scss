@@ -1,0 +1,61 @@
+#contacts {
+  top: 0%;
+  position: relative;
+  ion-avatar {
+    height : 10vh;
+    width : 10vh;
+  }
+  ion-card {
+    border-radius: 30pt;
+  }
+}
+#qr
+{
+  height:25vh;
+  width:100vw;
+  overflow:hidden;
+  display:inline-flex;
+  justify-content:center;
+  align-items:center;
+}
+
+ngx-qrcode
+{
+  height:25vh;
+  width:100vw;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+}
+.qr-class
+{
+  height:25vh;
+  width:100vw;
+  display:inline-flex;
+  justify-content:center;
+  align-items:center;
+}
+
+#main{
+  ion-avatar{
+    height : 14vh;
+    width : 14vh;
+    padding-right: 3%;
+  }
+  #main-head{
+    text-align: left;
+    font-size: 20px;
+    font-family: 'Times New Roman', Times, serif;
+  }
+  #main-title{
+    text-align: center;
+    padding-left: 29%;
+    position: absolute;
+    top:60%;
+    font-size: 15px;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  }
+  border-radius: 30pt;
+
+
+}

@@ -1,0 +1,41 @@
+<ion-header>
+<ion-toolbar>
+<ion-searchbar class="search">  </ion-searchbar>
+</ion-toolbar>
+</ion-header>
+
+<ion-content (swipe)="swipe($event)">
+  <!-- main profile -->
+  <ion-item id = "main" (click)="goToProfile()">
+    <ion-avatar>
+      <ion-img src = "{{profile.photo}}"></ion-img>
+    </ion-avatar>
+    <ion-label  id = "main-head">
+      {{profile.name}}
+    </ion-label>
+    <ion-text id = "main-title">
+      Available
+    </ion-text>
+  </ion-item>
+  <!-- default QR Code -->
+  <div>
+    <div id="qr" *ngIf="qrData">
+      <ngx-qrcode id="qrcode"
+        [qrc-element-type]="elementType"
+        [qrc-value]="qrData"
+        qrc-class="qr-class"
+        qrc-erjrorCorrectionLevel="H">
+      </ngx-qrcode>
+    </div>
+  </div>
+  <!-- list of contacts -->
+  <div id="contacts">
+    <ion-card *ngFor="let contact of profile.contacts">
+      <ion-card-content>
+        <ion-avatar>
+          <ion-img src = "{{contact.photo}}"></ion-img>
+        </ion-avatar>
+      </ion-card-content>
+    </ion-card>
+  </div>
+</ion-content>
