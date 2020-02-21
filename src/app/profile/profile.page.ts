@@ -26,6 +26,7 @@ export class ProfilePage implements OnInit {
         });
       }
     });
+    var grid_arr:string[][]
   }
 
   goToContacts() {
@@ -37,6 +38,12 @@ export class ProfilePage implements OnInit {
   }
 
   ngOnInit() {
+  }
+
+  swipeEvent(e) {
+    if (e.direction == 4) {
+      this.goToHome;
+    }
   }
 
 }
