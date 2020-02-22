@@ -3,6 +3,8 @@ import { FirebaseBackendService } from '../firebase-backend.service';
 import * as firebase from 'firebase';
 import { Router } from '@angular/router';
 import * as backend from '../backendClasses';
+// import {hmTouchEvents} from '';
+
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.page.html',
@@ -40,10 +42,20 @@ export class ProfilePage implements OnInit {
   ngOnInit() {
   }
 
-  swipeEvent(e) {
-    if (e.direction == 4) {
-      this.goToHome;
-    }
-  }
+  // swipeEvent(e) {
+  //   console.log("in this")
+  //   if (e.direction == 4) {
+  //     this.goToHome();
+  //   }
+  //   var pContent =  document.getElementById('pContent');
+  //   var mc = new Hammer(pContent);
+  //   mc.on("panleft panright tap press", function(ev) {
+  //     pContent.textContent = ev.type +" gesture detected.";
+  //   });
+  //   mc.get('swipe').set({ direction: Hammer.DIRECTION_HORIZONTAL});
+  //   mc.on('swipeleft', (event) => {
+  //     this.goToHome();
+  //   })
+  // }
 
 }
