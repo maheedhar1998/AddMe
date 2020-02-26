@@ -32,7 +32,7 @@ To run on an emulator
    * ```ionic cordova emulate <platform>```
 ***
 # Testing
-Ionic framework uses Protractor for it's behavioral testing. The unit test framework we are using is Jasmine. The end to end test files (behavioral) are located at ```AddMe/e2e/sec/```. The unit test are located in ```AddMe/src/app/``` and it's subdirectories. The unit tests for each page/service/components are located in their corresponding ```spec.ts``` pages.
+Ionic framework uses Protractor for it's behavioral testing. The unit test framework we are using is Jasmine. The end to end test files (behavioral) are located at ```AddMe/e2e/src/```. The unit test are located in ```AddMe/src/app/``` and it's subdirectories. The unit tests for each page/service/components are located in their corresponding ```spec.ts``` pages.
 
 To run unit tests for the app
    * ```npm test```
