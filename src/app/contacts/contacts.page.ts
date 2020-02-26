@@ -3,6 +3,7 @@ import { Router } from '@angular/router'
 import * as backend from '../backendClasses';
 import { FirebaseBackendService } from '../firebase-backend.service';
 import * as firebase from 'firebase';
+import { NavParams } from '@ionic/angular';
 
 @Component({
   selector: 'app-contacts',
@@ -10,9 +11,10 @@ import * as firebase from 'firebase';
   styleUrls: ['./contacts.page.scss'],
 })
 export class ContactsPage implements OnInit {
-  private contacts: backend.contact [];
   private firebase: FirebaseBackendService;
-  constructor(private router: Router) {
+  private type: string;
+  private socialAccounts: backend.socialAccount[];
+  constructor(private router: Router, private navParam: NavParams) {
     firebase.auth().onAuthStateChanged(firebaseUser => {
       if(!firebaseUser)
       {
@@ -21,9 +23,10 @@ export class ContactsPage implements OnInit {
       else
       {
         this.firebase = new FirebaseBackendService(firebase.auth().currentUser.uid);
-        this.firebase.getUserData().then(dat => {
-          this.contacts = dat.getContacts;
-          console.log(this.contacts);
+        this.type = this.navParam.get('type');
+        this.firebase.getSocialAccountsType(this.type).then(socialsArr => {
+          this.socialAccounts = socialsArr;
+          console.log(socialsArr);
         });
       }
     });
@@ -35,5 +38,7 @@ export class ContactsPage implements OnInit {
 
   ngOnInit() {
   }
-
+  window() {
+    window.open(this.socialAccounts[0].getUrl);
+  }
 }

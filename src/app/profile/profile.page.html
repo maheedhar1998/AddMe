@@ -1,27 +1,145 @@
-<ion-header transluscent>
-  <ion-toolbar>
-    <ion-buttons slot="start">
-      <ion-back-button defaultHref="/"></ion-back-button>
-    </ion-buttons>
-    <ion-title>
-      <ion-label>{{profile.name}}</ion-label>
-    </ion-title>
-  </ion-toolbar>
-</ion-header>
+<ion-content fullscreen>
 
-<ion-content>
-  <ion-img src="{{profile.photo}}"></ion-img>
-
-  <ion-item lines="none">
-    <ion-button expand="block" color="white" class="edit">
-      Edit Profile
-    </ion-button>
-  </ion-item>
-
-  <ion-list>
-    <ion-item-divider *ngFor="let divider of profile.socials">{{divider.profile}}
-      <ion-item *ngFor="let account of divider.socialAccounts">{{account.id}}
+<!-- <ion-header> -->
+  <ion-card lines="none">
+    <ion-card-content lines="none">
+      <ion-item lines="none">
+      <ion-avatar>
+        <ion-img src="{{profile.photo}}"></ion-img>
+      </ion-avatar>
+      <span>USERBIO</span>
+        <ion-list>
+          <ion-item lines="none">
+            <ion-label>{{profile.name}}</ion-label>
+        </ion-item>
+          <ion-item lines="none">
+            <ion-icon name="mail-outline" float="right"></ion-icon>
+            <ion-icon name="call-outline" float="right"></ion-icon>
+            <ion-icon name="logo-facebook" float="right"></ion-icon>
+          </ion-item>
+          <ion-item lines="none">
+            <ion-label class="bio">USERBIO</ion-label>
+            <ion-input></ion-input>
+          </ion-item>
+        </ion-list>
       </ion-item>
-    </ion-item-divider>
-  </ion-list>
+
+      <!-- <ion-list lines="none">
+        <ion-item lines="none">
+          <ion-label>{{profile.name}}</ion-label>
+        </ion-item>
+        <ion-item lines="none">
+          <ion-icon name="logo-facebook" slot="start" color="primary"></ion-icon>
+        </ion-item>
+      </ion-list> -->
+    </ion-card-content>
+  </ion-card>
+
+<!-- </ion-header> -->
+
+  <ion-grid>
+    <ion-row vertical-align="middle">
+      <ion-col justify-content="center">
+        <div class="instagram" align-self="center">
+          <ion-icon src = "../assets/instagram-2-1.svg" size="large"></ion-icon>
+        </div>
+      </ion-col>
+
+      <ion-col justify-content="center">
+        <div class="facebook" align-self="center" (click)="openPopover($event,'facebook')">
+          <ion-icon src = "../assets/facebook-icon.svg" size="large"></ion-icon>
+        </div>
+      </ion-col>
+
+       <ion-col justify-content="center">
+        <div class="snapchat" align-self="center">
+          <ion-icon src = "../assets/snapchat.svg" size="large"></ion-icon>
+        </div>
+      </ion-col>
+
+       <ion-col justify-content="center">
+        <div class="tiktok" align-self="center">
+          <ion-icon src = "../assets/tiktok-logo.svg" size="large"></ion-icon>
+        </div>
+      </ion-col>
+    </ion-row>
+
+    <ion-row>
+      <ion-col justify-content="center">
+        <div class="github" align-self="center">
+          <ion-icon src = "../assets/github.svg" size="large"></ion-icon>
+        </div>
+      </ion-col>
+
+      <ion-col justify-content="center">
+        <div class="twitter" align-self="center">
+          <ion-icon src = "../assets/twitter.svg" size="large"></ion-icon>
+        </div>
+      </ion-col>
+
+       <ion-col justify-content="center">
+        <div class="linkedin" align-self="center">
+          <ion-icon src = "../assets/linkedin-icon-2.svg" size="large"></ion-icon>
+        </div>
+      </ion-col>
+
+       <ion-col justify-content="center">
+        <div class="whatsapp" align-self="center">
+          <ion-icon src = "../assets/whatsapp-symbol.svg" size="large"></ion-icon>
+        </div>
+      </ion-col>
+    </ion-row>
+
+    <ion-row>
+      <ion-col justify-content="center">
+        <div class="tinder" align-self="center">
+          <ion-icon src = "../assets/tinder-icon.svg" size="large"></ion-icon>
+        </div>
+      </ion-col>
+
+      <ion-col class="steam" justify-content="center">
+        <div>
+          <ion-icon src = "../assets/steam-icon-logo.svg" size="large"></ion-icon>
+        </div>
+      </ion-col>
+
+       <ion-col justify-content="center">
+        <div class="gmail" align-self="center">
+          <ion-icon src = "../assets/gmail-icon.svg" size="large"></ion-icon>
+        </div>
+      </ion-col>
+
+       <ion-col justify-content="center">
+        <div class="outlook" align-self="center">
+          <ion-icon src = "../assets/outlook-1.svg" size="large"></ion-icon>
+        </div>
+      </ion-col>
+    </ion-row>
+
+    <ion-row>
+      <ion-col justify-content="center">
+        <div class="venmo" align-self="center">
+          <ion-icon src = "../assets/venmo.svg" size="large"></ion-icon>
+        </div>
+      </ion-col>
+
+      <ion-col justify-content="center">
+        <div class="paypal" align-self="center">
+          <ion-icon src = "../assets/paypal-icon.svg" size="large"></ion-icon>
+        </div>
+      </ion-col>
+
+       <ion-col justify-content="center">
+        <div class="linkedin" align-self="center">
+          <ion-icon src = "../assets/discord.svg" size="large"></ion-icon>
+        </div>
+      </ion-col>
+
+       <ion-col justify-content="center">
+        <div class="whatsapp" align-self="center">
+          <ion-icon src = "../assets/kakaotalk.svg" size="large"></ion-icon>
+        </div>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
 </ion-content>

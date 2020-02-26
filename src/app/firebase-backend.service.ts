@@ -39,7 +39,7 @@ export class FirebaseBackendService {
     });
     return userProfile;
   }
-  // Updating user contact list with new contact
+  // adding user contact list with new contact
   async addToUserContacts(cont: backend.contact) {
     var userContacts: backend.contact [];
     await this.getUserData().then(usr => {
@@ -51,7 +51,47 @@ export class FirebaseBackendService {
       firebase.database().ref().update(updates);
     });
   }
-  // 
+  // Adding user socialAccount
+  // typ the stringed version of which social media
+  async addSocialAccount(typ: string, newAccount: backend.socialAccount) {
+    var userSocials: backend.social [];
+    await this.getUserData().then(usr => {
+      userSocials = usr.getSocials;
+      let found: boolean = false;
+      for(let i:number=0; i<userSocials.length && !found; i++) {
+        if(userSocials[i].getType == typ) {
+          userSocials[i].getSocialAccounts.push(newAccount);
+          found = true;
+        }
+      }
+      if(!found) {
+        userSocials.push(new backend.social(typ, null, [newAccount]));
+      }
+      var updates = {};
+      updates['Users/'+this.uid+'/socials'] = userSocials;
+      firebase.database().ref().update(updates);
+    });
+  }
+  // Getting social accounts of a given type
+  async getSocialAccountsType(type: string) : Promise<backend.socialAccount []> {
+    console.log(type)
+    var socialAccs: backend.socialAccount[];
+    await this.getUserData().then(usr => {
+      let found: boolean = false;
+      let socials: backend.social[] = usr.getSocials;
+      for(let i: number = 0; i<socials.length && !found; i++) {
+        console.log(socials[i]);
+        if(socials[i].getType == type) {
+          socialAccs = socials[i].getSocialAccounts;
+          found = true;
+        }
+      }
+      if(!found){
+        socialAccs = [new backend.socialAccount('maheedhar1998','maheedhar1998','https://www.facebook.com/maheedhar1998')];
+      }
+    });
+    return socialAccs;
+  }
   // Logs Out
   async logOut() {
     await firebase.auth().signOut().then(res => {
