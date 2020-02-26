@@ -25,7 +25,7 @@ export class ProfilePage implements OnInit {
         this.firebase = new FirebaseBackendService(firebase.auth().currentUser.uid);
         this.firebase.getUserData().then(dat => {
           this.profile = dat;
-          // console.log(this.profile);
+          console.log(this.profile);
         });
       }
     });
