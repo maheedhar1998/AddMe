@@ -13,7 +13,7 @@ import * as backend from '../backendClasses';
 export class ProfilePage implements OnInit {
   private profile: backend.user;
   private firebase: FirebaseBackendService;
-  constructor(private router: Router) {
+  constructor(private router: Router, private popOver: PopoverController) {
     firebase.auth().onAuthStateChanged(firebaseUser => {
       if(!firebaseUser)
       {
@@ -42,6 +42,7 @@ export class ProfilePage implements OnInit {
   ngOnInit() {
   }
 
+<<<<<<< HEAD
   // swipeEvent(e) {
   //   console.log("in this")
   //   if (e.direction == 4) {
@@ -58,4 +59,17 @@ export class ProfilePage implements OnInit {
   //   })
   // }
 
+=======
+  async openPopover(ev: any, typ: string) {
+    const pop = await this.popOver.create({
+      component: ContactsPage,
+      componentProps: {'type': typ},
+      translucent: true,
+      backdropDismiss: true,
+      cssClass: 'popover',
+      event: ev
+    });
+    return await pop.present();
+  }
+>>>>>>> development
 }

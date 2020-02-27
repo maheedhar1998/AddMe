@@ -1,12 +1,15 @@
 <ion-header>
-<ion-toolbar>
-<ion-searchbar class="search">  </ion-searchbar>
-</ion-toolbar>
+  <ion-toolbar>
+    <ion-searchbar class="search">  </ion-searchbar>
+    <ion-button slot="start" fill="clear" shape="round" (click)="goToCamera()">
+      <ion-icon color="dark" name="camera"></ion-icon>
+    </ion-button>
+  </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content (swipe)="swipe($event)">
   <!-- main profile -->
-  <ion-item id = "main">
+  <ion-item id = "main" (click)="goToProfile()">
     <ion-avatar>
       <ion-img src = "{{profile.photo}}"></ion-img>
     </ion-avatar>
@@ -19,7 +22,7 @@
   </ion-item>
   <!-- default QR Code -->
   <div>
-    <div id="qr" *ngIf="qrData">
+    <div id="qr" *ngIf="qrData" (click)="goToQRCode()">
       <ngx-qrcode id="qrcode"
         [qrc-element-type]="elementType"
         [qrc-value]="qrData"

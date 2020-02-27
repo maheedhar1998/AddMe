@@ -1,6 +1,28 @@
+<<<<<<< HEAD
 ion-avatar {
   height: 20vh;
   width: 33%;
+=======
+// ion-avatar {
+//   height: 20vh;
+//   width: 30%;
+// }
+// ion-avatar {
+//   min-width: 5rem;
+//   min-height: 5rem;
+//   margin-top: 20px;
+//   margin-left: 20px;
+//   margin-bottom: 50px;
+//   img {
+//       max-width: 5rem;
+//       min-width: 5rem;
+//       border: 2px solid black;
+//   }
+// }
+
+.bio {
+  text-align: center;
+>>>>>>> development
 }
 
 ion-list {
@@ -21,7 +43,15 @@ ion-list {
   align-items: center;
 }
 
+<<<<<<< HEAD
 div {
   margin-left: 25%;
   margin-right: 25%;
 }
+=======
+
+ion-row {
+  height: 75%;
+  vertical-align: middle;
+}
+>>>>>>> development

@@ -25,7 +25,7 @@ export class HomePage {
         this.firebase = new FirebaseBackendService(firebase.auth().currentUser.uid);
         this.firebase.getUserData().then(dat => {
           this.profile = dat;
-          this.qrData = 'https://www.facebook.com/maheedhar1998'//JSON.stringify(this.profile.getQrCodes).substr(0,100);
+          this.qrData = JSON.stringify(this.profile.getQrCodes).substr(0,100);
         });
       }
     });
@@ -56,4 +56,7 @@ export class HomePage {
     this.router.navigate(['login']);
   }
 
+  swipe(ev: any) {
+    this.router.navigate(['profile']);
+  }
 }

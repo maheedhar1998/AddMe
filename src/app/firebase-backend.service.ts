@@ -72,6 +72,26 @@ export class FirebaseBackendService {
       firebase.database().ref().update(updates);
     });
   }
+  // Getting social accounts of a given type
+  async getSocialAccountsType(type: string) : Promise<backend.socialAccount []> {
+    console.log(type)
+    var socialAccs: backend.socialAccount[];
+    await this.getUserData().then(usr => {
+      let found: boolean = false;
+      let socials: backend.social[] = usr.getSocials;
+      for(let i: number = 0; i<socials.length && !found; i++) {
+        console.log((<backend.social>socials[i]));
+        if((<backend.social>socials[i]).getType == type) {
+          socialAccs = socials[i].getSocialAccounts;
+          found = true;
+        }
+      }
+      if(!found){
+        socialAccs = [new backend.socialAccount(null,null,null)];
+      }
+    });
+    return socialAccs;
+  }
   // Logs Out
   async logOut() {
     await firebase.auth().signOut().then(res => {
