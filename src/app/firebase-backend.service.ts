@@ -54,13 +54,13 @@ export class FirebaseBackendService {
   // Adding user socialAccount
   // typ the stringed version of which social media
   async addSocialAccount(typ: string, newAccount: backend.socialAccount) {
-    var userSocials: backend.social [];
+    var userSocials: {} [];
     await this.getUserData().then(usr => {
       userSocials = usr.getSocials;
       let found: boolean = false;
       for(let i:number=0; i<userSocials.length && !found; i++) {
-        if(userSocials[i].getType == typ) {
-          userSocials[i].getSocialAccounts.push(newAccount);
+        if(userSocials[i]['type'] == typ) {
+          userSocials[i]['socialAccounts'].push(newAccount);
           found = true;
         }
       }
@@ -78,11 +78,11 @@ export class FirebaseBackendService {
     var socialAccs: backend.socialAccount[];
     await this.getUserData().then(usr => {
       let found: boolean = false;
-      let socials: backend.social[] = usr.getSocials;
+      let socials: {}[] = usr.getSocials;
       for(let i: number = 0; i<socials.length && !found; i++) {
-        console.log((<backend.social>socials[i]));
-        if((<backend.social>socials[i]).getType == type) {
-          socialAccs = socials[i].getSocialAccounts;
+        console.log(socials[i]);
+        if(socials[i]['type'] == type) {
+          socialAccs = socials[i]['socialAccounts'];
           found = true;
         }
       }

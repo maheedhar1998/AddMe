@@ -22,6 +22,7 @@ export class ContactsPage implements OnInit {
     this.id = "";
     this.username = "";
     this.url = "";
+    this.adding = false;
     firebase.auth().onAuthStateChanged(firebaseUser => {
       if(!firebaseUser)
       {
@@ -50,6 +51,9 @@ export class ContactsPage implements OnInit {
   addSMAccount() {
     this.firebase.addSocialAccount(this.type, new backend.socialAccount(this.id,this.username,this.url));
     this.adding = false;
+    this.id = "";
+    this.username = "";
+    this.url = "";
   }
 
   ngOnInit() {
