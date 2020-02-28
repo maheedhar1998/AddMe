@@ -27,9 +27,9 @@ export class QRcodePage implements OnInit {
         this.firebase.getUserData().then(dat => {
           this.profile = dat;
           if(JSON.stringify(this.profile.getQrCodes).length <= 2900) {
-            this.qrData = JSON.stringify(this.profile.getQrCodes);
+            this.qrData = JSON.stringify(this.profile.getQrCodes[0]);
           } else {
-            this.qrData = JSON.stringify(this.profile.getQrCodes);
+            this.qrData = JSON.stringify(this.profile.getQrCodes[0]);
           }
           console.log(this.qrData);
         });
