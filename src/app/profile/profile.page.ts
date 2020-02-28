@@ -42,24 +42,6 @@ export class ProfilePage implements OnInit {
   ngOnInit() {
   }
 
-<<<<<<< HEAD
-  // swipeEvent(e) {
-  //   console.log("in this")
-  //   if (e.direction == 4) {
-  //     this.goToHome();
-  //   }
-  //   var pContent =  document.getElementById('pContent');
-  //   var mc = new Hammer(pContent);
-  //   mc.on("panleft panright tap press", function(ev) {
-  //     pContent.textContent = ev.type +" gesture detected.";
-  //   });
-  //   mc.get('swipe').set({ direction: Hammer.DIRECTION_HORIZONTAL});
-  //   mc.on('swipeleft', (event) => {
-  //     this.goToHome();
-  //   })
-  // }
-
-=======
   async openPopover(ev: any, typ: string) {
     const pop = await this.popOver.create({
       component: ContactsPage,
@@ -71,5 +53,4 @@ export class ProfilePage implements OnInit {
     });
     return await pop.present();
   }
->>>>>>> development
 }
