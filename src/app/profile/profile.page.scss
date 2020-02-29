@@ -1,3 +1,8 @@
+<<<<<<< HEAD
+ion-avatar {
+  height: 20vh;
+  width: 33%;
+=======
 // ion-avatar {
 //   height: 20vh;
 //   width: 30%;
@@ -17,17 +22,36 @@
 
 .bio {
   text-align: center;
+>>>>>>> development
 }
+
 ion-list {
   position: absolute;
   float: right;
   right: 0%;
   width: 66%;
   top: 5%;
+  .item {
+    float: right;
   }
+}
+// ion-row {
+//   height: 75%;
+//   vertical-align: middle;
+// }
+.ion-align-items-center	 {
+  align-items: center;
+}
 
+<<<<<<< HEAD
+div {
+  margin-left: 25%;
+  margin-right: 25%;
+}
+=======
 
 ion-row {
   height: 75%;
   vertical-align: middle;
 }
+>>>>>>> development
