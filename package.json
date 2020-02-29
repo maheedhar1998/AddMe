@@ -34,6 +34,7 @@
     "cordova-plugin-qrscanner": "3.0.1",
     "core-js": "^2.5.4",
     "firebase": "^7.3.0",
+    "ionicons": "^5.0.0",
     "jasmine": "^3.5.0",
     "jasmine-node": "^3.0.0",
     "ngx-qrcode2": "0.0.9",
