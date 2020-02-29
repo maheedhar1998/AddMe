@@ -4,6 +4,9 @@
     <ion-button slot="end" fill="clear" shape="round" (click)="goToCamera()">
       <ion-icon color="dark" name="camera"></ion-icon>
     </ion-button>
+    <ion-button slot="end" fill="clear" shape="round" (click)="logOut()">
+      <ion-icon color="dark" name="log-out-outline"></ion-icon>
+    </ion-button>
   </ion-toolbar>
 </ion-header>
 
@@ -38,6 +41,7 @@
         <ion-avatar>
           <ion-img src = "{{contact.photo}}"></ion-img>
         </ion-avatar>
+        <ion-title>{{contact.name}}</ion-title>
       </ion-card-content>
     </ion-card>
   </div>
