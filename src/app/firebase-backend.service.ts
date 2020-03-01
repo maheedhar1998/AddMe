@@ -45,7 +45,22 @@ export class FirebaseBackendService {
     await this.getUserData().then(usr => {
       userContacts = usr.getContacts;
       userContacts.push(cont);
-      // TODO Update the contact on firebase
+      var updates = {};
+      updates['Users/'+this.uid+'/contacts'] = userContacts;
+      firebase.database().ref().update(updates);
+    });
+  }
+  // deletion from user contact list
+  async deleteFromUserContacts(cont: backend.contact) {
+    var userContacts: backend.contact [];
+    await this.getUserData().then(usr => {
+      userContacts = usr.getContacts;
+      for(let i: number = 0; i < userContacts.length; i++){
+        if(userContacts[i].isEqual(cont)){
+          userContacts.splice(i,1);
+          break;
+        }
+      }
       var updates = {};
       updates['Users/'+this.uid+'/contacts'] = userContacts;
       firebase.database().ref().update(updates);
@@ -69,6 +84,32 @@ export class FirebaseBackendService {
       }
       var updates = {};
       updates['Users/'+this.uid+'/socials'] = userSocials;
+      firebase.database().ref().update(updates);
+    });
+  }
+  // delete social account
+  async deleteSocialAccount(typ: string, sAcot: backend.socialAccount) {
+    var userSocialAccounts: backend.socialAccount [];
+    var userSocials: {} [] = [];
+    await this.getUserData().then(usr => {
+      userSocials = usr.getSocials;
+      this.getSocialAccountsType(typ).then(dat => {
+        userSocialAccounts = dat;
+        for(let i:number = 0; i < userSocialAccounts.length; i++){
+          if(userSocialAccounts[i].isEqual(sAcot)){
+            userSocialAccounts.splice(i,1);
+            break;
+          }
+        }
+      });
+      let i:number = 0;
+      for(; i < userSocials.length; i++){
+        if(userSocials[i]['type'] == typ){
+          break;
+        }
+      }
+      var updates = {};
+      updates['Users/'+this.uid+'/socials/'+i+'/socialAccount'] = userSocialAccounts;
       firebase.database().ref().update(updates);
     });
   }
