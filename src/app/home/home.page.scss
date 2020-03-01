@@ -35,7 +35,9 @@ ngx-qrcode
   justify-content:center;
   align-items:center;
 }
-
+ion-icon {
+  color: black;
+}
 #main{
   ion-avatar{
     height : 14vh;
