@@ -31,8 +31,8 @@ export class HomePage {
     });
   }
 
-  goToContacts() {
-    this.router.navigate(['contacts']);
+  goToUserContact( cont: backend.contact ) {
+    this.router.navigate(['user-contact', {contact: JSON.stringify(cont)}]);
   }
 
   goToCamera() {

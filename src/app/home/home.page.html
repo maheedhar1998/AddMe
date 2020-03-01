@@ -36,7 +36,7 @@
   </div>
   <!-- list of contacts -->
   <div id="contacts">
-    <ion-card *ngFor="let contact of profile.contacts">
+    <ion-card *ngFor="let contact of profile.contacts" (click)="goToUserContact(contact)">
       <ion-card-content>
         <ion-avatar>
           <ion-img src = "{{contact.photo}}"></ion-img>
