@@ -43,6 +43,7 @@ export class CameraPage implements OnInit {
           this.qrScanCtrl.hide();
           this.qrScanCtrl.destroy();
           scanSub.unsubscribe()
+          
         });
       }
       else if (status.denied) {

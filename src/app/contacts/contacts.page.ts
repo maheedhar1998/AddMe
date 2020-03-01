@@ -17,12 +17,14 @@ export class ContactsPage implements OnInit {
   private username: string;
   private url: string;
   private socialAccounts: backend.socialAccount[];
-  private adding: boolean = false;
+  private adding: boolean;
+  private none: boolean;
   constructor(private router: Router, private navParam: NavParams) {
     this.id = "";
     this.username = "";
     this.url = "";
     this.adding = false;
+    this.none = false;
     firebase.auth().onAuthStateChanged(firebaseUser => {
       if(!firebaseUser)
       {
@@ -34,6 +36,13 @@ export class ContactsPage implements OnInit {
         this.type = this.navParam.get('type');
         this.firebase.getSocialAccountsType(this.type).then(socialsArr => {
           this.socialAccounts = socialsArr;
+          if(this.socialAccounts.length == 1
+            && this.socialAccounts[0].getId == "N/A"
+            && this.socialAccounts[0].getUrl == "N/A"
+            && this.socialAccounts[0].getUser == "N/A") {
+              this.socialAccounts = [];
+              this.none = true;
+            }
           console.log(socialsArr);
         });
       }
@@ -57,9 +66,5 @@ export class ContactsPage implements OnInit {
   }
 
   ngOnInit() {
-  }
-
-  window() {
-    window.open(this.socialAccounts[0].getUrl);
   }
 }

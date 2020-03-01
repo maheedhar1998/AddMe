@@ -4,9 +4,11 @@
     <ion-button slot="end" shape="round" (click)="add()">
       <ion-icon color="dark" name="add-circle-outline"></ion-icon>
     </ion-button>
-    <ion-item *ngFor="let account of socialAccounts" href="{{account.url}}">
-      <ion-label>{{account.user}}</ion-label>
-    </ion-item>
+    <ion-list *ngIf="!none">
+      <ion-item *ngFor="let account of socialAccounts" href="{{account.url}}">
+        <ion-label>{{account.user}}</ion-label>
+      </ion-item>
+    </ion-list>
   </ion-card>
   <ion-card *ngIf="adding">
     <ion-item>
