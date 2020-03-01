@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import * as backend from '../backendClasses';
 import { PopoverController } from '@ionic/angular';
 import { ContactsPage } from '../contacts/contacts.page';
+// import {hmTouchEvents} from '';
 
 @Component({
   selector: 'app-profile',
@@ -14,6 +15,7 @@ import { ContactsPage } from '../contacts/contacts.page';
 export class ProfilePage implements OnInit {
   private profile: backend.user;
   private firebase: FirebaseBackendService;
+  private grid: {name: string, logo: string} [][] = [];
   constructor(private router: Router, private popOver: PopoverController) {
     firebase.auth().onAuthStateChanged(firebaseUser => {
       if(!firebaseUser)
@@ -25,7 +27,8 @@ export class ProfilePage implements OnInit {
         this.firebase = new FirebaseBackendService(firebase.auth().currentUser.uid);
         this.firebase.getUserData().then(dat => {
           this.profile = dat;
-          console.log(this.profile);
+          this.initGrid();
+          // console.log(this.grid);
         });
       }
     });
@@ -52,5 +55,53 @@ export class ProfilePage implements OnInit {
       event: ev
     });
     return await pop.present();
+  }
+  initGrid() {
+    let names: string[] = this.getNames();
+    let logos: string[] = this.getLogos();
+    if(names.length == logos.length) {
+      for(let i: number=0; i<Math.ceil(names.length/4); i++) {
+        this.grid[i] = [];
+        for(let j: number=0; j<4 && (i*4+j)<names.length; j++) {
+          this.grid[i][j] = {name: names[i*4+j],logo: logos[i*4+j]};
+        }
+      }
+    }
+  }
+  getNames(): string[] {
+    return ['instagram',
+              'facebook',
+              'snapchat',
+              'tiktok',
+              'github',
+              'twitter',
+              'linkedin',
+              'whatsapp',
+              'tinder',
+              'steam',
+              'gmail',
+              'outlook',
+              'venmo',
+              'paypal',
+              'discord',
+              'katalk'];
+  }
+  getLogos(): string[] {
+    return ['../assets/instagram-2-1.svg',
+                '../assets/facebook-icon.svg',
+                '../assets/snapchat.svg',
+                '../assets/tiktok-logo.svg',
+                '../assets/github.svg',
+                '../assets/twitter.svg',
+                '../assets/linkedin-icon-2.svg',
+                '../assets/whatsapp-symbol.svg',
+                '../assets/tinder-icon.svg',
+                '../assets/steam-icon-logo.svg',
+                '../assets/gmail-icon.svg',
+                '../assets/outlook-1.svg',
+                '../assets/venmo.svg',
+                '../assets/paypal-icon.svg',
+                '../assets/discord.svg',
+                '../assets/kakaotalk.svg'];
   }
 }
