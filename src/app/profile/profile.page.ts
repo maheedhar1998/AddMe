@@ -5,7 +5,7 @@ import { Router } from '@angular/router';
 import * as backend from '../backendClasses';
 import { PopoverController } from '@ionic/angular';
 import { ContactsPage } from '../contacts/contacts.page';
-// import {hmTouchEvents} from '';
+import { CallNumber } from '@ionic-native/call-number/ngx';
 
 @Component({
   selector: 'app-profile',
@@ -16,7 +16,7 @@ export class ProfilePage implements OnInit {
   private profile: backend.user;
   private firebase: FirebaseBackendService;
   private grid: {name: string, logo: string} [][] = [];
-  constructor(private router: Router, private popOver: PopoverController) {
+  constructor(private router: Router, private popOver: PopoverController, private callNum: CallNumber) {
     firebase.auth().onAuthStateChanged(firebaseUser => {
       if(!firebaseUser)
       {
@@ -55,6 +55,11 @@ export class ProfilePage implements OnInit {
       event: ev
     });
     return await pop.present();
+  }
+  call() {
+    this.callNum.callNumber(this.profile.getPhoneNumber, true).then( res => {
+      console.log("success");
+    });
   }
   initGrid() {
     let names: string[] = this.getNames();
