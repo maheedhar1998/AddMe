@@ -110,6 +110,12 @@ export class socialAccount {
     this.setUrl = tempUrl;
     this.setUser = tempUser;
   }
+  public isEqual(sAcot: socialAccount): boolean {
+    if(this.id == sAcot.id && this.user == sAcot.user && this.url == sAcot.url){
+      return true;
+    }
+    return false;
+  }
   public get getId(): string {
     return this.id;
   }
@@ -163,6 +169,14 @@ export class contact {
       this.setDOB = tempDate;
       this.setPhoto = tempPhoto;
       this.setAccessSocials = tempAccessSocial;
+  }
+  public isEqual(cont: contact): boolean {
+    if(this.id == cont.id && this.name == cont.name && this.username == this.username && this.email == cont.email
+        && this.phoneNumber == cont.phoneNumber && this.DOB == cont.DOB && this.photo == cont.photo
+        && this.accessSocials == cont.accessSocials){
+      return true;
+    }
+    return false;
   }
   public get getId(): string {
     return this.id;

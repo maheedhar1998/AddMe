@@ -12,7 +12,7 @@
 
 <ion-content (swipe)="swipe($event)">
   <!-- main profile -->
-  <ion-item id = "main" button (click)="goToProfile()">
+  <ion-item lines="none" id = "main" button (click)="goToProfile()">
     <ion-avatar>
       <ion-img src = "{{profile.photo}}"></ion-img>
     </ion-avatar>
@@ -38,10 +38,20 @@
   <div id="contacts">
     <ion-card *ngFor="let contact of profile.contacts" (click)="goToUserContact(contact)">
       <ion-card-content>
-        <ion-avatar>
-          <ion-img src = "{{contact.photo}}"></ion-img>
-        </ion-avatar>
-        <ion-title>{{contact.name}}</ion-title>
+        <ion-grid>
+          <ion-row>
+            <ion-col id ="avtar-width">
+              <ion-avatar>
+                <ion-img src = "{{contact.photo}}"></ion-img>
+              </ion-avatar>
+            </ion-col>  
+            <ion-col id ="user-info">
+              <ion-item lines="none">
+                <ion-title>{{contact.name}}</ion-title>
+              </ion-item>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
       </ion-card-content>
     </ion-card>
   </div>
