@@ -10,6 +10,8 @@ const routes: Routes = [
   { path: 'qrcode', loadChildren: './qrcode/qrcode.module#QRcodePageModule' },
   { path: 'camera', loadChildren: './camera/camera.module#CameraPageModule' },
   { path: 'profile', loadChildren: './profile/profile.module#ProfilePageModule' },  { path: 'settings', loadChildren: './settings/settings.module#SettingsPageModule' },
+  { path: 'super-tabs', loadChildren: './super-tabs/super-tabs.module#SuperTabsPageModule' },
+  { path: 'user-contact', loadChildren: './user-contact/user-contact.module#UserContactPageModule' },
 
 ];
 

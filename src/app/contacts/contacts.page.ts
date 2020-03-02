@@ -3,6 +3,7 @@ import { Router } from '@angular/router'
 import * as backend from '../backendClasses';
 import { FirebaseBackendService } from '../firebase-backend.service';
 import * as firebase from 'firebase';
+import { NavParams } from '@ionic/angular';
 
 @Component({
   selector: 'app-contacts',
@@ -10,9 +11,20 @@ import * as firebase from 'firebase';
   styleUrls: ['./contacts.page.scss'],
 })
 export class ContactsPage implements OnInit {
-  private contacts: backend.contact [];
   private firebase: FirebaseBackendService;
-  constructor(private router: Router) {
+  private type: string;
+  private id: string;
+  private username: string;
+  private url: string;
+  private socialAccounts: backend.socialAccount[];
+  private adding: boolean;
+  private none: boolean;
+  constructor(private router: Router, private navParam: NavParams) {
+    this.id = "";
+    this.username = "";
+    this.url = "";
+    this.adding = false;
+    this.none = false;
     firebase.auth().onAuthStateChanged(firebaseUser => {
       if(!firebaseUser)
       {
@@ -21,9 +33,17 @@ export class ContactsPage implements OnInit {
       else
       {
         this.firebase = new FirebaseBackendService(firebase.auth().currentUser.uid);
-        this.firebase.getUserData().then(dat => {
-          this.contacts = dat.getContacts;
-          console.log(this.contacts);
+        this.type = this.navParam.get('type');
+        this.firebase.getSocialAccountsType(this.type).then(socialsArr => {
+          this.socialAccounts = socialsArr;
+          if(this.socialAccounts.length == 1
+            && this.socialAccounts[0].getId == "N/A"
+            && this.socialAccounts[0].getUrl == "N/A"
+            && this.socialAccounts[0].getUser == "N/A") {
+              this.socialAccounts = [];
+              this.none = true;
+            }
+          console.log(socialsArr);
         });
       }
     });
@@ -33,7 +53,22 @@ export class ContactsPage implements OnInit {
     this.router.navigate(['home']);
   }
 
-  ngOnInit() {
+  add() {
+    this.adding = true;
   }
 
+  deleteAccount(account: backend.socialAccount) {
+    this.firebase.deleteSocialAccount(this.type, account);
+  }
+
+  addSMAccount() {
+    this.firebase.addSocialAccount(this.type, new backend.socialAccount(this.id,this.username,this.url));
+    this.adding = false;
+    this.id = "";
+    this.username = "";
+    this.url = "";
+  }
+
+  ngOnInit() {
+  }
 }

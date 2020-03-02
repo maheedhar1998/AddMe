@@ -2,14 +2,16 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Routes, RouterModule } from '@angular/router';
-
+import { HomePage } from '../home/home.page';
+import { CameraPage } from '../camera/camera.page';
+import { ProfilePage } from '../profile/profile.page';
 import { IonicModule } from '@ionic/angular';
-
-import { ContactsPage } from './contacts.page';
+import { SuperTabsPage } from './super-tabs.page';
 
 const routes: Routes = [
   {
     path: '',
+    component: SuperTabsPage
   }
 ];
 
@@ -20,6 +22,6 @@ const routes: Routes = [
     IonicModule,
     RouterModule.forChild(routes)
   ],
-  declarations: []
+  declarations: [SuperTabsPage]
 })
-export class ContactsPageModule {}
+export class SuperTabsPageModule {}

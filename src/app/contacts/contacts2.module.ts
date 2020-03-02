@@ -20,6 +20,7 @@ const routes: Routes = [
     IonicModule,
     RouterModule.forChild(routes)
   ],
-  declarations: []
+  declarations: [],
+  exports: [ContactsPage]
 })
-export class ContactsPageModule {}
+export class Contacts2PageModule {}

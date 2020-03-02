@@ -1,34 +1,30 @@
 import { Component, OnInit } from '@angular/core';
 import { FirebaseBackendService } from '../firebase-backend.service';
 import * as firebase from 'firebase';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import * as backend from '../backendClasses';
 import { PopoverController } from '@ionic/angular';
 import { ContactsPage } from '../contacts/contacts.page';
-import { CallNumber } from '@ionic-native/call-number/ngx';
 
 @Component({
-  selector: 'app-profile',
-  templateUrl: './profile.page.html',
-  styleUrls: ['./profile.page.scss'],
+  selector: 'app-user-contact',
+  templateUrl: './user-contact.page.html',
+  styleUrls: ['./user-contact.page.scss'],
 })
-export class ProfilePage implements OnInit {
-  private profile: backend.user;
+export class UserContactPage implements OnInit {
+  private profile: backend.contact;
   private firebase: FirebaseBackendService;
   private grid: {name: string, logo: string} [][] = [];
-  constructor(private router: Router, private popOver: PopoverController, private callNum: CallNumber) {
+
+  constructor(private router: Router, private route: ActivatedRoute, private popOver: PopoverController) {
     firebase.auth().onAuthStateChanged(firebaseUser => {
-      if(!firebaseUser)
-      {
+      if(!firebaseUser){
         this.router.navigate(['login']);
-      }
-      else
-      {
+      }else{
         this.firebase = new FirebaseBackendService(firebase.auth().currentUser.uid);
-        this.firebase.getUserData().then(dat => {
-          this.profile = dat;
+        this.route.params.subscribe(dat => {
+          this.profile = JSON.parse(dat['contact']);
           this.initGrid();
-          // console.log(this.grid);
         });
       }
     });
@@ -55,11 +51,6 @@ export class ProfilePage implements OnInit {
       event: ev
     });
     return await pop.present();
-  }
-  call() {
-    this.callNum.callNumber(this.profile.getPhoneNumber, true).then( res => {
-      console.log("success");
-    });
   }
   initGrid() {
     let names: string[] = this.getNames();

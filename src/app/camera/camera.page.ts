@@ -37,12 +37,13 @@ export class CameraPage implements OnInit {
         const scanSub = this.qrScanCtrl.scan().subscribe((text: string) => {
           // At this point, a QR code was recognized and scanned
           // The QR data is stored in 'text'...
-          let newCon: backend.contact = JSON.parse(text);
+          let newCon: backend.contact = JSON.parse(text).qContact;
           this.fire.addToUserContacts(newCon);
           // Close QR scanner
           this.qrScanCtrl.hide();
           this.qrScanCtrl.destroy();
           scanSub.unsubscribe()
+          
         });
       }
       else if (status.denied) {

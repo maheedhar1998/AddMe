@@ -12,6 +12,7 @@ import * as backend from '../backendClasses';
 })
 export class HomePage {
   private firebase: FirebaseBackendService;
+  private qrData: string;
   private profile: backend.user = new backend.user(null,null,null,null,null,null,null,null,null,null);
   constructor(private router: Router) {
     firebase.auth().onAuthStateChanged(firebaseUser => {
@@ -24,14 +25,18 @@ export class HomePage {
         this.firebase = new FirebaseBackendService(firebase.auth().currentUser.uid);
         this.firebase.getUserData().then(dat => {
           this.profile = dat;
+          this.qrData = JSON.stringify(this.profile.getQrCodes).substr(0,100);
         });
       }
-
     });
   }
 
-  goToContacts() {
-    this.router.navigate(['contacts']);
+  deleteContact(cont: backend.contact) {
+    this.firebase.deleteFromUserContacts(cont);
+  }
+
+  goToUserContact( cont: backend.contact ) {
+    this.router.navigate(['user-contact', {contact: JSON.stringify(cont)}]);
   }
 
   goToCamera() {
@@ -55,4 +60,7 @@ export class HomePage {
     this.router.navigate(['login']);
   }
 
+  swipe(ev: any) {
+    this.router.navigate(['profile']);
+  }
 }

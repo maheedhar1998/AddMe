@@ -39,19 +39,100 @@ export class FirebaseBackendService {
     });
     return userProfile;
   }
-  // Updating user contact list with new contact
+  // adding user contact list with new contact
   async addToUserContacts(cont: backend.contact) {
     var userContacts: backend.contact [];
     await this.getUserData().then(usr => {
       userContacts = usr.getContacts;
       userContacts.push(cont);
-      // TODO Update the contact on firebase
       var updates = {};
       updates['Users/'+this.uid+'/contacts'] = userContacts;
       firebase.database().ref().update(updates);
     });
   }
-  // 
+  // deletion from user contact list
+  async deleteFromUserContacts(cont: backend.contact) {
+    var userContacts: backend.contact [];
+    await this.getUserData().then(usr => {
+      userContacts = usr.getContacts;
+      for(let i: number = 0; i < userContacts.length; i++){
+        if(userContacts[i].isEqual(cont)){
+          userContacts.splice(i,1);
+          break;
+        }
+      }
+      var updates = {};
+      updates['Users/'+this.uid+'/contacts'] = userContacts;
+      firebase.database().ref().update(updates);
+    });
+  }
+  // Adding user socialAccount
+  // typ the stringed version of which social media
+  async addSocialAccount(typ: string, newAccount: backend.socialAccount) {
+    var userSocials: {} [];
+    await this.getUserData().then(usr => {
+      userSocials = usr.getSocials;
+      let found: boolean = false;
+      for(let i:number=0; i<userSocials.length && !found; i++) {
+        if(userSocials[i]['type'] == typ) {
+          userSocials[i]['socialAccounts'].push(newAccount);
+          found = true;
+        }
+      }
+      if(!found) {
+        userSocials.push(new backend.social(typ, null, [newAccount]));
+      }
+      var updates = {};
+      updates['Users/'+this.uid+'/socials'] = userSocials;
+      firebase.database().ref().update(updates);
+    });
+  }
+  // delete social account
+  async deleteSocialAccount(typ: string, sAcot: backend.socialAccount) {
+    var userSocialAccounts: backend.socialAccount [];
+    var userSocials: {} [] = [];
+    await this.getUserData().then(usr => {
+      userSocials = usr.getSocials;
+      this.getSocialAccountsType(typ).then(dat => {
+        userSocialAccounts = dat;
+        for(let i:number = 0; i < userSocialAccounts.length; i++){
+          if(userSocialAccounts[i].isEqual(sAcot)){
+            userSocialAccounts.splice(i,1);
+            break;
+          }
+        }
+      });
+      let i:number = 0;
+      for(; i < userSocials.length; i++){
+        if(userSocials[i]['type'] == typ){
+          break;
+        }
+      }
+      var updates = {};
+      updates['Users/'+this.uid+'/socials/'+i+'/socialAccount'] = userSocialAccounts;
+      firebase.database().ref().update(updates);
+    });
+  }
+  // Getting social accounts of a given type
+  async getSocialAccountsType(type: string) : Promise<backend.socialAccount []> {
+    console.log(type)
+    var socialAccs: backend.socialAccount[];
+    await this.getUserData().then(usr => {
+      let found: boolean = false;
+      let socials: {}[] = usr.getSocials;
+      for(let i: number = 0; i<socials.length && !found; i++) {
+        console.log(socials[i]);
+        if(socials[i]['type'] == type) {
+          socialAccs = socials[i]['socialAccounts'];
+          found = true;
+        }
+      }
+      if(!found){
+        socialAccs = [new backend.socialAccount(null,null,null)];
+      }
+    });
+    return socialAccs;
+  }
   // Logs Out
   async logOut() {
     await firebase.auth().signOut().then(res => {
