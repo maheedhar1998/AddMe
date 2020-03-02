@@ -23,7 +23,7 @@ export class UserContactPage implements OnInit {
       }else{
         this.firebase = new FirebaseBackendService(firebase.auth().currentUser.uid);
         this.route.params.subscribe(dat => {
-          this.profile = dat['contact'];
+          this.profile = JSON.parse(dat['contact']);
           this.initGrid();
         });
       }
