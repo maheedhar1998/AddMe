@@ -6,11 +6,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 
 import { UserContactPage } from './user-contact.page';
-<<<<<<< HEAD
-import { ContactsPage } from '../contacts/contacts2.module';
-=======
 // import { Contacts2PageModule } from '../contacts/contacts2.module';
->>>>>>> development
 
 const routes: Routes = [
   {
@@ -27,16 +23,10 @@ const routes: Routes = [
     RouterModule.forChild(routes)
   ],
   declarations: [
-<<<<<<< HEAD
-    UserContactPage
-  ],
-  entryComponents: [ContactsPage]
-=======
     UserContactPage,
     // Contacts2PageModule
   ],
   entryComponents: [//Contacts2PageModule
   ]
->>>>>>> development
 })
 export class UserContactPageModule {}
