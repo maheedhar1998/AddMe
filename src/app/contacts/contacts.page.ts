@@ -57,6 +57,10 @@ export class ContactsPage implements OnInit {
     this.adding = true;
   }
 
+  deleteAccount(account: backend.socialAccount) {
+    this.firebase.deleteSocialAccount(this.type, account);
+  }
+
   addSMAccount() {
     this.firebase.addSocialAccount(this.type, new backend.socialAccount(this.id,this.username,this.url));
     this.adding = false;

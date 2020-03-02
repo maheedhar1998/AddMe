@@ -44,11 +44,18 @@
               <ion-avatar>
                 <ion-img src = "{{contact.photo}}"></ion-img>
               </ion-avatar>
-            </ion-col>  
+            </ion-col>
             <ion-col id ="user-info">
-              <ion-item lines="none">
-                <ion-title>{{contact.name}}</ion-title>
-              </ion-item>
+              <ion-item-sliding>
+                <ion-item lines="none">
+                  <ion-title>{{contact.name}}</ion-title>
+                </ion-item>
+                <ion-item-options side="end">
+                  <ion-item-option color="danger" (click)="deleteContact(contact)">
+                    <ion-icon color="dark" name="trash"></ion-icon>
+                  </ion-item-option>
+                </ion-item-options>
+              </ion-item-sliding>
             </ion-col>
           </ion-row>
         </ion-grid>

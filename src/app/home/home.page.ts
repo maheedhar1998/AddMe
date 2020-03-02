@@ -31,6 +31,10 @@ export class HomePage {
     });
   }
 
+  deleteContact(cont: backend.contact) {
+    this.firebase.deleteFromUserContacts(cont);
+  }
+
   goToUserContact( cont: backend.contact ) {
     this.router.navigate(['user-contact', {contact: JSON.stringify(cont)}]);
   }
