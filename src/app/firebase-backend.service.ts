@@ -23,7 +23,7 @@ export class FirebaseBackendService {
   // Send users data to firebse and sets in the way desribed by architecture milestone
   public sendUserDataSignUp(name_user: string, username_user: string, email_user: string, phoneNumber_user: string, dateOfBirth: Date, photo_user: string, uid: string ) {
     this.uid = uid;
-    var user: backend.user = new backend.user(this.uid, name_user, username_user, email_user, phoneNumber_user, dateOfBirth, photo_user, null, null, null);
+    var user: backend.user = new backend.user(this.uid, name_user, username_user, email_user, phoneNumber_user, dateOfBirth, photo_user, null, null, [new backend.qrCode(null, new backend.contact(null,username_user,name_user,email_user,phoneNumber_user,dateOfBirth,photo_user,null))]);
     console.log(this.uid);
     console.log(user);
     firebase.database().ref('Users/'+this.uid).set(user).then((res) => {
@@ -52,11 +52,15 @@ export class FirebaseBackendService {
   }
   // deletion from user contact list
   async deleteFromUserContacts(cont: backend.contact) {
-    var userContacts: backend.contact [];
+    console.log(cont);
+    var userContacts: {} [];
     await this.getUserData().then(usr => {
       userContacts = usr.getContacts;
       for(let i: number = 0; i < userContacts.length; i++){
-        if(userContacts[i].isEqual(cont)){
+        if(userContacts[i]['id'] == cont['id'] && userContacts[i]['name'] == cont['name'] && userContacts[i]['username'] == userContacts[i]['username'] && userContacts[i]['email'] == cont['email']
+            && userContacts[i]['phoneNumber'] == cont['phoneNumber'] && userContacts[i]['DOB'] == cont['DOB'] && userContacts[i]['photo'] == cont['photo'])
+        {
+          console.log(userContacts);
           userContacts.splice(i,1);
           break;
         }
@@ -89,39 +93,76 @@ export class FirebaseBackendService {
   }
   // delete social account
   async deleteSocialAccount(typ: string, sAcot: backend.socialAccount) {
-    var userSocialAccounts: backend.socialAccount [];
+    var userSocialAccounts: {} [];
     var userSocials: {} [] = [];
+    let i:number = 0;
+    for(; i < userSocials.length; i++){
+      if(userSocials[i]['type'] == typ){
+        break;
+      }
+    }
     await this.getUserData().then(usr => {
       userSocials = usr.getSocials;
       this.getSocialAccountsType(typ).then(dat => {
         userSocialAccounts = dat;
         for(let i:number = 0; i < userSocialAccounts.length; i++){
-          if(userSocialAccounts[i].isEqual(sAcot)){
+          console.log(userSocialAccounts[i]);
+          if(userSocialAccounts[i]['id'] == sAcot['id'] && userSocialAccounts[i]['user'] == sAcot['user'] && userSocialAccounts[i]['url'] == sAcot['url']){
             userSocialAccounts.splice(i,1);
             break;
           }
         }
+        var updates = {};
+        userSocials[i]['socialAccounts'] = userSocialAccounts;
+        // console.log(userSocials[i]);
+        updates['Users/'+this.uid+'/socials'] = userSocials;
+        firebase.database().ref().update(updates);
       });
-      let i:number = 0;
-      for(; i < userSocials.length; i++){
-        if(userSocials[i]['type'] == typ){
-          break;
-        }
-      }
-      var updates = {};
-      updates['Users/'+this.uid+'/socials/'+i+'/socialAccount'] = userSocialAccounts;
-      firebase.database().ref().update(updates);
     });
   }
   // Getting social accounts of a given type
   async getSocialAccountsType(type: string) : Promise<backend.socialAccount []> {
-    console.log(type)
+    // console.log(type)
     var socialAccs: backend.socialAccount[];
     await this.getUserData().then(usr => {
       let found: boolean = false;
       let socials: {}[] = usr.getSocials;
       for(let i: number = 0; i<socials.length && !found; i++) {
-        console.log(socials[i]);
+        // console.log(socials[i]);
+        if(socials[i]['type'] == type) {
+          socialAccs = socials[i]['socialAccounts'];
+          found = true;
+        }
+      }
+      if(!found){
+        socialAccs = [new backend.socialAccount(null,null,null)];
+      }
+    });
+    return socialAccs;
+  }
+  // Gets a contacts accessible socials
+  async getContactAccessSocials(usrName: string): Promise<backend.social []> {
+    var qrCodes: {} [] = [];
+    var accessSocials: backend.social[] = [];
+    await this.getUserData().then(usr => {
+      qrCodes = usr.getQrCodes;
+      for(let i: number = 0; i<qrCodes.length; i++) {
+        if(qrCodes[i]['qContact']['username'] == usrName) {
+          accessSocials.push(qrCodes[i]['qContact']['accessSocials']);
+        }
+      }
+    });
+    return accessSocials;
+  }
+  // Gets social accounts of a type from a contact
+  async getSocialAccountsTypeContact(type: string, usrName: string) : Promise<backend.socialAccount []> {
+    // console.log(type)
+    var socialAccs: backend.socialAccount[];
+    await this.getContactAccessSocials(usrName).then(usr => {
+      let found: boolean = false;
+      let socials: {} [] = usr;
+      for(let i: number = 0; i<socials.length && !found; i++) {
+        // console.log(socials[i]);
         if(socials[i]['type'] == type) {
           socialAccs = socials[i]['socialAccounts'];
           found = true;

@@ -10,6 +10,7 @@ import { ContactsPage } from './contacts.page';
 const routes: Routes = [
   {
     path: '',
+    component: ContactsPage
   }
 ];
 
