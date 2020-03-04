@@ -32,6 +32,7 @@ export class HomePage {
   }
 
   deleteContact(cont: backend.contact) {
+    // console.log(cont);
     this.firebase.deleteFromUserContacts(cont);
   }
 

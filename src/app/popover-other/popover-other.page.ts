@@ -6,24 +6,17 @@ import * as firebase from 'firebase';
 import { NavParams } from '@ionic/angular';
 
 @Component({
-  selector: 'app-contacts',
-  templateUrl: './contacts.page.html',
-  styleUrls: ['./contacts.page.scss'],
+  selector: 'app-popover-other',
+  templateUrl: './popover-other.page.html',
+  styleUrls: ['./popover-other.page.scss'],
 })
-export class ContactsPage implements OnInit {
+export class PopoverOtherPage implements OnInit {
   private firebase: FirebaseBackendService;
   private type: string;
-  private id: string;
   private username: string;
-  private url: string;
   private socialAccounts: backend.socialAccount[];
-  private adding: boolean;
   private none: boolean;
   constructor(private router: Router, private navParam: NavParams) {
-    this.id = "";
-    this.username = "";
-    this.url = "";
-    this.adding = false;
     this.none = false;
     firebase.auth().onAuthStateChanged(firebaseUser => {
       if(!firebaseUser)
@@ -34,7 +27,8 @@ export class ContactsPage implements OnInit {
       {
         this.firebase = new FirebaseBackendService(firebase.auth().currentUser.uid);
         this.type = this.navParam.get('type');
-        this.firebase.getSocialAccountsType(this.type).then(socialsArr => {
+        this.username = this.navParam.get('username');
+        this.firebase.getSocialAccountsTypeContact(this.type, this.username).then(socialsArr => {
           this.socialAccounts = socialsArr;
           if(this.socialAccounts.length == 1
             && this.socialAccounts[0].getId == "N/A"
@@ -49,27 +43,10 @@ export class ContactsPage implements OnInit {
     });
   }
 
+  ngOnInit() {
+  }
+
   goToHome() {
     this.router.navigate(['home']);
-  }
-
-  add() {
-    this.adding = true;
-  }
-
-  deleteAccount(account: backend.socialAccount) {
-    console.log(account);
-    this.firebase.deleteSocialAccount(this.type, account);
-  }
-
-  addSMAccount() {
-    this.firebase.addSocialAccount(this.type, new backend.socialAccount(this.id,this.username,this.url));
-    this.adding = false;
-    this.id = "";
-    this.username = "";
-    this.url = "";
-  }
-
-  ngOnInit() {
   }
 }

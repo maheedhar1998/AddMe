@@ -5,11 +5,12 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { IonicModule } from '@ionic/angular';
 
-import { ContactsPage } from './contacts.page';
+import { PopoverOtherPage } from './popover-other.page';
 
 const routes: Routes = [
   {
     path: '',
+    component: PopoverOtherPage
   }
 ];
 
@@ -20,7 +21,6 @@ const routes: Routes = [
     IonicModule,
     RouterModule.forChild(routes)
   ],
-  declarations: [],
-  exports: [ContactsPage]
+  declarations: [PopoverOtherPage]
 })
-export class Contacts2PageModule {}
+export class PopoverOtherPageModule {}

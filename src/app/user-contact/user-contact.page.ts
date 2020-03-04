@@ -5,6 +5,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import * as backend from '../backendClasses';
 import { PopoverController } from '@ionic/angular';
 import { ContactsPage } from '../contacts/contacts.page';
+import { PopoverOtherPage } from '../popover-other/popover-other.page';
 
 @Component({
   selector: 'app-user-contact',
@@ -43,8 +44,8 @@ export class UserContactPage implements OnInit {
 
   async openPopover(ev: any, typ: string) {
     const pop = await this.popOver.create({
-      component: ContactsPage,
-      componentProps: {'type': typ},
+      component: PopoverOtherPage,
+      componentProps: {'type': typ, 'username': this.profile.getUsername},
       translucent: true,
       backdropDismiss: true,
       cssClass: 'popover',
