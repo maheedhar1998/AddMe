@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { FirebaseBackendService } from '../firebase-backend.service';
 import * as firebase from 'firebase';
 import { ThrowStmt } from '@angular/compiler';
+import { AlertController } from '@ionic/angular';
 import * as backend from '../backendClasses';
 
 @Component({
@@ -14,7 +15,7 @@ export class HomePage {
   private firebase: FirebaseBackendService;
   private qrData: string;
   private profile: backend.user = new backend.user(null,null,null,null,null,null,null,null,null,null);
-  constructor(private router: Router) {
+  constructor(private router: Router, public alertController: AlertController) {
     firebase.auth().onAuthStateChanged(firebaseUser => {
       if(!firebaseUser)
       {
@@ -56,9 +57,28 @@ export class HomePage {
     this.router.navigate(['profile']);
   }
 
-  logOut() {
-    this.firebase.logOut();
-    this.router.navigate(['login']);
+  async logOut() {
+    const alert = await this.alertController.create({
+      header: 'Log Out??',
+      message: 'Are you sure you want to logout?',
+      buttons: [
+        {
+          text: 'OK',
+          handler: () => {
+            this.firebase.logOut();
+            this.router.navigate(['login']);
+          }
+        },
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          handler: () => {
+            console.log("dismiss logout");
+          }
+        }
+      ]
+    });
+    await alert.present();
   }
 
   swipe(ev: any) {
