@@ -9,7 +9,8 @@ import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
 })
 export class FirebaseBackendService {
   private uid: string;
-  constructor(uId: string, private camera: Camera) {
+  private camera: Camera;
+  constructor(uId: string) {
     this.uid = uId;
   }
 
