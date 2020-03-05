@@ -110,6 +110,12 @@ export class socialAccount {
     this.setUrl = tempUrl;
     this.setUser = tempUser;
   }
+  public isEqual(sAcot: socialAccount): boolean {
+    if(this.id == sAcot.id && this.user == sAcot.user && this.url == sAcot.url){
+      return true;
+    }
+    return false;
+  }
   public get getId(): string {
     return this.id;
   }
@@ -163,6 +169,14 @@ export class contact {
       this.setDOB = tempDate;
       this.setPhoto = tempPhoto;
       this.setAccessSocials = tempAccessSocial;
+  }
+  public isEqual(cont: contact): boolean {
+    if(this.id == cont.id && this.name == cont.name && this.username == this.username && this.email == cont.email
+        && this.phoneNumber == cont.phoneNumber && this.DOB == cont.DOB && this.photo == cont.photo
+        && this.accessSocials == cont.accessSocials){
+      return true;
+    }
+    return false;
   }
   public get getId(): string {
     return this.id;
@@ -271,6 +285,35 @@ export class qrCode {
       this.qContact = contact_new;
     } else if(contact_new == null) {
       this.qContact = new contact(null,null,null,null,null,null,null,null);
+    }
+  }
+}
+
+export class profile {
+  private name: string;
+  private qrcode: qrCode;
+  constructor(nam: string, qr_code: qrCode) {
+    this.setName = nam;
+    this.setQrCode = qr_code;
+  }
+  public get getName(): string {
+    return this.name;
+  }
+  public set setName(nam: string) {
+    if(nam == null) {
+      this.name = "N/A";
+    } else {
+      this.name = nam;
+    }
+  }
+  public get getQrCode(): qrCode {
+    return this.qrcode;
+  }
+  public set setQrCode(qr_code: qrCode) {
+    if(qr_code == null) {
+      this.qrcode = new qrCode(null,null);
+    } else {
+      this.qrcode = qr_code;
     }
   }
 }

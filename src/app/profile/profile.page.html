@@ -1,27 +1,52 @@
-<ion-header transluscent>
+<!-- <script src="https://hammerjs.github.io/dist/hammer.js"></script> -->
+<ion-header>
   <ion-toolbar>
-    <ion-buttons slot="start">
-      <ion-back-button defaultHref="/"></ion-back-button>
-    </ion-buttons>
-    <ion-title>
-      <ion-label>{{profile.name}}</ion-label>
-    </ion-title>
+    <ion-button fill="clear" (click)="goToHome()">
+      <ion-icon name="arrow-back" color="dark"></ion-icon>
+    </ion-button>
   </ion-toolbar>
 </ion-header>
-
-<ion-content>
-  <ion-img src="{{profile.photo}}"></ion-img>
-
-  <ion-item lines="none">
-    <ion-button expand="block" color="white" class="edit">
-      Edit Profile
-    </ion-button>
-  </ion-item>
-
-  <ion-list>
-    <ion-item-divider *ngFor="let divider of profile.socials">{{divider.profile}}
-      <ion-item *ngFor="let account of divider.socialAccounts">{{account.id}}
-      </ion-item>
-    </ion-item-divider>
-  </ion-list>
+<ion-content fullscreen id="pContent" (swipe)="swipeEvent($event)">
+  <ion-card lines="none">
+    <ion-card-content lines="none">
+      <ion-grid>
+        <ion-row>
+          <ion-col>
+            <ion-avatar>
+              <ion-img src="{{profile.photo}}"></ion-img>
+            </ion-avatar>
+          </ion-col>
+          <ion-col>
+            <ion-list>
+              <ion-item lines="none">
+                <ion-label class="ion-text-center" style="font-size: 175%;">
+                  {{profile.name}}
+                </ion-label>
+              </ion-item>
+              <ion-item lines="none">
+                <ion-button fill="clear" (click)="mail()">
+                  <ion-icon name="mail" color="dark" size="large"></ion-icon>
+                </ion-button>
+                <ion-button fill="clear" (click)="call()">
+                  <ion-icon name="call" color="dark" size="large"></ion-icon>
+                </ion-button>
+                <ion-button fill="clear" (click)="facebook()">
+                  <ion-icon name="logo-facebook" color="dark" size="large"></ion-icon>
+                </ion-button>
+              </ion-item>
+            </ion-list>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-card-content>
+  </ion-card>
+  <ion-grid>
+    <ion-row *ngFor="let line of grid" class="ion-align-items-center ion-justify-content-center">
+      <ion-col *ngFor="let item of line" class="ion-align-items-center ion-justify-content-center">
+        <ion-avatar (click)="openPopover($event, item.name)">
+          <ion-img src="{{item.logo}}"></ion-img>
+        </ion-avatar>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
 </ion-content>
