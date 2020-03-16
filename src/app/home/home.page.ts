@@ -15,7 +15,7 @@ export class HomePage {
   private firebase: FirebaseBackendService;
   private qrData: string;
   private profile: backend.user = new backend.user(null,null,null,null,null,null,null,null,null,null);
-  constructor(private router: Router, public alertController: AlertController) {
+  constructor(private router: Router, private alertController: AlertController) {
     firebase.auth().onAuthStateChanged(firebaseUser => {
       if(!firebaseUser)
       {
@@ -83,5 +83,10 @@ export class HomePage {
 
   swipe(ev: any) {
     this.router.navigate(['profile']);
+  }
+  async profilePicture() {
+    this.firebase.takeAndUploadProfilePhoto().then(url => {
+      console.log(url);
+    });
   }
 }

@@ -9,8 +9,7 @@ import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
 })
 export class FirebaseBackendService {
   private uid: string;
-  private camera: Camera;
-  constructor(uId: string) {
+  constructor(private camera: Camera, uId: string) {
     this.uid = uId;
   }
 
@@ -184,7 +183,7 @@ export class FirebaseBackendService {
     return socialAccs;
   }
   // Upload user photo to profile and return url
-  async uploadProfilePhoto(): Promise<string> {
+  async takeAndUploadProfilePhoto(): Promise<string> {
     var urlPic: string;
     const options: CameraOptions = {
       quality: 100,
@@ -193,11 +192,12 @@ export class FirebaseBackendService {
       mediaType: this.camera.MediaType.PICTURE,
       correctOrientation: true
     };
+    alert("options");
     var profilePic: string;
     await this.camera.getPicture(options).then((imageData) => {
       profilePic = imageData;
     }, (err) => {
-      console.log(err);
+      alert(err);
     });
     const name = new Date().getTime().toString();
     firebase.storage().ref('Profile Pics/'+this.uid+'/'+name).putString(profilePic, 'base64', {contentType: 'image/jpeg'}).then(urlSnap => {
