@@ -2,12 +2,14 @@ import { Injectable } from '@angular/core';
 import * as firebase from 'firebase';
 import { Router } from '@angular/router'
 import * as backend from './backendClasses';
+import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
 
 @Injectable({
   providedIn: 'root'
 })
 export class FirebaseBackendService {
   private uid: string;
+  private camera: Camera;
   constructor(uId: string) {
     this.uid = uId;
   }
@@ -44,6 +46,9 @@ export class FirebaseBackendService {
     var userContacts: backend.contact [];
     await this.getUserData().then(usr => {
       userContacts = usr.getContacts;
+      if(!userContacts) {
+        userContacts = [];
+      }
       userContacts.push(cont);
       var updates = {};
       updates['Users/'+this.uid+'/contacts'] = userContacts;
@@ -78,7 +83,11 @@ export class FirebaseBackendService {
       userSocials = usr.getSocials;
       let found: boolean = false;
       for(let i:number=0; i<userSocials.length && !found; i++) {
-        if(userSocials[i]['type'] == typ) {
+        if(userSocials[i]['type'] == typ && userSocials[i]['socialAccounts']) {
+          userSocials[i]['socialAccounts'].push(newAccount);
+          found = true;
+        } else if(userSocials[i]['type'] == typ && !userSocials[i]['socialAccounts']) {
+          userSocials[i]['socialAccounts'] = [];
           userSocials[i]['socialAccounts'].push(newAccount);
           found = true;
         }
@@ -173,6 +182,30 @@ export class FirebaseBackendService {
       }
     });
     return socialAccs;
+  }
+  // Upload user photo to profile and return url
+  async uploadProfilePhoto(): Promise<string> {
+    var urlPic: string;
+    const options: CameraOptions = {
+      quality: 100,
+      destinationType: this.camera.DestinationType.DATA_URL,
+      encodingType: this.camera.EncodingType.JPEG,
+      mediaType: this.camera.MediaType.PICTURE,
+      correctOrientation: true
+    };
+    var profilePic: string;
+    await this.camera.getPicture(options).then((imageData) => {
+      profilePic = imageData;
+    }, (err) => {
+      console.log(err);
+    });
+    const name = new Date().getTime().toString();
+    firebase.storage().ref('Profile Pics/'+this.uid+'/'+name).putString(profilePic, 'base64', {contentType: 'image/jpeg'}).then(urlSnap => {
+      firebase.storage().ref('Profile Pics/'+this.uid+'/'+name).getDownloadURL().then(url => {
+        urlPic = url;
+      });
+    });
+    return urlPic;
   }
   // Logs Out
   async logOut() {
