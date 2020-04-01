@@ -31,7 +31,7 @@ export class ContactsPage implements OnInit {
     this.editing = false;
     this.mode = false;
     this.none = false;
-    this.usernameSM = ["facebook", "instagram", "snapchat", "twitter"]
+    this.usernameSM = ["facebook", "instagram", "snapchat", "twitter"];
     firebase.auth().onAuthStateChanged(firebaseUser => {
       if(!firebaseUser)
       {
@@ -82,6 +82,9 @@ export class ContactsPage implements OnInit {
   }
 
   editAccount() {
+    this.id = "";
+    this.username = "";
+    this.url = "";
     this.modeChange();
   }
 
