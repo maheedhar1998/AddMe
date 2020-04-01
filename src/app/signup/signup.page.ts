@@ -4,7 +4,6 @@ import { EqualityValidator } from './validation/validators'
 import ValidationMessages from './validation/validationMessages'
 import { Router } from '@angular/router'
 import { FirebaseBackendService } from '../firebase-backend.service';
-import { async } from 'rxjs/internal/scheduler/async';
 
 @Component({
   selector: 'app-signup',
