@@ -21,6 +21,8 @@ export class ContactsPage implements OnInit {
   private adding: boolean;
   private mode: boolean;
   private none: boolean;
+  private usernameSM: string[];
+
   constructor(private router: Router, private navParam: NavParams) {
     this.id = "";
     this.username = "";
@@ -29,6 +31,7 @@ export class ContactsPage implements OnInit {
     this.editing = false;
     this.mode = false;
     this.none = false;
+    this.usernameSM = ["facebook", "instagram", "snapchat", "twitter"]
     firebase.auth().onAuthStateChanged(firebaseUser => {
       if(!firebaseUser)
       {
@@ -85,7 +88,17 @@ export class ContactsPage implements OnInit {
   }
 
   addSMAccount() {
-    this.firebase.addSocialAccount(this.type, new backend.socialAccount(this.id,this.username,this.url));
+    if(this.type == "facebook"){
+      this.firebase.addSocialAccount(this.type, new backend.socialAccount(this.username,this.username,"https://www.facebook.com/"+this.username));
+    }else if(this.type == "snapchat"){
+      this.firebase.addSocialAccount(this.type, new backend.socialAccount(this.username,this.username,"https://www.snapchat.com/add/"+this.username));
+    }else if(this.type == "instagram"){
+      this.firebase.addSocialAccount(this.type, new backend.socialAccount(this.username,this.username,"https://www.instagram.com/"+this.username));
+    }else if(this.type == "twitter"){
+      this.firebase.addSocialAccount(this.type, new backend.socialAccount(this.username,this.username,"https://www.twitter.com/"+this.username));
+    }else{
+      this.firebase.addSocialAccount(this.type, new backend.socialAccount(this.id,this.username,this.url));
+    }
     this.adding = false;
     this.mode = false;
     this.id = "";
