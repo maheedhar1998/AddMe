@@ -5,20 +5,20 @@ import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
   providedIn: 'root'
 })
 export class BackendCameraService {
-  constructor(private cam: Camera) { }
+  constructor() { }
   // Takes a photo using the front camera
-  async takeSelfie(): Promise<string> {
+  async takeSelfie(cam: Camera): Promise<string> {
     var urlPic: string;
     const options: CameraOptions = {
       quality: 100,
-      destinationType: this.cam.DestinationType.DATA_URL,
-      encodingType: this.cam.EncodingType.JPEG,
-      mediaType: this.cam.MediaType.PICTURE,
+      destinationType: cam.DestinationType.DATA_URL,
+      encodingType: cam.EncodingType.JPEG,
+      mediaType: cam.MediaType.PICTURE,
       correctOrientation: true
     };
     alert("options");
     var profilePic: string;
-    await this.cam.getPicture(options).then((imageData) => {
+    await cam.getPicture(options).then((imageData) => {
       profilePic = imageData;
     }, (err) => {
       alert(err);

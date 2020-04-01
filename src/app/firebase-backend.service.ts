@@ -2,7 +2,8 @@ import { Injectable } from '@angular/core';
 import * as firebase from 'firebase';
 import { Router } from '@angular/router'
 import * as backend from './backendClasses';
-import { BackendCameraService } from './backend-camera.service';
+import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
+import { BackendCameraService } from './backend-camera.service'
 
 @Injectable({
   providedIn: 'root'
@@ -12,6 +13,7 @@ export class FirebaseBackendService {
   private cam: BackendCameraService;
   constructor(uId: string) {
     this.uid = uId;
+    this.cam = new BackendCameraService();
   }
 
   public loginWithEmail(email: string, password: string): Promise<firebase.auth.UserCredential> {
@@ -184,16 +186,19 @@ export class FirebaseBackendService {
     return socialAccs;
   }
   // Upload user photo to profile and return url
-  async takeAndUploadProfilePhoto(): Promise<string> {
+  async takeAndUploadProfilePhoto(camera: Camera): Promise<string> {
     var urlPic: string;
-    this.cam.takeSelfie().then(profilePic => {
+    this.cam.takeSelfie(camera).then(profilePic => {
       const name = new Date().getTime().toString();
-      firebase.storage().ref('Profile Pics/'+this.uid+'/'+name).putString(profilePic, 'base64', {contentType: 'image/jpeg'}).then(urlSnap => {
-        firebase.storage().ref('Profile Pics/'+this.uid+'/'+name).getDownloadURL().then(url => {
+      await firebase.storage().ref('Profile Pics/'+this.uid+'/'+name).putString(profilePic, 'base64', {contentType: 'image/jpeg'}).then(urlSnap => {
+        await firebase.storage().ref('Profile Pics/'+this.uid+'/'+name).getDownloadURL().then(url => {
           urlPic = url;
         });
       });
     })
+    var updates: {} = {};
+    updates['Users/'+this.uid+'/photo'] = urlPic;
+    firebse.database().ref().update(updates);
     return urlPic;
   }
   // Logs Out

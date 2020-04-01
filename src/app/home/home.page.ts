@@ -5,6 +5,7 @@ import * as firebase from 'firebase';
 import { ThrowStmt } from '@angular/compiler';
 import { AlertController } from '@ionic/angular';
 import * as backend from '../backendClasses';
+import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
 
 @Component({
   selector: 'app-home',
@@ -15,7 +16,7 @@ export class HomePage {
   private firebase: FirebaseBackendService;
   private qrData: string;
   private profile: backend.user = new backend.user(null,null,null,null,null,null,null,null,null,null);
-  constructor(private router: Router, private alertController: AlertController) {
+  constructor(private router: Router, private alertController: AlertController, private camera: Camera) {
     firebase.auth().onAuthStateChanged(firebaseUser => {
       if(!firebaseUser)
       {
@@ -85,7 +86,7 @@ export class HomePage {
     this.router.navigate(['profile']);
   }
   async profilePicture() {
-    this.firebase.takeAndUploadProfilePhoto().then(url => {
+    this.firebase.takeAndUploadProfilePhoto(this.camera).then(url => {
       console.log(url);
     });
   }
