@@ -64,7 +64,11 @@ export class ContactsPage implements OnInit {
     this.adding = true;
   }
 
-  edit() {
+  edit(account: {}) {
+    console.log(account);
+    this.id = account['id'];
+    this.username = account['user'];
+    this.url = account['url'];
     this.editing = true;
   }
 
@@ -78,13 +82,13 @@ export class ContactsPage implements OnInit {
   }
 
   editAccount() {
-
+    this.modeChange();
   }
 
   deleteAccount(account: backend.socialAccount) {
     console.log(account);
     this.firebase.deleteSocialAccount(this.type, account);
-    this.mode = false;
+    this.modeChange();
   }
 
   addSMAccount() {
@@ -100,7 +104,7 @@ export class ContactsPage implements OnInit {
       this.firebase.addSocialAccount(this.type, new backend.socialAccount(this.id,this.username,this.url));
     }
     this.adding = false;
-    this.mode = false;
+    this.modeChange();
     this.id = "";
     this.username = "";
     this.url = "";
