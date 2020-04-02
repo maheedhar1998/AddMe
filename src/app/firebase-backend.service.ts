@@ -188,9 +188,9 @@ export class FirebaseBackendService {
   // Upload user photo to profile and return url
   async takeAndUploadProfilePhoto(camera: Camera): Promise<string> {
     var urlPic: string;
-    this.cam.takeSelfie(camera).then(profilePic => {
+    await this.cam.takeSelfie(camera).then(async profilePic => {
       const name = new Date().getTime().toString();
-      await firebase.storage().ref('Profile Pics/'+this.uid+'/'+name).putString(profilePic, 'base64', {contentType: 'image/jpeg'}).then(urlSnap => {
+      await firebase.storage().ref('Profile Pics/'+this.uid+'/'+name).putString(profilePic, 'base64', {contentType: 'image/jpeg'}).then(async urlSnap => {
         await firebase.storage().ref('Profile Pics/'+this.uid+'/'+name).getDownloadURL().then(url => {
           urlPic = url;
         });
@@ -198,7 +198,7 @@ export class FirebaseBackendService {
     })
     var updates: {} = {};
     updates['Users/'+this.uid+'/photo'] = urlPic;
-    firebse.database().ref().update(updates);
+    firebase.database().ref().update(updates);
     return urlPic;
   }
   // Logs Out
