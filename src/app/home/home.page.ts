@@ -6,6 +6,8 @@ import { ThrowStmt } from '@angular/compiler';
 import { AlertController } from '@ionic/angular';
 import * as backend from '../backendClasses';
 import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
+import { ImagePicker } from '@ionic-native/image-picker/ngx';
+import { ToastController } from '@ionic/angular';
 
 @Component({
   selector: 'app-home',
@@ -15,8 +17,8 @@ import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
 export class HomePage {
   private firebase: FirebaseBackendService;
   private qrData: string;
-  private profile: backend.user = new backend.user(null,null,null,null,null,null,null,null,null,null);
-  constructor(private router: Router, private alertController: AlertController, private camera: Camera) {
+  private profile: backend.user = new backend.user(null,null,null,null,null,null,null,null,null,null, false);
+  constructor(private router: Router, private alertController: AlertController, private camera: Camera, private imagePicker: ImagePicker) {
     firebase.auth().onAuthStateChanged(firebaseUser => {
       if(!firebaseUser)
       {
@@ -28,6 +30,14 @@ export class HomePage {
         this.firebase.getUserData().then(dat => {
           this.profile = dat;
           this.qrData = JSON.stringify(this.profile.getQrCodes).substr(0,100);
+          if (this.profile.getFirst) {
+            console.log('profile');
+            this.presentAlert();
+          }
+          console.log(dat);
+        });
+        this.firebase.firstTimeLogin().then(obj => {
+          console.log(obj);
         });
       }
     });
@@ -82,11 +92,44 @@ export class HomePage {
     await alert.present();
   }
 
+  async presentAlert() {
+    const alert =  await this.alertController.create({
+      message: 'Welcome to Connekt.\nClick the camera button to upload a profile picture.',
+      buttons: [
+        {
+          text: 'Maybe Later',
+          handler: () => {
+            this.firebase.toggleFirst();
+          },
+          role: 'cancel'
+        },
+        {
+          text: 'Camera',
+          handler: () => {
+            this.takeProfilePicture();
+          }
+        },
+        {
+          text: 'Photos',
+          handler: () => {
+            this.selectProfilePicture();
+          }
+        }
+      ],
+    });
+    alert.present();
+  }
+
   swipe(ev: any) {
     this.router.navigate(['profile']);
   }
-  async profilePicture() {
+  async takeProfilePicture() {
     this.firebase.takeAndUploadProfilePhoto(this.camera).then(url => {
+      console.log(url);
+    });
+  }
+  async selectProfilePicture() {
+    this.firebase.uploadProfilePhoto(this.imagePicker).then(url => {
       console.log(url);
     });
   }

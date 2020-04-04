@@ -4,6 +4,7 @@ import { Router } from '@angular/router'
 import * as backend from './backendClasses';
 import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
 import { BackendCameraService } from './backend-camera.service'
+import { ImagePicker, ImagePickerOptions, OutputType } from '@ionic-native/image-picker/ngx';
 
 @Injectable({
   providedIn: 'root'
@@ -27,7 +28,7 @@ export class FirebaseBackendService {
   // Send users data to firebse and sets in the way desribed by architecture milestone
   public sendUserDataSignUp(name_user: string, username_user: string, email_user: string, phoneNumber_user: string, dateOfBirth: Date, photo_user: string, uid: string ) {
     this.uid = uid;
-    var user: backend.user = new backend.user(this.uid, name_user, username_user, email_user, phoneNumber_user, dateOfBirth, photo_user, null, null, [new backend.qrCode(null, new backend.contact(null,username_user,name_user,email_user,phoneNumber_user,dateOfBirth,photo_user,null))]);
+    var user: backend.user = new backend.user(this.uid, name_user, username_user, email_user, phoneNumber_user, dateOfBirth, photo_user, null, null, [new backend.qrCode(null, new backend.contact(null,username_user,name_user,email_user,phoneNumber_user,dateOfBirth,photo_user,null))],true);
     console.log(this.uid);
     console.log(user);
     firebase.database().ref('Users/'+this.uid).set(user).then((res) => {
@@ -39,7 +40,7 @@ export class FirebaseBackendService {
     var userProfile: backend.user;
     await firebase.database().ref('Users/'+this.uid).once('value', function(snap) {
       var val = snap.val();
-      userProfile = new backend.user(val.uid, val.name, val.username, val.email, val.phoneNumber, val.DOB, val.photo, val.socials, val.contacts, val.qrCodes,);
+      userProfile = new backend.user(val.uid, val.name, val.username, val.email, val.phoneNumber, val.DOB, val.photo, val.socials, val.contacts, val.qrCodes,val.first);
     });
     return userProfile;
   }
@@ -185,7 +186,7 @@ export class FirebaseBackendService {
     });
     return socialAccs;
   }
-  // Upload user photo to profile and return url
+  // Upload user taken photo to profile and return url
   async takeAndUploadProfilePhoto(camera: Camera): Promise<string> {
     var urlPic: string;
     await this.cam.takeSelfie(camera).then(async profilePic => {
@@ -198,8 +199,58 @@ export class FirebaseBackendService {
     })
     var updates: {} = {};
     updates['Users/'+this.uid+'/photo'] = urlPic;
+    updates['Users/'+this.uid+'/first'] = false;
     firebase.database().ref().update(updates);
     return urlPic;
+  }
+  // Upload user photo to profile and return url
+  async uploadProfilePhoto(imagePicker: ImagePicker): Promise<string> {
+    var urlPic: string;
+    var options: ImagePickerOptions = {
+      maximumImagesCount: 1,
+      quality: 100,
+      outputType: OutputType.DATA_URL
+    }
+    alert("options");
+    const name = new Date().getTime().toString();
+    await imagePicker.getPictures(options).then(async result => {
+      alert("image recieved");
+      await firebase.storage().ref('Profile Pics/'+this.uid+'/'+name).putString('data:text/plain;base64,'+result, 'data_url', {contentType: 'image/jpeg'}).then(async urlSnap => {
+        alert('Upload success');
+        await firebase.storage().ref('Profile Pics/'+this.uid+'/'+name).getDownloadURL().then(url => {
+          urlPic = url;
+          alert("url success");
+        }).catch(err => {
+          alert(err);
+        });
+      }).catch(err => {
+        alert(err);
+      });
+    });
+    var updates: {} = {};
+    updates['Users/'+this.uid+'/photo'] = urlPic;
+    updates['Users/'+this.uid+'/first'] = false;
+    firebase.database().ref().update(updates);
+    return urlPic;
+  }
+  // Toggles the first boolean of a user
+  async toggleFirst() {
+    var updates: {} = {};
+    console.log('toggle');
+    await this.getUserData().then(async usr => {
+      console.log(usr.getFirst);
+      updates['Users/'+this.uid+'/first'] = !usr.getFirst;
+      await firebase.database().ref().update(updates);
+    });
+  }
+  // Runs first login cloud function
+  async firstTimeLogin(): Promise<{}> {
+    var firstLogin = firebase.functions().httpsCallable('firstLogin');
+    var ret: {} = {};
+    await firstLogin(this.uid).then(val => {
+      ret = val;
+    });
+    return ret;
   }
   // Logs Out
   async logOut() {

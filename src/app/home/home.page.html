@@ -1,68 +1,61 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-searchbar class="search">  </ion-searchbar>
-    <ion-button slot="end" fill="clear" (click)="goToCamera()">
-      <ion-icon name="camera"></ion-icon>
-    </ion-button>
-    <ion-button slot="end" fill="clear" (click)="logOut()">
-      <ion-icon name="log-out"></ion-icon>
-    </ion-button>
-    <ion-button slot="end" fill="clear" (click)="profilePicture()">
-      <ion-icon name="contact"></ion-icon>
-    </ion-button>
-  </ion-toolbar>
+    <ion-toolbar>
+        <ion-searchbar class="search"> </ion-searchbar>
+        <ion-button slot="end" fill="clear" (click)="goToCamera()">
+            <ion-icon name="camera"></ion-icon>
+        </ion-button>
+        <ion-button slot="end" fill="clear" (click)="logOut()">
+            <ion-icon name="log-out"></ion-icon>
+        </ion-button>
+    </ion-toolbar>
 </ion-header>
 
 <ion-content (swipe)="swipe($event)">
-  <!-- main profile -->
-  <ion-item lines="none" id = "main" button (click)="goToProfile()">
-    <ion-avatar>
-      <ion-img src = "{{profile.photo}}"></ion-img>
-    </ion-avatar>
-    <ion-label  id = "main-head">
-      {{profile.name}}
-    </ion-label>
-    <ion-text id = "main-title">
-      Available
-    </ion-text>
-  </ion-item>
-  <!-- default QR Code -->
-  <div>
-    <div id="qr" *ngIf="qrData" (click)="goToQRCode()">
-      <ngx-qrcode id="qrcode"
-        [qrc-element-type]="elementType"
-        [qrc-value]="qrData"
-        qrc-class="qr-class"
-        qrc-erjrorCorrectionLevel="H">
-      </ngx-qrcode>
+    <!-- main profile -->
+    <ion-item lines="none" id="main" button (click)="goToProfile()">
+        <ion-avatar>
+            <ion-img src="{{profile.photo}}"></ion-img>
+        </ion-avatar>
+        <ion-label id="main-head">
+            {{profile.name}}
+        </ion-label>
+        <ion-text id="main-title">
+            Available
+        </ion-text>
+    </ion-item>
+    <!-- default QR Code -->
+    <div>
+        <div id="qr" *ngIf="qrData" (click)="goToQRCode()">
+            <ngx-qrcode id="qrcode" [qrc-element-type]="elementType" [qrc-value]="qrData" qrc-class="qr-class" qrc-erjrorCorrectionLevel="H">
+            </ngx-qrcode>
+        </div>
     </div>
-  </div>
-  <!-- list of contacts -->
-  <div id="contacts">
-    <ion-card *ngFor="let contact of profile.contacts" (click)="goToUserContact(contact)">
-      <ion-card-content>
-        <ion-grid>
-          <ion-row>
-            <ion-col id ="avtar-width">
-              <ion-avatar>
-                <ion-img src = "{{contact.photo}}"></ion-img>
-              </ion-avatar>
-            </ion-col>
-            <ion-col id ="user-info">
-              <ion-item-sliding>
-                <ion-item lines="none">
-                  <ion-title>{{contact.name}}</ion-title>
-                </ion-item>
-                <ion-item-options side="end">
-                  <ion-item-option color="danger" (click)="deleteContact(contact)">
-                    <ion-icon color="dark" style="font-size: 150%;" name="trash"></ion-icon>
-                  </ion-item-option>
-                </ion-item-options>
-              </ion-item-sliding>
-            </ion-col>
-          </ion-row>
-        </ion-grid>
-      </ion-card-content>
-    </ion-card>
-  </div>
+    <!-- list of contacts -->
+    <div id="contacts">
+        <ion-card *ngFor="let contact of profile.contacts" (click)="goToUserContact(contact)">
+            <ion-card-content>
+                <ion-grid>
+                    <ion-row>
+                        <ion-col id="avtar-width">
+                            <ion-avatar>
+                                <ion-img src="{{contact.photo}}"></ion-img>
+                            </ion-avatar>
+                        </ion-col>
+                        <ion-col id="user-info">
+                            <ion-item-sliding>
+                                <ion-item lines="none">
+                                    <ion-title>{{contact.name}}</ion-title>
+                                </ion-item>
+                                <ion-item-options side="end">
+                                    <ion-item-option color="danger" (click)="deleteContact(contact)">
+                                        <ion-icon color="dark" style="font-size: 150%;" name="trash"></ion-icon>
+                                    </ion-item-option>
+                                </ion-item-options>
+                            </ion-item-sliding>
+                        </ion-col>
+                    </ion-row>
+                </ion-grid>
+            </ion-card-content>
+        </ion-card>
+    </div>
 </ion-content>
