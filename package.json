@@ -40,6 +40,7 @@
     "cordova-plugin-facebook4": "^6.2.0",
     "cordova-plugin-qrscanner": "3.0.1",
     "cordova-plugin-telerik-imagepicker": "^2.3.3",
+    "cordova-sqlite-storage": "^5.0.0",
     "core-js": "^2.5.4",
     "firebase": "^7.13.2",
     "ionic": "^5.4.16",
@@ -110,7 +111,8 @@
       "cordova-plugin-camera": {
         "ANDROID_SUPPORT_V4_VERSION": "27.+"
       },
-      "cordova-plugin-telerik-imagepicker": {}
+      "cordova-plugin-telerik-imagepicker": {},
+      "cordova-sqlite-storage": {}
     },
     "platforms": [
       "android",

@@ -181,6 +181,23 @@ export class FirebaseBackendService {
       });
     });
   }
+  // Generate social account object from user name for the following platforms: Facebook, Instagram, Snapchat, Twitter
+  generateSocialAccountFromInfo(typ: string, username_user: string, id_user: string, url_user: string): backend.socialAccount {
+    var sca: backend.socialAccount = new backend.socialAccount(username_user,username_user,null);
+    if(typ == 'facebook') {
+      sca.setUrl = 'https://www.facebook.com/'+username_user;
+    } else if(typ == 'instagram') {
+      sca.setUrl = 'https://www.instagram.com/'+username_user;
+    } else if(typ == 'snapchat') {
+      sca.setUrl = 'https://www.snapchat.com/add/'+username_user;
+    } else if(typ == 'twitter') {
+      sca.setUrl = 'https://www.twitter.com/'+username_user;
+    } else {
+      sca.setId = id_user;
+      sca.setUrl = url_user;
+    }
+    return sca;
+  }
   // Getting social accounts of a given type
   async getSocialAccountsType(type: string) : Promise<backend.socialAccount []> {
     // console.log(type)
