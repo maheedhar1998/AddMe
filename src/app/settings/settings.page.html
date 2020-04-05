@@ -1,10 +1,10 @@
 <ion-header>
     <ion-toolbar>
-      <ion-button slot="start" fill="clear" shape="round" (click)="goHome()">
-        <ion-icon color="dark" name="arrow-back"></ion-icon>
+      <ion-button slot="start" shape="round" (click)="goHome()">
+        <ion-icon name="arrow-back"></ion-icon>
       </ion-button>
-      <ion-button slot="end" fill = "clear" shape="round" (click)="logOut()">
-        <ion-icon color="dark" name="log-out"></ion-icon>
+      <ion-button slot="end" shape="round" (click)="logOut()">
+        <ion-icon name="log-out"></ion-icon>
       </ion-button>
       <ion-title class="ion-text-center">
         Settings
@@ -53,6 +53,11 @@
 
       <ion-item lines="none">
         <ion-label>Customize Contacts</ion-label>
+      </ion-item>
+
+      <ion-item lines="none">
+        <ion-label>Dark Mode</ion-label>
+        <ion-toggle (click)="toggleDarkMode()" [(ngModel)]="darkMode"></ion-toggle>
       </ion-item>
     </ion-item-group>
   </ion-list>
