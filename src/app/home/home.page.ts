@@ -17,6 +17,8 @@ import { ToastController } from '@ionic/angular';
 export class HomePage {
   private firebase: FirebaseBackendService;
   private qrData: string;
+  private searchKeyword: string;
+  private filteredContacts: {} [];
   private profile: backend.user = new backend.user(null,null,null,null,null,null,null,null,null,null, false);
   constructor(private router: Router, private alertController: AlertController, private camera: Camera, private imagePicker: ImagePicker) {
     firebase.auth().onAuthStateChanged(firebaseUser => {
@@ -35,9 +37,7 @@ export class HomePage {
             this.presentAlert();
           }
           console.log(dat);
-        });
-        this.firebase.firstTimeLogin().then(obj => {
-          console.log(obj);
+          this.searchKeyword = "";
         });
       }
     });
@@ -119,7 +119,17 @@ export class HomePage {
     });
     alert.present();
   }
-
+  async filterContacts(ev: any) {
+    this.filteredContacts = [];
+    let contacts = this.profile.getContacts;
+    for(let i:number = 0; i<contacts.length; i++) {
+      console.log(contacts[i])
+      if(contacts[i]['name'].match(new RegExp(this.searchKeyword, 'i'))) {
+        this.filteredContacts.push(contacts[i]);
+      }
+    }
+    
+   }
   swipe(ev: any) {
     this.router.navigate(['profile']);
   }

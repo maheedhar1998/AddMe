@@ -1,6 +1,6 @@
 <ion-header>
     <ion-toolbar>
-        <ion-searchbar class="search"> </ion-searchbar>
+        <ion-searchbar inputmode="search" (ionChange)="filterContacts($event)" [(ngModel)]="searchKeyword"></ion-searchbar>
         <ion-button slot="end" fill="clear" (click)="goToCamera()">
             <ion-icon name="camera"></ion-icon>
         </ion-button>
