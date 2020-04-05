@@ -65,7 +65,7 @@ export class FirebaseBackendService {
     await this.getUserData().then(usr => {
       userContacts = usr.getContacts;
       for(let i: number = 0; i < userContacts.length; i++){
-        if(userContacts[i]['id'] == cont['id'] && userContacts[i]['name'] == cont['name'] && userContacts[i]['username'] == userContacts[i]['username'] && userContacts[i]['email'] == cont['email']
+        if(userContacts[i]['id'] == cont['id'] && userContacts[i]['name'] == cont['name'] && userContacts[i]['username'] == cont[i]['username'] && userContacts[i]['email'] == cont['email']
             && userContacts[i]['phoneNumber'] == cont['phoneNumber'] && userContacts[i]['DOB'] == cont['DOB'] && userContacts[i]['photo'] == cont['photo'])
         {
           console.log(userContacts);
@@ -74,6 +74,24 @@ export class FirebaseBackendService {
         }
       }
       var updates = {};
+      updates['Users/'+this.uid+'/contacts'] = userContacts;
+      firebase.database().ref().update(updates);
+    });
+  }
+  // Updating user contact
+  async updateUsersContact(old: backend.contact, saerowon: backend.contact) {
+    var userContacts: {}[] = [];
+    await this.getUserData().then(usr => {
+      userContacts = usr.getContacts;
+      for(let i: number = 0; i<userContacts.length; i++) {
+        if(userContacts[i]['id'] == old['id'] && userContacts[i]['name'] == old['name'] && userContacts[i]['username'] == old[i]['username'] && userContacts[i]['email'] == old['email']
+            && userContacts[i]['phoneNumber'] == old['phoneNumber'] && userContacts[i]['DOB'] == old['DOB'] && userContacts[i]['photo'] == old['photo'])
+        {
+          userContacts[i] = saerowon;
+          break;
+        }
+      }
+      var updates: {} = {};
       updates['Users/'+this.uid+'/contacts'] = userContacts;
       firebase.database().ref().update(updates);
     });
@@ -107,20 +125,49 @@ export class FirebaseBackendService {
   async deleteSocialAccount(typ: string, sAcot: backend.socialAccount) {
     var userSocialAccounts: {} [];
     var userSocials: {} [] = [];
-    let i:number = 0;
-    for(; i < userSocials.length; i++){
-      if(userSocials[i]['type'] == typ){
-        break;
-      }
-    }
     await this.getUserData().then(usr => {
       userSocials = usr.getSocials;
+      let i:number = 0;
+      for(; i < userSocials.length; i++){
+        if(userSocials[i]['type'] == typ){
+          break;
+        }
+      }
       this.getSocialAccountsType(typ).then(dat => {
         userSocialAccounts = dat;
-        for(let i:number = 0; i < userSocialAccounts.length; i++){
-          console.log(userSocialAccounts[i]);
-          if(userSocialAccounts[i]['id'] == sAcot['id'] && userSocialAccounts[i]['user'] == sAcot['user'] && userSocialAccounts[i]['url'] == sAcot['url']){
-            userSocialAccounts.splice(i,1);
+        for(let j:number = 0; j < userSocialAccounts.length; j++){
+          console.log(userSocialAccounts[j]);
+          if(userSocialAccounts[j]['id'] == sAcot['id'] && userSocialAccounts[j]['user'] == sAcot['user'] && userSocialAccounts[j]['url'] == sAcot['url']){
+            userSocialAccounts.splice(j,1);
+            break;
+          }
+        }
+        console.log(userSocialAccounts);
+        var updates = {};
+        userSocials[i]['socialAccounts'] = userSocialAccounts;
+        console.log(userSocials);
+        updates['Users/'+this.uid+'/socials'] = userSocials;
+        firebase.database().ref().update(updates);
+      });
+    });
+  }
+  // Update social account
+  async updateSocialAccount(typ: string, old: backend.socialAccount, saerowon: backend.socialAccount) {
+    var userSocialAccounts: {} [] = [];
+    var userSocials: {} [] = [];
+    await this.getUserData().then(usr => {
+      userSocials = usr.getSocials;
+      let i:number = 0;
+      for(; i < userSocials.length; i++){
+        if(userSocials[i]['type'] == typ){
+          break;
+        }
+      }
+      this.getSocialAccountsType(typ).then(dat => {
+        userSocialAccounts = dat;
+        for(let j: number = 0; j<userSocialAccounts.length; j++) {
+          if(userSocialAccounts[j]['id'] == old['id'] && userSocialAccounts[j]['user'] == old['user'] && userSocialAccounts[j]['url'] == old['url']){
+            userSocialAccounts[j] = saerowon;
             break;
           }
         }
