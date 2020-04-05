@@ -33,4 +33,11 @@ export class LoginPage {
       })
     }
   }
+  
+  devLogin()
+  {
+    this.email = "test@gmail.com"
+    this.password = "Test12"
+    this.login()
+  }
 }

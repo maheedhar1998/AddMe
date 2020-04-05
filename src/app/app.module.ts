@@ -1,11 +1,10 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
-
 import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
-
+import { IonicStorageModule } from '@ionic/storage';
 import { QRScanner } from '@ionic-native/qr-scanner/ngx';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
@@ -16,7 +15,7 @@ import { CallNumber } from '@ionic-native/call-number/ngx';
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
-  imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule],
+  imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule, IonicStorageModule.forRoot()],
   providers: [
     StatusBar,
     QRScanner,
@@ -28,7 +27,6 @@ import { CallNumber } from '@ionic-native/call-number/ngx';
 })
 export class AppModule {
   constructor(private statusBar: StatusBar) {
-    // Initialize Firebase
     firebase.initializeApp(firebaseConfig);
     firebase.analytics();
     this.statusBar.overlaysWebView(true);

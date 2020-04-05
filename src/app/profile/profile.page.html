@@ -4,6 +4,10 @@
     <ion-button fill="clear" (click)="goToHome()">
       <ion-icon name="arrow-back" color="dark"></ion-icon>
     </ion-button>
+
+    <ion-button fill="clear"  slot="end" (click)="goToSettings()">
+      <ion-icon name="settings" color="dark"></ion-icon>
+    </ion-button>
   </ion-toolbar>
 </ion-header>
 <ion-content fullscreen id="pContent" (swipe)="swipeEvent($event)">
@@ -11,7 +15,7 @@
     <ion-card-content lines="none">
       <ion-grid>
         <ion-row>
-          <ion-col>
+          <ion-col class="profile-col">
             <ion-avatar>
               <ion-img src="{{profile.photo}}"></ion-img>
             </ion-avatar>
@@ -20,7 +24,7 @@
             <ion-list>
               <ion-item lines="none">
                 <ion-label class="ion-text-center" style="font-size: 175%;">
-                  {{profile.name}}
+                   {{profile.name}}
                 </ion-label>
               </ion-item>
               <ion-item lines="none">

@@ -10,10 +10,17 @@ ion-card {
   ion-grid {
     ion-avatar {
       ion-img {
-        width: 125px;
-        height: 125px;
+        width: 120px;
+        height: 120px;
         overflow: hidden;
       }
     }
   }
+}
+
+
+ion-col.profile-col
+{
+  height:100%;
+  width:100%;
 }
