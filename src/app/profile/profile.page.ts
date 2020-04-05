@@ -12,11 +12,11 @@ import { CallNumber } from '@ionic-native/call-number/ngx';
   templateUrl: './profile.page.html',
   styleUrls: ['./profile.page.scss'],
 })
-export class ProfilePage implements OnInit {
+export class ProfilePage {
   private profile: backend.user;
   private firebase: FirebaseBackendService;
   private grid: {name: string, logo: string} [][] = [];
-  constructor(private router: Router, private popOver: PopoverController, private callNum: CallNumber) {
+  constructor(private router: Router, private popOver: PopoverController, private callNum: CallNumber) {  
     firebase.auth().onAuthStateChanged(firebaseUser => {
       if(!firebaseUser)
       {
@@ -42,9 +42,10 @@ export class ProfilePage implements OnInit {
     this.router.navigate(['home']);
   }
 
-  ngOnInit() {
+  goToSettings()
+  {
+    this.router.navigate(['settings'])
   }
-
   async openPopover(ev: any, typ: string) {
     const pop = await this.popOver.create({
       component: ContactsPage,

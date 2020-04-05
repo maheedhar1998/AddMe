@@ -5,7 +5,7 @@ import { Storage } from '@ionic/storage'
   providedIn: 'root'
 })
 export class ThemeService {
-  private darkMode: boolean;
+  public darkMode: boolean;
   constructor(private storage: Storage) { 
     if(this.storage.get('darkMode') == null)
       this.setAppTheme(false)

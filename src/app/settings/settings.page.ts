@@ -3,6 +3,7 @@ import * as firebase from 'firebase';
 import { Router } from '@angular/router';
 import { FirebaseBackendService } from '../firebase-backend.service';
 import { ThemeService } from '../theme.service'
+import { Storage } from '@ionic/storage'
 
 @Component({
   selector: 'app-settings',
@@ -11,8 +12,12 @@ import { ThemeService } from '../theme.service'
 })
 export class SettingsPage {
   private firebase: FirebaseBackendService;
-
-  constructor(private router: Router, private themeService: ThemeService) {
+  private darkMode: boolean;
+  constructor(private router: Router, private themeService: ThemeService, private storage: Storage) {
+    this.storage.get('darkMode').then( val => {
+      this.darkMode = (val === "true")
+      console.log(this.darkMode)
+    });
     firebase.auth().onAuthStateChanged(firebaseUser => {
       if(!firebaseUser)
         this.router.navigate(['login']);
