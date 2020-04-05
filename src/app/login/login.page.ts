@@ -1,6 +1,5 @@
 import { Component} from '@angular/core';
 import { Router } from '@angular/router';
-import * as firbase from 'firebase';
 import { FirebaseBackendService } from '../firebase-backend.service';
 @Component({
   selector: 'app-login',

@@ -4,7 +4,6 @@ import { EqualityValidator } from './validation/validators'
 import ValidationMessages from './validation/validationMessages'
 import { Router } from '@angular/router'
 import { FirebaseBackendService } from '../firebase-backend.service';
-import { async } from 'rxjs/internal/scheduler/async';
 
 @Component({
   selector: 'app-signup',
@@ -73,11 +72,12 @@ export class SignupPage implements OnInit {
     if(signupForm.status === "VALID")
     {
       var uid = "";
+      const defaultProfilePicture = "https://firebasestorage.googleapis.com/v0/b/addme-cd3be.appspot.com/o/default-user.png?alt=media&token=8c6caf56-6236-475d-a301-095cb60d7c93"
       await this.firebase.signupWithEmail(signupForm.value.matchingEmails.email, signupForm.value.matchingPasswords.password).then(val => {
         uid = val.user.uid;
         console.log(val);
       });
-      this.firebase.sendUserDataSignUp(signupForm.value.name, signupForm.value.username, signupForm.value.matchingEmails.email, signupForm.value.phone, null, null, uid);
+      this.firebase.sendUserDataSignUp(signupForm.value.name, signupForm.value.username, signupForm.value.matchingEmails.email, signupForm.value.phone, null, defaultProfilePicture, uid);
       this.router.navigate(['login']);
     }
 
