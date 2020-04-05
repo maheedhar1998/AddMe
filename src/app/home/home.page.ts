@@ -36,7 +36,6 @@ export class HomePage {
             console.log('profile');
             this.presentAlert();
           }
-          console.log(dat);
           this.searchKeyword = "";
         });
       }
@@ -70,7 +69,7 @@ export class HomePage {
 
   async logOut() {
     const alert = await this.alertController.create({
-      header: 'Log Out??',
+      header: 'Log Out?',
       message: 'Are you sure you want to logout?',
       buttons: [
         {

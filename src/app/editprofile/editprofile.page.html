@@ -1,0 +1,44 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-button slot="start" fill="clear" shape="round" (click)="goBack()">
+      <ion-icon name="arrow-back"></ion-icon>
+    </ion-button>
+    <ion-button slot="end" shape="round" (click)="logOut()">
+      <ion-icon name="log-out"></ion-icon>
+    </ion-button>
+    <ion-title class="ion-text-center">
+      Edit Profile
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+<ion-list>
+  <ion-item-group>
+    <ion-item-divider>  
+      <ion-label>Username</ion-label>
+      <ion-input></ion-input>
+    </ion-item-divider>
+
+    <ion-item-divider>
+      <ion-label>Email</ion-label>
+      <ion-input></ion-input>
+    </ion-item-divider>
+
+    <ion-item-divider>
+      <ion-label>Phone</ion-label>
+      <ion-input></ion-input>
+    </ion-item-divider>
+    
+    <ion-item-divider>
+      <ion-label>Password</ion-label>
+      <ion-input></ion-input>
+    </ion-item-divider>
+
+    <ion-button>
+      Change
+    </ion-button>
+    
+  </ion-item-group>
+</ion-list>
+</ion-content>

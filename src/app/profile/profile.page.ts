@@ -13,7 +13,7 @@ import { CallNumber } from '@ionic-native/call-number/ngx';
   styleUrls: ['./profile.page.scss'],
 })
 export class ProfilePage {
-  private profile: backend.user;
+  private profile: backend.user = {};
   private firebase: FirebaseBackendService;
   private grid: {name: string, logo: string} [][] = [];
   constructor(private router: Router, private popOver: PopoverController, private callNum: CallNumber) {  
@@ -25,10 +25,9 @@ export class ProfilePage {
       else
       {
         this.firebase = new FirebaseBackendService(firebase.auth().currentUser.uid);
-        this.firebase.getUserData().then(dat => {
-          this.profile = dat;
+        this.firebase.getUserData().then(data => {
+          this.profile = data;
           this.initGrid();
-          // console.log(this.grid);
         });
       }
     });
@@ -46,6 +45,12 @@ export class ProfilePage {
   {
     this.router.navigate(['settings'])
   }
+
+  goToEditProfile()
+  {
+    this.router.navigate(['/editprofile'])
+  }
+
   async openPopover(ev: any, typ: string) {
     const pop = await this.popOver.create({
       component: ContactsPage,

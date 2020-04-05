@@ -5,12 +5,16 @@
       <ion-icon name="arrow-back" color="dark"></ion-icon>
     </ion-button>
 
+    <ion-button fill="clear" slot="end" color="dark" (click)="goToEditProfile()">
+      <ion-icon name="contact"></ion-icon>
+    </ion-button>
+
     <ion-button fill="clear"  slot="end" (click)="goToSettings()">
       <ion-icon name="settings" color="dark"></ion-icon>
     </ion-button>
   </ion-toolbar>
 </ion-header>
-<ion-content fullscreen id="pContent" (swipe)="swipeEvent($event)">
+<ion-content fullscreen id="pContent">
   <ion-card lines="none">
     <ion-card-content lines="none">
       <ion-grid>
