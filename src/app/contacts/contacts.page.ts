@@ -22,6 +22,7 @@ export class ContactsPage implements OnInit {
   private mode: boolean;
   private none: boolean;
   private usernameSM: string[];
+  private editingAccount: backend.socialAccount;
 
   constructor(private router: Router, private navParam: NavParams) {
     this.id = "";
@@ -51,6 +52,7 @@ export class ContactsPage implements OnInit {
               this.none = true;
             }
           console.log(socialsArr);
+          this.editingAccount = new backend.socialAccount(null,null,null);
         });
       }
     });
@@ -64,8 +66,9 @@ export class ContactsPage implements OnInit {
     this.adding = true;
   }
 
-  edit(account: {}) {
+  edit(account: backend.socialAccount) {
     console.log(account);
+    this.editingAccount = account;
     this.id = account['id'];
     this.username = account['user'];
     this.url = account['url'];
@@ -82,6 +85,8 @@ export class ContactsPage implements OnInit {
   }
 
   editAccount() {
+    this.id = this.username;
+    this.firebase.updateSocialAccount(this.type, this.editingAccount, new backend.socialAccount(this.id, this.username, this.url));
     this.id = "";
     this.username = "";
     this.url = "";
