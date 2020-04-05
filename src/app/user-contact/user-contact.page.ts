@@ -4,7 +4,6 @@ import * as firebase from 'firebase';
 import { Router, ActivatedRoute } from '@angular/router';
 import * as backend from '../backendClasses';
 import { PopoverController } from '@ionic/angular';
-import { ContactsPage } from '../contacts/contacts.page';
 import { PopoverOtherPage } from '../popover-other/popover-other.page';
 
 @Component({

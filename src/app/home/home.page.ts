@@ -28,7 +28,7 @@ export class HomePage {
       }
       else
       {
-        this.firebase = new FirebaseBackendService(firebase.auth().currentUser.uid);
+        this.firebase =  new FirebaseBackendService(firebase.auth().currentUser.uid);
         this.firebase.getUserData().then(dat => {
           this.profile = dat;
           this.qrData = JSON.stringify(this.profile.getQrCodes).substr(0,100);

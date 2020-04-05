@@ -17,14 +17,21 @@ export class ContactsPage implements OnInit {
   private username: string;
   private url: string;
   private socialAccounts: backend.socialAccount[];
+  private editing: boolean;
   private adding: boolean;
+  private mode: boolean;
   private none: boolean;
+  private usernameSM: string[];
+
   constructor(private router: Router, private navParam: NavParams) {
     this.id = "";
     this.username = "";
     this.url = "";
     this.adding = false;
+    this.editing = false;
+    this.mode = false;
     this.none = false;
+    this.usernameSM = ["facebook", "instagram", "snapchat", "twitter"];
     firebase.auth().onAuthStateChanged(firebaseUser => {
       if(!firebaseUser)
       {
@@ -57,14 +64,50 @@ export class ContactsPage implements OnInit {
     this.adding = true;
   }
 
+  edit(account: {}) {
+    console.log(account);
+    this.id = account['id'];
+    this.username = account['user'];
+    this.url = account['url'];
+    this.editing = true;
+  }
+
+  modeChange() {
+    if(this.mode == false) {
+      this.mode = true;
+    }
+    else {
+      this.mode = false;
+    }
+  }
+
+  editAccount() {
+    this.id = "";
+    this.username = "";
+    this.url = "";
+    this.modeChange();
+  }
+
   deleteAccount(account: backend.socialAccount) {
     console.log(account);
     this.firebase.deleteSocialAccount(this.type, account);
+    this.modeChange();
   }
 
   addSMAccount() {
-    this.firebase.addSocialAccount(this.type, new backend.socialAccount(this.id,this.username,this.url));
+    if(this.type == "facebook"){
+      this.firebase.addSocialAccount(this.type, new backend.socialAccount(this.username,this.username,"https://www.facebook.com/"+this.username));
+    }else if(this.type == "snapchat"){
+      this.firebase.addSocialAccount(this.type, new backend.socialAccount(this.username,this.username,"https://www.snapchat.com/add/"+this.username));
+    }else if(this.type == "instagram"){
+      this.firebase.addSocialAccount(this.type, new backend.socialAccount(this.username,this.username,"https://www.instagram.com/"+this.username));
+    }else if(this.type == "twitter"){
+      this.firebase.addSocialAccount(this.type, new backend.socialAccount(this.username,this.username,"https://www.twitter.com/"+this.username));
+    }else{
+      this.firebase.addSocialAccount(this.type, new backend.socialAccount(this.id,this.username,this.url));
+    }
     this.adding = false;
+    this.modeChange();
     this.id = "";
     this.username = "";
     this.url = "";
