@@ -65,7 +65,9 @@ export class FirebaseBackendService {
     await this.getUserData().then(usr => {
       userContacts = usr.getContacts;
       for(let i: number = 0; i < userContacts.length; i++){
-        if(userContacts[i]['id'] == cont['id'] && userContacts[i]['name'] == cont['name'] && userContacts[i]['username'] == cont[i]['username'] && userContacts[i]['email'] == cont['email']
+        console.log(userContacts);
+        console.log(cont);
+        if(userContacts[i]['id'] == cont['id'] && userContacts[i]['name'] == cont['name'] && userContacts[i]['username'] == cont['username'] && userContacts[i]['email'] == cont['email']
             && userContacts[i]['phoneNumber'] == cont['phoneNumber'] && userContacts[i]['DOB'] == cont['DOB'] && userContacts[i]['photo'] == cont['photo'])
         {
           console.log(userContacts);
