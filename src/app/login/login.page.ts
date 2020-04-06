@@ -37,10 +37,11 @@ export class LoginPage {
   }
   async loginGoogle() {
     await this.fire.loginWithGoogle().then(res => {
+      console.log(res);
       if(res) {
         this.router.navigate(['home']);
       } else if(!res) {
-        alert("Google login error");
+        console.log(res);
       }
     });
   }

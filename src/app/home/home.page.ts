@@ -37,7 +37,8 @@ export class HomePage {
         this.editContact = [];
         this.firebase.getUserData().then(dat => {
           this.profile = dat;
-          for(let i: number = 0; i<this.profile.getContacts.length; i++) {
+          this.filteredContacts = this.profile.getContacts;
+          for(let i: number = 0; i<this.filteredContacts.length; i++) {
             this.editContact.push(false);
           }
           this.qrData = JSON.stringify(this.profile.getQrCodes).substr(0,100);
@@ -137,7 +138,6 @@ export class HomePage {
         this.filteredContacts.push(contacts[i]);
       }
     }
-    
    }
   swipe(ev: any) {
     this.router.navigate(['profile']);

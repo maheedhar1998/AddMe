@@ -33,8 +33,8 @@ export class AppModule {
   constructor(private statusBar: StatusBar) {
     firebase.initializeApp(firebaseConfig);
     firebase.analytics();
-    this.statusBar.overlaysWebView(true);
-    this.statusBar.styleLightContent();
-    this.statusBar.backgroundColorByName('white');
+    // this.statusBar.overlaysWebView(true);
+    // this.statusBar.styleLightContent();
+    // this.statusBar.backgroundColorByName('white');
   }
 }

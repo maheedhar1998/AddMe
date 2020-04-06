@@ -1,6 +1,6 @@
 <ion-header>
     <ion-toolbar>
-        <ion-searchbar inputmode="search" (ionChange)="filterContacts($event)" [(ngModel)]="searchKeyword"></ion-searchbar>
+        <ion-searchbar inputmode="search" placeHolder="Search Contacts" (ionChange)="filterContacts($event)" [(ngModel)]="searchKeyword"></ion-searchbar>
         <ion-button fill="clear" slot="end" color="dark" (click)="goToCamera()">
             <ion-icon name="camera" color="dark"></ion-icon>
         </ion-button>
@@ -46,7 +46,7 @@
             </div>
 
             <div *ngIf="!(profile.contacts[0].id == 'N/A')">
-                <ion-card *ngFor="let contact of profile.contacts; let i=index" (click)="goToUserContact(contact)">
+                <ion-card *ngFor="let contact of filteredContacts; let i=index" (click)="goToUserContact(contact)">
                     <ion-card-content>
                         <ion-grid>
                             <ion-row>

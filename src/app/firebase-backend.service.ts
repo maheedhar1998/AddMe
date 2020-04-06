@@ -24,16 +24,18 @@ export class FirebaseBackendService {
     return await firebase.auth().createUserWithEmailAndPassword(email, password);
   }
 
-  async loginWithGoogle(): Promise<any> {
+  async loginWithGoogle(): Promise<boolean> {
     var provider = new firebase.auth.GoogleAuthProvider();
-    firebase.auth().signInWithPopup(provider).then(res => {
-      this.sendUserDataSignUp(res.user.displayName,res.user.uid,res.user.email,res.user.phoneNumber,null,res.user.photoURL,res.user.uid);
+    var ret: boolean = false;
+    await firebase.auth().signInWithPopup(provider).then(async res => {
+      await this.sendUserDataSignUp(res.user.displayName,res.user.uid,res.user.email,res.user.phoneNumber,null,res.user.photoURL,res.user.uid);
       console.log("Songong");
-      return true;
+      ret = true;
     }).catch(err => {
       console.log(err);
-      return false;
+      ret = false;
     });
+    return ret;
   }
   async loginWithFacebook(): Promise<any> {
     var provider = new firebase.auth.FacebookAuthProvider();
@@ -42,12 +44,12 @@ export class FirebaseBackendService {
     });
   }
   // Send users data to firebse and sets in the way desribed by architecture milestone
-  public sendUserDataSignUp(name_user: string, username_user: string, email_user: string, phoneNumber_user: string, dateOfBirth: Date, photo_user: string, uid: string ) {
+  public async sendUserDataSignUp(name_user: string, username_user: string, email_user: string, phoneNumber_user: string, dateOfBirth: Date, photo_user: string, uid: string ) {
     this.uid = uid;
     var user: backend.user = new backend.user(this.uid, name_user, username_user, email_user, phoneNumber_user, dateOfBirth, photo_user, null, null, [new backend.qrCode(null, new backend.contact(null,username_user,name_user,email_user,phoneNumber_user,dateOfBirth,photo_user,null))],true);
     console.log(this.uid);
     console.log(user);
-    firebase.database().ref('Users/'+this.uid).set(user).then((res) => {
+    await firebase.database().ref('Users/'+this.uid).set(user).then((res) => {
       console.log("success");
     });
   }
