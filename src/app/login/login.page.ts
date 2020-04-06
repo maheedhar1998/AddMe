@@ -10,10 +10,12 @@ export class LoginPage {
   private email: string;
   private password: string;
   private fire: FirebaseBackendService;
+  private rc1: boolean;
 
   constructor(private router: Router) {
     this.email = "";
     this.password = "";
+    this.rc1 = false;
     this.fire = new FirebaseBackendService(null);
   }
 
@@ -33,7 +35,18 @@ export class LoginPage {
       })
     }
   }
-  
+  async loginGoogle() {
+    await this.fire.loginWithGoogle().then(res => {
+      if(res) {
+        this.router.navigate(['home']);
+      } else if(!res) {
+        alert("Google login error");
+      }
+    });
+  }
+  async loginFacebook() {
+    await this.fire.loginWithFacebook();
+  }
   devLogin()
   {
     this.email = "test@gmail.com"

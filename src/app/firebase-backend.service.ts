@@ -25,6 +25,23 @@ export class FirebaseBackendService {
     return await firebase.auth().createUserWithEmailAndPassword(email, password);
   }
 
+  async loginWithGoogle(): Promise<any> {
+    var provider = new firebase.auth.GoogleAuthProvider();
+    firebase.auth().signInWithPopup(provider).then(res => {
+      this.sendUserDataSignUp(res.user.displayName,res.user.uid,res.user.email,res.user.phoneNumber,null,res.user.photoURL,res.user.uid);
+      console.log("Songong");
+      return true;
+    }).catch(err => {
+      console.log(err);
+      return false;
+    });
+  }
+  async loginWithFacebook(): Promise<any> {
+    var provider = new firebase.auth.FacebookAuthProvider();
+    firebase.auth().signInWithPopup(provider).then(res => {
+      console.log(res.user);
+    });
+  }
   // Send users data to firebse and sets in the way desribed by architecture milestone
   public sendUserDataSignUp(name_user: string, username_user: string, email_user: string, phoneNumber_user: string, dateOfBirth: Date, photo_user: string, uid: string ) {
     this.uid = uid;
@@ -43,6 +60,12 @@ export class FirebaseBackendService {
       userProfile = new backend.user(val.uid, val.name, val.username, val.email, val.phoneNumber, val.DOB, val.photo, val.socials, val.contacts, val.qrCodes,val.first);
     });
     return userProfile;
+  }
+  // Update user data on firebase
+  async updateUserData(usr: backend.user): Promise<any> {
+    var updates: {} = {};
+    updates['Users/'+this.uid+'/'] = usr;
+    return firebase.database().ref().update(updates);
   }
   // adding user contact list with new contact
   async addToUserContacts(cont: backend.contact) {
@@ -118,8 +141,11 @@ export class FirebaseBackendService {
       if(!found) {
         userSocials.push(new backend.social(typ, null, [newAccount]));
       }
+      var newCon: backend.contact = new backend.contact(this.uid, usr.getUsername, usr.getName, usr.getEmail, usr.getPhoneNumber, usr.getDOB, usr.getPhoto, usr.getSocials);
+      var newQr: backend.qrCode = new backend.qrCode(this.uid, newCon);
       var updates = {};
       updates['Users/'+this.uid+'/socials'] = userSocials;
+      updates['Users/'+this.uid+'/qrCodes/0/'] = newQr;
       firebase.database().ref().update(updates);
     });
   }
@@ -147,8 +173,11 @@ export class FirebaseBackendService {
         console.log(userSocialAccounts);
         var updates = {};
         userSocials[i]['socialAccounts'] = userSocialAccounts;
+        var newCon: backend.contact = new backend.contact(this.uid, usr.getUsername, usr.getName, usr.getEmail, usr.getPhoneNumber, usr.getDOB, usr.getPhoto, usr.getSocials);
+        var newQr: backend.qrCode = new backend.qrCode(this.uid, newCon);
         console.log(userSocials);
         updates['Users/'+this.uid+'/socials'] = userSocials;
+        updates['Users/'+this.uid+'/qrCodes/0/'] = newQr;
         firebase.database().ref().update(updates);
       });
     });
@@ -176,7 +205,10 @@ export class FirebaseBackendService {
         var updates = {};
         userSocials[i]['socialAccounts'] = userSocialAccounts;
         // console.log(userSocials[i]);
+        var newCon: backend.contact = new backend.contact(this.uid, usr.getUsername, usr.getName, usr.getEmail, usr.getPhoneNumber, usr.getDOB, usr.getPhoto, usr.getSocials);
+        var newQr: backend.qrCode = new backend.qrCode(this.uid, newCon);
         updates['Users/'+this.uid+'/socials'] = userSocials;
+        updates['Users/'+this.uid+'/qrCodes/0/'] = newQr;
         firebase.database().ref().update(updates);
       });
     });
