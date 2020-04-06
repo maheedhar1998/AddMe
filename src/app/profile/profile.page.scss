@@ -1,25 +1,21 @@
-ion-grid {
-  ion-avatar {
-    ion-img {
-      width: 70%;
-      height: 70%;
-    }
-  }
+.social-grid ion-img {
+  width: 75%;
+  height: 75%;
 }
-ion-card {
-  ion-grid {
-    ion-avatar {
-      ion-img {
-        width: 120px;
-        height: 120px;
-        overflow: hidden;
-      }
-    }
-  }
+
+.social-grid ion-col
+{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding:3%;
 }
 
 ion-col.profile-col
 {
-  height:100%;
-  width:100%;
+  display: flex;
+  flex-flow: column;
+  flex-grow: 1;
+  align-items: center;
+  justify-content: center;
 }

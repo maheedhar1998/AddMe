@@ -1,0 +1,45 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-button slot="start" fill="clear" shape="round" (click)="goBack()">
+      <ion-icon name="arrow-back" color="dark"></ion-icon>
+    </ion-button>
+
+    <ion-title class="ion-text-center">
+      Edit Profile
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+<ion-list>
+  <ion-item-group>
+    <ion-item-divider>  
+      <ion-label color="dark">Name</ion-label>
+      <ion-input [(ngModel)]="user.name"></ion-input>
+    </ion-item-divider>
+
+    <ion-item-divider>  
+      <ion-label color="dark">Username</ion-label>
+      <ion-input [(ngModel)]="user.username"></ion-input>
+    </ion-item-divider>
+
+    <ion-item-divider>
+      <ion-label color="dark">Email</ion-label>
+      <ion-input [(ngModel)]="user.email"></ion-input>
+    </ion-item-divider>
+
+    <ion-item-divider>
+      <ion-label color="dark">Phone</ion-label>
+      <ion-input [(ngModel)]="user.phoneNumber"></ion-input>
+    </ion-item-divider>
+    
+    <ion-row>
+      <ion-col class="ion-text-center">
+        <ion-button (click)="updateProfile()">
+          Update
+        </ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-item-group>
+</ion-list>
+</ion-content>

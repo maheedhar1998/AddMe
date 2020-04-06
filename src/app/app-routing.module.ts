@@ -15,7 +15,7 @@ const routes: Routes = [
   { path: 'user-contact', loadChildren: './user-contact/user-contact.module#UserContactPageModule' },
   { path: 'popover-other', loadChildren: './popover-other/popover-other.module#PopoverOtherPageModule' },
   { path: 'contact-options', loadChildren: './contact-options/contact-options.module#ContactOptionsPageModule' },
-
+  { path: 'editprofile', loadChildren: './editprofile/editprofile.module#EditprofilePageModule' }
 ];
 
 @NgModule({

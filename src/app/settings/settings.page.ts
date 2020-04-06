@@ -14,21 +14,18 @@ export class SettingsPage {
   private firebase: FirebaseBackendService;
   private darkMode: boolean;
   constructor(private router: Router, private themeService: ThemeService, private storage: Storage) {
-    this.storage.get('darkMode').then( val => {
-      this.darkMode = (val === "true")
-      console.log(this.darkMode)
-    });
+    const self = this
     firebase.auth().onAuthStateChanged(firebaseUser => {
       if(!firebaseUser)
         this.router.navigate(['login']);
       else
+      {
+        self.storage.get('darkMode').then( val => {
+          this.darkMode = (val === "true")
+        });
         this.firebase = new FirebaseBackendService(firebase.auth().currentUser.uid);
+      }
     })
-  }
-
-  logOut() {
-    this.firebase.logOut();
-    this.router.navigate(['login']);
   }
 
   goHome()
