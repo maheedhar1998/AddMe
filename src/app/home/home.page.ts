@@ -46,17 +46,18 @@ export class HomePage {
             this.editContact.push(false);
           }
           this.qrData = JSON.stringify(this.profile.getQrCodes).substr(0,100);
-          if (this.profile.getFirst) {
-            console.log('profile');
-            this.presentAlert();
-          }
           this.searchKeyword = "";
           console.log(this.editContact);
         });
       }
     });
   }
-
+  ionViewDidEnter(){
+    if (this.profile.getFirst) {
+        console.log('profile');
+        this.presentAlert();
+    }
+  }
   deleteContact(cont: backend.contact) {
     // console.log(cont);
     this.firebase.deleteFromUserContacts(cont);
