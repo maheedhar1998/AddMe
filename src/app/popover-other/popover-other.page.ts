@@ -15,22 +15,14 @@ export class PopoverOtherPage implements OnInit {
   private type: string;
   private id: string;
   private username: string;
-  private username2: string;
   private url: string;
   private socialAccounts: backend.socialAccount[];
-  private mode: boolean;
-  private editing: boolean;
   private none: boolean;
-  private usernameSM: string[];
 
   constructor(private router: Router, private navParam: NavParams) {
     this.id = "";
-    this.username = "";
     this.url = "";
-    this.mode = false;
     this.none = false;
-    this.editing = false;
-    this.usernameSM = ["facebook", "instagram", "snapchat", "twitter"];
     firebase.auth().onAuthStateChanged(firebaseUser => {
       if(!firebaseUser)
       {
@@ -40,8 +32,8 @@ export class PopoverOtherPage implements OnInit {
       {
         this.firebase = new FirebaseBackendService(firebase.auth().currentUser.uid);
         this.type = this.navParam.get('type');
-        this.username2 = this.navParam.get('username');
-        this.firebase.getSocialAccountsTypeContact(this.type, this.username2).then(socialsArr => {
+        this.username = this.navParam.get('username');
+        this.firebase.getSocialAccountsTypeContact(this.type, this.username).then(socialsArr => {
           this.socialAccounts = socialsArr;
           if(this.socialAccounts.length == 1
             && this.socialAccounts[0].getId == "N/A"
@@ -63,33 +55,4 @@ export class PopoverOtherPage implements OnInit {
     this.router.navigate(['home']);
   }
 
-  modeChange() {
-    if(this.mode == false) {
-      this.mode = true;
-    }
-    else {
-      this.mode = false;
-    }
-  }
-
-  edit(account: {}) {
-    console.log(account);
-    this.id = account['id'];
-    this.username = account['user'];
-    this.url = account['url'];
-    this.editing = true;
-  }
-
-  editAccount() {
-    this.id = "";
-    this.username = "";
-    this.url = "";
-    this.modeChange();
-  }
-
-  deleteAccount(account: backend.socialAccount) {
-    console.log(account);
-    this.firebase.deleteSocialAccount(this.type, account);
-    this.modeChange();
-  }
 }

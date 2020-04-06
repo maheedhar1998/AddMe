@@ -1,36 +1,10 @@
 <ion-content>
   <ion-card>
     <ion-card-title>{{type}}</ion-card-title>
-    <ion-button slot="end" shape="round" (click)="modeChange()">
-      <ion-icon color="dark" name="create"></ion-icon>
-    </ion-button>
-    <ion-list *ngIf="!none && !mode">
+    <ion-list *ngIf="!none">
       <ion-item *ngFor="let account of socialAccounts" href="{{account.url}}">
         <ion-label>{{account.user}}</ion-label>
       </ion-item>
     </ion-list>
-    <ion-list *ngIf="!none && mode">
-      <ion-item *ngFor="let account of socialAccounts" (click)=edit(account)>
-        <ion-label>{{account.user}}</ion-label>
-        <ion-button slot="end" shape="round" (click)="deleteAccount(account)">
-          <ion-icon color="dark" name="remove-circle-outline"></ion-icon>
-        </ion-button>
-      </ion-item>
-    </ion-list>
-  </ion-card>
-  <ion-card *ngIf="editing">
-    <ion-item *ngIf="!usernameSM.includes(type)">
-      <ion-label position="floating">Id</ion-label>
-      <ion-input id=id [(ngModel)]="id"></ion-input>
-    </ion-item>
-    <ion-item>
-      <ion-label position="floating">Username</ion-label>
-      <ion-input id="username" [(ngModel)]="username"></ion-input>
-    </ion-item>
-    <ion-item *ngIf="!usernameSM.includes(type)">
-      <ion-label position="floating">Url</ion-label>
-      <ion-input id="url" type="url" [(ngModel)]="url"></ion-input>
-    </ion-item>
-    <ion-button shape="round" (click)="editAccount()">Edit Account</ion-button>
   </ion-card>
 </ion-content>

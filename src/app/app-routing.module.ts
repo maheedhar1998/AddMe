@@ -13,6 +13,7 @@ const routes: Routes = [
   { path: 'super-tabs', loadChildren: './super-tabs/super-tabs.module#SuperTabsPageModule' },
   { path: 'user-contact', loadChildren: './user-contact/user-contact.module#UserContactPageModule' },
   { path: 'popover-other', loadChildren: './popover-other/popover-other.module#PopoverOtherPageModule' },
+  { path: 'contact-options', loadChildren: './contact-options/contact-options.module#ContactOptionsPageModule' },
 
 ];
 

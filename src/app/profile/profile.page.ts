@@ -56,11 +56,13 @@ export class ProfilePage implements OnInit {
     });
     return await pop.present();
   }
+
   call() {
     this.callNum.callNumber(this.profile.getPhoneNumber, true).then( res => {
       console.log("success");
     });
   }
+
   initGrid() {
     let names: string[] = this.getNames();
     let logos: string[] = this.getLogos();
@@ -73,6 +75,7 @@ export class ProfilePage implements OnInit {
       }
     }
   }
+
   getNames(): string[] {
     return ['instagram',
               'facebook',
@@ -91,6 +94,7 @@ export class ProfilePage implements OnInit {
               'discord',
               'katalk'];
   }
+  
   getLogos(): string[] {
     return ['../assets/instagram-2-1.svg',
                 '../assets/facebook-icon.svg',

@@ -3,7 +3,9 @@ import { Router } from '@angular/router';
 import { FirebaseBackendService } from '../firebase-backend.service';
 import * as firebase from 'firebase';
 import { ThrowStmt } from '@angular/compiler';
+import { ContactOptionsPage } from '../contact-options/contact-options.page';
 import { AlertController } from '@ionic/angular';
+import { PopoverController } from '@ionic/angular';
 import * as backend from '../backendClasses';
 
 @Component({
@@ -15,7 +17,7 @@ export class HomePage {
   private firebase: FirebaseBackendService;
   private qrData: string;
   private profile: backend.user = new backend.user(null,null,null,null,null,null,null,null,null,null);
-  constructor(private router: Router, public alertController: AlertController) {
+  constructor(private router: Router, private popOver: PopoverController, public alertController: AlertController) {
     firebase.auth().onAuthStateChanged(firebaseUser => {
       if(!firebaseUser)
       {
@@ -81,7 +83,18 @@ export class HomePage {
     await alert.present();
   }
 
-  swipe(ev: any) {
-    this.router.navigate(['profile']);
+  async openPopover(ev: any, contact: backend.contact) {
+    const pop = await this.popOver.create({
+      component: ContactOptionsPage,
+      componentProps: {'contact': contact},
+      translucent: true,
+      backdropDismiss: true,
+      cssClass: 'popover',
+      event: ev
+    });
+    await pop.present();
+    pop.onDidDismiss().then(option => {
+
+    });
   }
 }

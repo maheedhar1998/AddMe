@@ -1,10 +1,10 @@
 <ion-header>
   <ion-toolbar>
     <ion-searchbar class="search">  </ion-searchbar>
-    <ion-button slot="end" fill="clear" (click)="goToCamera()">
+    <ion-button slot="end" color="dark" fill="clear" (click)="goToCamera()">
       <ion-icon name="camera"></ion-icon>
     </ion-button>
-    <ion-button slot="end" fill="clear" (click)="logOut()">
+    <ion-button slot="end" color="dark" fill="clear" (click)="logOut()">
       <ion-icon name="log-out"></ion-icon>
     </ion-button>
   </ion-toolbar>
@@ -12,11 +12,11 @@
 
 <ion-content (swipe)="swipe($event)">
   <!-- main profile -->
-  <ion-item lines="none" id = "main" button (click)="goToProfile()">
+  <ion-item lines="none" id="main" (click)="goToProfile()">
     <ion-avatar>
-      <ion-img src = "{{profile.photo}}"></ion-img>
+      <ion-img src="{{profile.photo}}"></ion-img>
     </ion-avatar>
-    <ion-label  id = "main-head">
+    <ion-label id="main-head">
       {{profile.name}}
     </ion-label>
   </ion-item>
@@ -37,22 +37,18 @@
       <ion-card-content>
         <ion-grid>
           <ion-row>
-            <ion-col id ="avtar-width">
+            <ion-col id="avtar-width">
               <ion-avatar>
                 <ion-img src = "{{contact.photo}}"></ion-img>
               </ion-avatar>
             </ion-col>
-            <ion-col id ="user-info">
-              <ion-item-sliding>
-                <ion-item lines="none">
-                  <ion-title>{{contact.name}}</ion-title>
-                </ion-item>
-                <ion-item-options side="end">
-                  <ion-item-option color="danger" (click)="deleteContact(contact)">
-                    <ion-icon color="dark" style="font-size: 150%;" name="trash"></ion-icon>
-                  </ion-item-option>
-                </ion-item-options>
-              </ion-item-sliding>
+            <ion-col id="user-info">
+              <ion-item lines="none">
+                <ion-title>{{contact.name}}</ion-title>
+                <ion-button color="dark" size="large" fill="clear" slot="end" (click)="openPopover($event, contact)">
+                  <ion-icon slot="icon-only" name="more"></ion-icon>
+                </ion-button>
+              </ion-item>
             </ion-col>
           </ion-row>
         </ion-grid>
