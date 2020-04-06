@@ -4,7 +4,6 @@ import * as firebase from 'firebase';
 import { Router, ActivatedRoute } from '@angular/router';
 import * as backend from '../backendClasses';
 import { PopoverController } from '@ionic/angular';
-import { ContactsPage } from '../contacts/contacts.page';
 import { PopoverOtherPage } from '../popover-other/popover-other.page';
 
 @Component({
@@ -13,9 +12,11 @@ import { PopoverOtherPage } from '../popover-other/popover-other.page';
   styleUrls: ['./user-contact.page.scss'],
 })
 export class UserContactPage implements OnInit {
-  private profile: backend.contact;
+  private profile:backend.contact = {} as backend.contact
   private firebase: FirebaseBackendService;
-  private grid: {name: string, logo: string} [][] = [];
+  private logos: any[] = [];
+  private chunks: any[] = [];
+  private gridColumnSize = 3;
 
   constructor(private router: Router, private route: ActivatedRoute, private popOver: PopoverController) {
     firebase.auth().onAuthStateChanged(firebaseUser => {
@@ -23,9 +24,28 @@ export class UserContactPage implements OnInit {
         this.router.navigate(['login']);
       }else{
         this.firebase = new FirebaseBackendService(firebase.auth().currentUser.uid);
-        this.route.params.subscribe(dat => {
-          this.profile = JSON.parse(dat['contact']);
-          this.initGrid();
+        this.route.params.subscribe(data => {
+          this.profile = JSON.parse(data['contact']) as backend.contact;
+          console.log(this.profile)
+          this.logos = [
+            { name: 'instagram', logo:'instagram-2-1.svg'},
+            { name: 'facebook', logo:'facebook-icon.svg'},
+            { name: 'snapchat', logo:'snapchat.svg'},
+            { name: 'twitter', logo:'twitter.svg'},
+            { name: 'linkedin', logo:'linkedin-icon-2.svg'},
+            // { name: 'github', logo:'github.svg'},
+            // { name: 'tiktok', logo:'tiktok-logo.svg'},
+            // { name: 'whatsapp', logo:'whatsapp-symbol.svg'},
+            // { name: 'tinder', logo:'tinder-icon.svg'},
+            // { name: 'steam', logo:'steam-icon-logo.svg'},
+            // { name: 'gmail', logo:'gmail-icon.svg'},
+            // { name: 'outlook', logo:'outlook-1.svg'},
+            // { name: 'paypal', logo:'paypal-icon.svg'},
+            // { name: 'discord', logo:'discord.svg'},
+            // { name: 'kakaotalk', logo:'kakaotalk.svg'}
+          ] 
+          for(let i = 0; i < this.logos.length; i += this.gridColumnSize)
+          this.chunks.push(this.logos.slice(i, i + this.gridColumnSize))
         });
       }
     });
@@ -43,62 +63,15 @@ export class UserContactPage implements OnInit {
   }
 
   async openPopover(ev: any, typ: string) {
+    console.log(this.profile['username'])
     const pop = await this.popOver.create({
       component: PopoverOtherPage,
-      componentProps: {'type': typ, 'username': this.profile.getUsername},
+      componentProps: {'type': typ, 'username': this.profile['username']},
       translucent: true,
       backdropDismiss: true,
       cssClass: 'popover',
       event: ev
     });
     return await pop.present();
-  }
-  initGrid() {
-    let names: string[] = this.getNames();
-    let logos: string[] = this.getLogos();
-    if(names.length == logos.length) {
-      for(let i: number=0; i<Math.ceil(names.length/4); i++) {
-        this.grid[i] = [];
-        for(let j: number=0; j<4 && (i*4+j)<names.length; j++) {
-          this.grid[i][j] = {name: names[i*4+j],logo: logos[i*4+j]};
-        }
-      }
-    }
-  }
-  getNames(): string[] {
-    return ['instagram',
-              'facebook',
-              'snapchat',
-              'tiktok',
-              'github',
-              'twitter',
-              'linkedin',
-              'whatsapp',
-              'tinder',
-              'steam',
-              'gmail',
-              'outlook',
-              'venmo',
-              'paypal',
-              'discord',
-              'katalk'];
-  }
-  getLogos(): string[] {
-    return ['../assets/instagram-2-1.svg',
-                '../assets/facebook-icon.svg',
-                '../assets/snapchat.svg',
-                '../assets/tiktok-logo.svg',
-                '../assets/github.svg',
-                '../assets/twitter.svg',
-                '../assets/linkedin-icon-2.svg',
-                '../assets/whatsapp-symbol.svg',
-                '../assets/tinder-icon.svg',
-                '../assets/steam-icon-logo.svg',
-                '../assets/gmail-icon.svg',
-                '../assets/outlook-1.svg',
-                '../assets/venmo.svg',
-                '../assets/paypal-icon.svg',
-                '../assets/discord.svg',
-                '../assets/kakaotalk.svg'];
   }
 }

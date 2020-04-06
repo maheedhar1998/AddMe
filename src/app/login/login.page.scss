@@ -2,19 +2,12 @@
     max-width: 500px;
     left: 50%;
     transform: translateX(-50%);
-    top: 15%;
+    top: 5%;
     position: relative;
-  }
-  ion-title {
-    left: 50%;
-    transform: translateX(-50%);
-    position: absolute;
   }
 
   ion-content{
     --background: none;
-  //  background-image: url('/assets/loginPic.jpg');
-    background-color: rgba(238, 238, 247, 0.979);
     background-repeat: no-repeat;
     background-position: center;
     background-size: cover;

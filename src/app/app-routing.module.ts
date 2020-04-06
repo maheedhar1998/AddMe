@@ -9,11 +9,13 @@ const routes: Routes = [
   { path: 'contacts', loadChildren: './contacts/contacts.module#ContactsPageModule' },
   { path: 'qrcode', loadChildren: './qrcode/qrcode.module#QRcodePageModule' },
   { path: 'camera', loadChildren: './camera/camera.module#CameraPageModule' },
-  { path: 'profile', loadChildren: './profile/profile.module#ProfilePageModule' },  { path: 'settings', loadChildren: './settings/settings.module#SettingsPageModule' },
+  { path: 'profile', loadChildren: './profile/profile.module#ProfilePageModule' },
+  { path: 'settings', loadChildren: './settings/settings.module#SettingsPageModule' },
   { path: 'super-tabs', loadChildren: './super-tabs/super-tabs.module#SuperTabsPageModule' },
   { path: 'user-contact', loadChildren: './user-contact/user-contact.module#UserContactPageModule' },
   { path: 'popover-other', loadChildren: './popover-other/popover-other.module#PopoverOtherPageModule' },
-
+  { path: 'contact-options', loadChildren: './contact-options/contact-options.module#ContactOptionsPageModule' },
+  { path: 'editprofile', loadChildren: './editprofile/editprofile.module#EditprofilePageModule' }
 ];
 
 @NgModule({

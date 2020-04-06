@@ -1,6 +1,5 @@
 import { Component} from '@angular/core';
 import { Router } from '@angular/router';
-import * as firbase from 'firebase';
 import { FirebaseBackendService } from '../firebase-backend.service';
 @Component({
   selector: 'app-login',
@@ -11,10 +10,12 @@ export class LoginPage {
   private email: string;
   private password: string;
   private fire: FirebaseBackendService;
+  private rc1: boolean;
 
   constructor(private router: Router) {
     this.email = "";
     this.password = "";
+    this.rc1 = false;
     this.fire = new FirebaseBackendService(null);
   }
 
@@ -33,5 +34,24 @@ export class LoginPage {
         console.log(err)
       })
     }
+  }
+  async loginGoogle() {
+    await this.fire.loginWithGoogle().then(res => {
+      console.log(res);
+      if(res) {
+        this.router.navigate(['home']);
+      } else if(!res) {
+        console.log(res);
+      }
+    });
+  }
+  async loginFacebook() {
+    await this.fire.loginWithFacebook();
+  }
+  devLogin()
+  {
+    this.email = "test@gmail.com"
+    this.password = "Test12"
+    this.login()
   }
 }
