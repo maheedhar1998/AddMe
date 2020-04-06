@@ -1,11 +1,9 @@
 <ion-header>
   <ion-toolbar>
     <ion-button slot="start" fill="clear" shape="round" (click)="goBack()">
-      <ion-icon name="arrow-back"></ion-icon>
+      <ion-icon name="arrow-back" color="dark"></ion-icon>
     </ion-button>
-    <ion-button slot="end" shape="round" (click)="logOut()">
-      <ion-icon name="log-out"></ion-icon>
-    </ion-button>
+
     <ion-title class="ion-text-center">
       Edit Profile
     </ion-title>
@@ -16,29 +14,32 @@
 <ion-list>
   <ion-item-group>
     <ion-item-divider>  
-      <ion-label>Username</ion-label>
-      <ion-input></ion-input>
+      <ion-label color="dark">Name</ion-label>
+      <ion-input [(ngModel)]="user.name"></ion-input>
+    </ion-item-divider>
+
+    <ion-item-divider>  
+      <ion-label color="dark">Username</ion-label>
+      <ion-input [(ngModel)]="user.username"></ion-input>
     </ion-item-divider>
 
     <ion-item-divider>
-      <ion-label>Email</ion-label>
-      <ion-input></ion-input>
+      <ion-label color="dark">Email</ion-label>
+      <ion-input [(ngModel)]="user.email"></ion-input>
     </ion-item-divider>
 
     <ion-item-divider>
-      <ion-label>Phone</ion-label>
-      <ion-input></ion-input>
+      <ion-label color="dark">Phone</ion-label>
+      <ion-input [(ngModel)]="user.phoneNumber"></ion-input>
     </ion-item-divider>
     
-    <ion-item-divider>
-      <ion-label>Password</ion-label>
-      <ion-input></ion-input>
-    </ion-item-divider>
-
-    <ion-button>
-      Change
-    </ion-button>
-    
+    <ion-row>
+      <ion-col class="ion-text-center">
+        <ion-button (click)="updateProfile()">
+          Update
+        </ion-button>
+      </ion-col>
+    </ion-row>
   </ion-item-group>
 </ion-list>
 </ion-content>

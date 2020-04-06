@@ -28,11 +28,6 @@ export class SettingsPage {
     })
   }
 
-  logOut() {
-    this.firebase.logOut();
-    this.router.navigate(['login']);
-  }
-
   goHome()
   {
     this.router.navigate(['home']);

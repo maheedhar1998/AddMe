@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import * as firebase from 'firebase';
-import { Router } from '@angular/router'
 import * as backend from './backendClasses';
 import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
 import { BackendCameraService } from './backend-camera.service'

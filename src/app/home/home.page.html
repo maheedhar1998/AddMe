@@ -1,25 +1,31 @@
 <ion-header>
     <ion-toolbar>
         <ion-searchbar inputmode="search" (ionChange)="filterContacts($event)" [(ngModel)]="searchKeyword"></ion-searchbar>
-        <ion-button slot="end" fill="clear" (click)="goToCamera()">
-            <ion-icon name="camera"></ion-icon>
+        <ion-button fill="clear" slot="end" color="dark"  (click)="goToCamera()">
+            <ion-icon name="camera"  color="dark"></ion-icon>
         </ion-button>
-        <ion-button slot="end" fill="clear" (click)="logOut()">
-            <ion-icon name="log-out"></ion-icon>
+        <ion-button slot="end" fill="clear" color="dark" (click)="logOut()">
+            <ion-icon name="log-out" color="dark"></ion-icon>
         </ion-button>
     </ion-toolbar>
 </ion-header>
 
-<ion-content (swipe)="swipe($event)">
-    <!-- main profile -->
-    <ion-item lines="none" id="main" button (click)="goToProfile()">
-        <ion-avatar>
-            <ion-img src="{{profile.photo}}"></ion-img>
-        </ion-avatar>
-        <ion-label id="main-head">
-            {{profile.name}}
-        </ion-label>
-    </ion-item>
+<ion-content>
+    <ion-card lines="none">
+        <ion-card-content class="ion-no-padding" lines="none">
+            <!-- main profile -->
+            <ion-item lines="none" id="main" button (click)="goToProfile()">
+                <ion-avatar>
+                    <ion-img src="{{profile.photo}}"></ion-img>
+                </ion-avatar>
+                <ion-label id="main-head">
+                    {{profile.name}}
+                    <br/>
+                    <small style="font-size:14px; color:#dd8429"><i>Click to view Your Profile</i></small>
+                </ion-label>
+            </ion-item>
+        </ion-card-content>
+    </ion-card>
     <!-- default QR Code -->
     <div>
         <div id="qr" *ngIf="qrData" (click)="goToQRCode()">
@@ -28,6 +34,18 @@
         </div>
         <!-- list of contacts -->
         <div id="contacts">
+            <div *ngIf="profile.contacts[0].id == 'N/A'">
+                <ion-card>
+                    <ion-item>
+                        <ion-label class="ion-text-center">No contacts!
+                            <br>
+                            <small style="color:#dd8429"><i>Try sharing your QR Code with a friend!</i></small>
+                        </ion-label>
+                    </ion-item>
+                </ion-card>
+            </div>
+
+            <div *ngIf="!profile.contacts[0].id == 'N/A'">
             <ion-card *ngFor="let contact of profile.contacts" (click)="goToUserContact(contact)">
                 <ion-card-content>
                     <ion-grid>
@@ -54,5 +72,6 @@
                 </ion-card-content>
             </ion-card>
         </div>
+    </div>
     </div>
 </ion-content>
