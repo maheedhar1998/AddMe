@@ -31,7 +31,7 @@ export class ProfilePage {
         this.firebase.getUserData().then(data => {
           this.profile = data;
         });
-
+        
         this.logos = [
           { name: 'instagram', logo:'instagram-2-1.svg'},
           { name: 'facebook', logo:'facebook-icon.svg'},
