@@ -12,7 +12,7 @@ import { PopoverOtherPage } from '../popover-other/popover-other.page';
   styleUrls: ['./user-contact.page.scss'],
 })
 export class UserContactPage implements OnInit {
-  private profile:backend.user = {} as backend.user
+  private profile:backend.contact = {} as backend.contact
   private firebase: FirebaseBackendService;
   private logos: any[] = [];
   private chunks: any[] = [];
@@ -25,7 +25,7 @@ export class UserContactPage implements OnInit {
       }else{
         this.firebase = new FirebaseBackendService(firebase.auth().currentUser.uid);
         this.route.params.subscribe(data => {
-          this.profile = JSON.parse(data['contact']) as backend.user;
+          this.profile = JSON.parse(data['contact']) as backend.contact;
           console.log(this.profile)
           this.logos = [
             { name: 'instagram', logo:'instagram-2-1.svg'},
@@ -63,9 +63,10 @@ export class UserContactPage implements OnInit {
   }
 
   async openPopover(ev: any, typ: string) {
+    console.log(this.profile['username'])
     const pop = await this.popOver.create({
       component: PopoverOtherPage,
-      componentProps: {'type': typ, 'username': this.profile.getUsername},
+      componentProps: {'type': typ, 'username': this.profile['username']},
       translucent: true,
       backdropDismiss: true,
       cssClass: 'popover',

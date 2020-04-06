@@ -258,16 +258,18 @@ export class FirebaseBackendService {
   }
   // Gets a contacts accessible socials
   async getContactAccessSocials(usrName: string): Promise<backend.social []> {
-    var qrCodes: {} [] = [];
+    var conts: {} [] = [];
     var accessSocials: backend.social[] = [];
     await this.getUserData().then(usr => {
-      qrCodes = usr.getQrCodes;
-      for(let i: number = 0; i<qrCodes.length; i++) {
-        if(qrCodes[i]['qContact']['username'] == usrName) {
-          accessSocials.push(qrCodes[i]['qContact']['accessSocials']);
+      conts = usr.getContacts;
+      for(let i: number = 0; i<conts.length; i++) {
+        console.log(usrName)
+        if(conts[i]['username'] == usrName) {
+          accessSocials.push(conts[i]['accessSocials']);
         }
       }
     });
+    console.log(accessSocials);
     return accessSocials;
   }
   // Gets social accounts of a type from a contact
@@ -276,10 +278,13 @@ export class FirebaseBackendService {
     var socialAccs: backend.socialAccount[];
     await this.getContactAccessSocials(usrName).then(usr => {
       let found: boolean = false;
-      let socials: {} [] = usr;
+      let socials: {} [] = usr['0'];
+      // console.log(usr);
       for(let i: number = 0; i<socials.length && !found; i++) {
-        // console.log(socials[i]);
+        // console.log(socials[i]['type'] == type)
+        // console.log(socials[i])
         if(socials[i]['type'] == type) {
+          // console.log(socials[i]);
           socialAccs = socials[i]['socialAccounts'];
           found = true;
         }
@@ -288,6 +293,7 @@ export class FirebaseBackendService {
         socialAccs = [new backend.socialAccount(null,null,null)];
       }
     });
+    // console.log(socialAccs);
     return socialAccs;
   }
   // Upload user taken photo to profile and return url

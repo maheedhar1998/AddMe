@@ -39,6 +39,10 @@ export class HomePage {
           this.profile = dat;
           this.filteredContacts = this.profile.getContacts;
           for(let i: number = 0; i<this.filteredContacts.length; i++) {
+            if(this.filteredContacts[i]['id'] == 'N/A') {
+              this.filteredContacts.splice(i,1);
+              i--;
+            }
             this.editContact.push(false);
           }
           this.qrData = JSON.stringify(this.profile.getQrCodes).substr(0,100);

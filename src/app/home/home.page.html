@@ -34,7 +34,7 @@
         </div>
         <!-- list of contacts -->
         <div id="contacts">
-            <div *ngIf="profile.contacts[0].id == 'N/A'">
+            <div *ngIf="profile.contacts[0].id == 'N/A' && profile.contacts.length == 1">
                 <ion-card>
                     <ion-item>
                         <ion-label class="ion-text-center">No contacts!
