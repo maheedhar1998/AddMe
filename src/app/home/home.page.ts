@@ -21,7 +21,7 @@ export class HomePage {
   private firebase: FirebaseBackendService;
   private qrData: string;
   private searchKeyword: string;
-  private filteredContacts: {} [];
+  private filteredContacts: {} [] = [];
   private editContact: boolean[] = [];
   private profile: backend.user = new backend.user(null,null,null,null,null,null,null,null,null,null, false);
   

@@ -36,7 +36,7 @@
                 </ion-button>
             </ion-col>
         </ion-row>
-        <ion-row>
+        <ion-row *ngIf="rc1">
             <ion-col class="ion-text-center">
                 <ion-button color="light" (click)="loginGoogle()">
                     <ion-icon name="logo-google" color="warning" slot="start"></ion-icon>
@@ -50,6 +50,11 @@
                     <ion-icon name="logo-facebook" color="primary" slot="start"></ion-icon>
                     Login
                 </ion-button>
+            </ion-col>
+        </ion-row>
+        <ion-row *ngIf="rc1">
+            <ion-col class="ion-text-center">
+                <ion-button color="light" (click)="devLogin()">Dev Login</ion-button>
             </ion-col>
         </ion-row>
     </div>

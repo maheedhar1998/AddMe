@@ -16,10 +16,10 @@
             <!-- main profile -->
             <ion-item lines="none" id="main" button (click)="goToProfile()">
                 <ion-avatar>
-                    <ion-img src="{{profile.photo}}"></ion-img>
+                    <ion-img src="{{profile.getPhoto}}"></ion-img>
                 </ion-avatar>
                 <ion-label id="main-head">
-                    {{profile.name}}
+                    {{profile.getName}}
                     <br/>
                     <small style="font-size:14px; color:#dd8429"><i>Click to view Your Profile</i></small>
                 </ion-label>
@@ -34,7 +34,7 @@
         </div>
         <!-- list of contacts -->
         <div id="contacts">
-            <div *ngIf="profile.contacts[0].id == 'N/A' && profile.contacts.length == 1">
+            <div *ngIf="filteredContacts.length == 0">
                 <ion-card>
                     <ion-item>
                         <ion-label class="ion-text-center">No contacts!
@@ -45,7 +45,7 @@
                 </ion-card>
             </div>
 
-            <div *ngIf="!(profile.contacts[0].id == 'N/A')">
+            <div *ngIf="filteredContacts.length != 0">
                 <ion-card *ngFor="let contact of filteredContacts; let i=index" (click)="goToUserContact(contact)">
                     <ion-card-content>
                         <ion-grid>
