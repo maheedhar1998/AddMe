@@ -9,14 +9,20 @@
     border-radius: 30pt;
   }
 }
-#qr
+
+#dummy-qrcode
 {
-  height:25vh;
-  width:100vw;
-  overflow:hidden;
-  display:inline-flex;
-  justify-content:center;
-  align-items:center;
+  text-align: center;
+  height:25%;
+  width:25%;
+  padding:20px;
+  margin:auto;
+}
+
+#dummy-qrcode img 
+{
+  border:3px solid orange;
+  border-radius:100%;
 }
 
 ngx-qrcode
