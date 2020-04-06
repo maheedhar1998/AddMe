@@ -3,7 +3,9 @@ import { Router } from '@angular/router';
 import { FirebaseBackendService } from '../firebase-backend.service';
 import * as firebase from 'firebase';
 import { ThrowStmt } from '@angular/compiler';
+import { ContactOptionsPage } from '../contact-options/contact-options.page';
 import { AlertController } from '@ionic/angular';
+import { PopoverController } from '@ionic/angular';
 import * as backend from '../backendClasses';
 import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
 import { ImagePicker } from '@ionic-native/image-picker/ngx';
@@ -20,7 +22,7 @@ export class HomePage {
   private searchKeyword: string;
   private filteredContacts: {} [];
   private profile: backend.user = new backend.user(null,null,null,null,null,null,null,null,null,null, false);
-  constructor(private router: Router, private alertController: AlertController, private camera: Camera, private imagePicker: ImagePicker) {
+  constructor(private router: Router, private alertController: AlertController, private popOver: PopoverController, private camera: Camera, private imagePicker: ImagePicker) {
     firebase.auth().onAuthStateChanged(firebaseUser => {
       if(!firebaseUser)
       {
@@ -132,6 +134,20 @@ export class HomePage {
    }
   swipe(ev: any) {
     this.router.navigate(['profile']);
+  }
+  async openPopover(ev: any, contact: backend.contact) {
+    const pop = await this.popOver.create({
+      component: ContactOptionsPage,
+      componentProps: {'contact': contact},
+      translucent: true,
+      backdropDismiss: true,
+      cssClass: 'popover',
+      event: ev
+    });
+    await pop.present();
+    pop.onDidDismiss().then(option => {
+
+    });
   }
   async takeProfilePicture() {
     this.firebase.takeAndUploadProfilePhoto(this.camera).then(url => {
