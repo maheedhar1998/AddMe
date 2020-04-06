@@ -106,16 +106,21 @@ export class FirebaseBackendService {
   // Updating user contact
   async updateUsersContact(old: backend.contact, saerowon: backend.contact) {
     var userContacts: {}[] = [];
+    console.log(old);
+    console.log(saerowon);
     await this.getUserData().then(usr => {
       userContacts = usr.getContacts;
+      console.log(userContacts)
       for(let i: number = 0; i<userContacts.length; i++) {
-        if(userContacts[i]['id'] == old['id'] && userContacts[i]['name'] == old['name'] && userContacts[i]['username'] == old[i]['username'] && userContacts[i]['email'] == old['email']
+        if(userContacts[i]['id'] == old['id'] && userContacts[i]['name'] == old['name'] && userContacts[i]['username'] == old['username'] && userContacts[i]['email'] == old['email']
             && userContacts[i]['phoneNumber'] == old['phoneNumber'] && userContacts[i]['DOB'] == old['DOB'] && userContacts[i]['photo'] == old['photo'])
         {
+          console.log("hello")
           userContacts[i] = saerowon;
           break;
         }
       }
+      console.log(userContacts)
       var updates: {} = {};
       updates['Users/'+this.uid+'/contacts'] = userContacts;
       firebase.database().ref().update(updates);

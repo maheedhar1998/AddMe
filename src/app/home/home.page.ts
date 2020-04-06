@@ -1,3 +1,4 @@
+import { contact } from './../backendClasses';
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { FirebaseBackendService } from '../firebase-backend.service';
@@ -21,7 +22,9 @@ export class HomePage {
   private qrData: string;
   private searchKeyword: string;
   private filteredContacts: {} [];
+  private editContact: boolean[] = [];
   private profile: backend.user = new backend.user(null,null,null,null,null,null,null,null,null,null, false);
+  
   constructor(private router: Router, private alertController: AlertController, private popOver: PopoverController, private camera: Camera, private imagePicker: ImagePicker) {
     firebase.auth().onAuthStateChanged(firebaseUser => {
       if(!firebaseUser)
@@ -31,8 +34,12 @@ export class HomePage {
       else
       {
         this.firebase =  new FirebaseBackendService(firebase.auth().currentUser.uid);
+        this.editContact = [];
         this.firebase.getUserData().then(dat => {
           this.profile = dat;
+          for(let i: number = 0; i<this.profile.getContacts.length; i++) {
+            this.editContact.push(false);
+          }
           this.qrData = JSON.stringify(this.profile.getQrCodes).substr(0,100);
           if (this.profile.getFirst) {
             console.log('profile');
@@ -40,6 +47,7 @@ export class HomePage {
           }
           console.log(dat);
           this.searchKeyword = "";
+          console.log(this.editContact);
         });
       }
     });
@@ -135,7 +143,7 @@ export class HomePage {
   swipe(ev: any) {
     this.router.navigate(['profile']);
   }
-  async openPopover(ev: any, contact: backend.contact) {
+  async openPopover(ev: any, contact: backend.contact, i) {
     const pop = await this.popOver.create({
       component: ContactOptionsPage,
       componentProps: {'contact': contact},
@@ -146,7 +154,18 @@ export class HomePage {
     });
     await pop.present();
     pop.onDidDismiss().then(option => {
-
+      console.log(option)
+      if(option.data == 'edit') {
+        this.editContact[i] = true;
+      }
+    });
+  }
+  async saveContact(cont: backend.contact, i) {
+    console.log("attempt")
+    await this.firebase.getUserData().then(async usr => {
+      console.log("usr")
+      await this.firebase.updateUsersContact(usr.getContacts[i], cont);
+      this.editContact[i] = false;
     });
   }
   async takeProfilePicture() {

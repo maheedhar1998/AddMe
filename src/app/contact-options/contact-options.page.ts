@@ -57,6 +57,7 @@ export class ContactOptionsPage implements OnInit {
   }
 
   edit() {
+    console.log(this.option);
     this.popOver.dismiss(this.option);
   }
 
