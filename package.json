@@ -40,6 +40,7 @@
     "cordova-plugin-facebook4": "^6.2.0",
     "cordova-plugin-qrscanner": "3.0.1",
     "cordova-plugin-telerik-imagepicker": "^2.3.3",
+    "cordova-res": "^0.12.1",
     "cordova-sqlite-storage": "^5.0.0",
     "core-js": "^2.5.4",
     "firebase": "^7.13.2",
@@ -52,6 +53,7 @@
     "npm": "^6.14.4",
     "ode": "0.0.3",
     "rxjs": "~6.5.1",
+    "sharp": "^0.25.2",
     "tslib": "^1.9.0",
     "twitter-connect-plugin": "^0.6.0",
     "zone.js": "~0.9.1"
