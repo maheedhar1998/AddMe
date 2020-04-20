@@ -321,12 +321,12 @@ export class FirebaseBackendService {
       quality: 100,
       outputType: OutputType.DATA_URL
     }
-    alert("options");
+    // alert("options");
     const name = new Date().getTime().toString();
     await imagePicker.getPictures(options).then(async result => {
-      alert("image recieved");
+      // alert("image recieved");
       await firebase.storage().ref('Profile Pics/'+this.uid+'/'+name).putString('data:text/plain;base64,'+result, 'data_url', {contentType: 'image/jpeg'}).then(async urlSnap => {
-        alert('Upload success');
+        // alert('Upload success');
         await firebase.storage().ref('Profile Pics/'+this.uid+'/'+name).getDownloadURL().then(url => {
           urlPic = url;
           alert("url success");

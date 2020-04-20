@@ -16,12 +16,12 @@ export class BackendCameraService {
       mediaType: cam.MediaType.PICTURE,
       correctOrientation: true
     };
-    alert("options");
+    // alert("options");
     var profilePic: string;
     await cam.getPicture(options).then((imageData) => {
       profilePic = imageData;
     }, (err) => {
-      alert(err);
+      // alert(err);
       profilePic = "N/A";
     });
     return profilePic;

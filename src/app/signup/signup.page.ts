@@ -4,6 +4,7 @@ import { EqualityValidator } from './validation/validators'
 import ValidationMessages from './validation/validationMessages'
 import { Router } from '@angular/router'
 import { FirebaseBackendService } from '../firebase-backend.service';
+import { AlertController } from '@ionic/angular';
 
 @Component({
   selector: 'app-signup',
@@ -23,7 +24,7 @@ export class SignupPage implements OnInit {
   private phone: string;
   private firebase: FirebaseBackendService;
 
-  constructor(private formBuilder: FormBuilder, private router: Router) {
+  constructor(private formBuilder: FormBuilder, private router: Router, private alertController: AlertController) {
     this.name = "";
     this.username = "";
     this.password = "";
@@ -76,12 +77,24 @@ export class SignupPage implements OnInit {
       await this.firebase.signupWithEmail(signupForm.value.matchingEmails.email, signupForm.value.matchingPasswords.password).then(val => {
         uid = val.user.uid;
         console.log(val);
+        this.firebase.sendUserDataSignUp(signupForm.value.name, signupForm.value.username, signupForm.value.matchingEmails.email, signupForm.value.phone, null, defaultProfilePicture, uid);
+        this.router.navigate(['login']);
+      }).catch((error) => {
+        if(error.code == 'auth/email-already-exists') {
+          this.presentEmailExistsAlert();
+        }
       });
-      this.firebase.sendUserDataSignUp(signupForm.value.name, signupForm.value.username, signupForm.value.matchingEmails.email, signupForm.value.phone, null, defaultProfilePicture, uid);
-      this.router.navigate(['login']);
     }
+    return;
+  }
 
-    return
+  async presentEmailExistsAlert() {
+    const alert = await this.alertController.create({
+      header: 'Email Exists',
+      message: 'The given email is already registered to an account. Would you like to Login?',
+      buttons: ['OK', 'Cancel']
+    });
+    await alert.present();
   }
 
   goToLogin()
