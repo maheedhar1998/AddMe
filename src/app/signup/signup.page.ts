@@ -37,7 +37,7 @@ export class SignupPage implements OnInit {
       password: new FormControl('', Validators.compose([
         Validators.minLength(6),
         Validators.required,
-        Validators.pattern('^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])[a-zA-Z0-9]+$') // Password must contain at least one uppercase, one lowercase, and one number.
+        Validators.pattern('^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])[a-zA-Z0-9!@#$%^&*()-=_+{}|:;"\'<>,.?/]*$') // Password must contain at least one uppercase, one lowercase, and one number.
       ])),
       confirmPassword: new FormControl('', Validators.required)
     }, (formGroup: FormGroup) => {
