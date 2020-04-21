@@ -4,6 +4,7 @@ import { EqualityValidator } from './validation/validators'
 import ValidationMessages from './validation/validationMessages'
 import { Router } from '@angular/router'
 import { FirebaseBackendService } from '../firebase-backend.service';
+import { ToastController } from '@ionic/angular'
 
 @Component({
   selector: 'app-signup',
@@ -23,7 +24,9 @@ export class SignupPage implements OnInit {
   private phone: string;
   private firebase: FirebaseBackendService;
 
-  constructor(private formBuilder: FormBuilder, private router: Router) {
+  constructor(private formBuilder: FormBuilder,
+              private router: Router,
+              private toastController: ToastController) {
     this.name = "";
     this.username = "";
     this.password = "";
@@ -80,10 +83,18 @@ export class SignupPage implements OnInit {
         uid = val.user.uid;
         console.log(val);
       });
+
       this.firebase.sendUserDataSignUp(signupForm.value.name, signupForm.value.username, signupForm.value.matchingEmails.email, signupForm.value.phone, null, defaultProfilePicture, uid);
+
+      const toast = await this.toastController.create({
+        message: 'Account created. You may now log in.',
+        duration: 4000,
+        color:"primary"
+      });
+
+      toast.present();
       this.router.navigate(['login']);
     }
-
     return
   }
 

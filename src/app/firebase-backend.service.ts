@@ -368,4 +368,10 @@ export class FirebaseBackendService {
       console.log("Logged Out");
     });
   }
+
+  async deleteAccount(uid: string)
+  {
+    await firebase.database().ref('Users/'+ uid).remove()
+    console.log("Account deleted")
+  }
 }

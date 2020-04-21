@@ -1,6 +1,8 @@
 import { Component} from '@angular/core';
 import { Router } from '@angular/router';
 import { FirebaseBackendService } from '../firebase-backend.service';
+import { ToastController } from '@ionic/angular'
+
 @Component({
   selector: 'app-login',
   templateUrl: './login.page.html',
@@ -12,7 +14,8 @@ export class LoginPage {
   private fire: FirebaseBackendService;
   private rc1: boolean;
 
-  constructor(private router: Router) {
+  constructor(private router: Router,
+              private toastController: ToastController) {
     this.email = "";
     this.password = "";
     this.rc1 = false;
@@ -22,19 +25,30 @@ export class LoginPage {
   signup() {
     this.router.navigate(['signup'])
   }
+
   login() {
     if(this.email == "" || this.password == "") {
-      alert("Please enter an Email and/or Password");
+      this.showToastMessage("Please enter an Email and/or Password", "danger");
     } else {
       this.fire.loginWithEmail(this.email, this.password).then(() => {
         this.router.navigate(['home']);
       })
       .catch(err => {
-        alert("The Email or Password is incorrect.")
-        console.log(err)
+        this.showToastMessage(err.message, "danger")
       })
     }
   }
+
+  async showToastMessage(msg, level = "primary")
+  {
+    const toast = await this.toastController.create({
+      message: msg,
+      duration: 4000,
+      color: level
+    });
+    toast.present();
+  }
+
   async loginGoogle() {
     await this.fire.loginWithGoogle().then(res => {
       console.log(res);
@@ -45,9 +59,11 @@ export class LoginPage {
       }
     });
   }
+
   async loginFacebook() {
     await this.fire.loginWithFacebook();
   }
+
   devLogin()
   {
     this.email = "test@gmail.com"
