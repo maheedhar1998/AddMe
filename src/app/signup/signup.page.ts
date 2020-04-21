@@ -55,7 +55,10 @@ export class SignupPage implements OnInit {
     }, (formGroup: FormGroup) => EqualityValidator.areEqual(formGroup))
 
     this.validateSignupForm = this.formBuilder.group({
-      name: new FormControl('', Validators.required),
+      name: new FormControl('', Validators.compose([
+        Validators.required,
+        Validators.maxLength(20)
+      ])),
       username: new FormControl('', Validators.compose([
         Validators.required,
         Validators.maxLength(25),
