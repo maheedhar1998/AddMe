@@ -2,6 +2,8 @@ import { Component} from '@angular/core';
 import { Router } from '@angular/router';
 import { FirebaseBackendService } from '../firebase-backend.service';
 import { ToastController } from '@ionic/angular'
+import { AlertController } from '@ionic/angular';
+import * as firebase from 'firebase'
 
 @Component({
   selector: 'app-login',
@@ -15,7 +17,8 @@ export class LoginPage {
   private rc1: boolean;
 
   constructor(private router: Router,
-              private toastController: ToastController) {
+              private toastController: ToastController,
+              private alertController: AlertController) {
     this.email = "";
     this.password = "";
     this.rc1 = false;
@@ -37,6 +40,51 @@ export class LoginPage {
         this.showToastMessage(err.message, "danger")
       })
     }
+  }
+
+  forgotPassword()
+  {
+    this.presentAlertPrompt()
+  }
+
+  async presentAlertPrompt() {
+    const alert = await this.alertController.create({
+      header: 'Forgot Password',
+      inputs: [
+        {
+          name: 'email',
+          type: 'text',
+          placeholder: 'Enter your email address'
+        }
+      ],
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          cssClass: 'secondary',
+          handler: () => {
+            return true
+          }
+        }, {
+          text: 'Ok',
+          handler: (val) => {
+            this.sendForgotPasswordEmail(val.email.trim())
+          }
+        }
+      ]
+    });
+
+    await alert.present();
+  }
+
+  sendForgotPasswordEmail(email)
+  {
+    firebase.auth().sendPasswordResetEmail(email).then(async () => {
+      this.showToastMessage("Check your inbox for your password reset link.", "success")
+    })
+    .catch(err => {
+      throw new Error(err)
+    })
   }
 
   async showToastMessage(msg, level = "primary")
