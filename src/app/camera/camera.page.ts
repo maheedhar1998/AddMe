@@ -40,9 +40,10 @@ export class CameraPage implements OnInit {
           // At this point, a QR code was recognized and scanned
           // The QR data is stored in 'text'...
           let newCon: backend.contact = JSON.parse(text)['qContact'];
-          alert(JSON.stringify(newCon));
+          let newQid: string = JSON.parse(text)['qid']
+          alert(newCon);
           if(newCon.getAccessSocials == null) {
-            let tempFire: FirebaseBackendService = new FirebaseBackendService(newCon.getId);
+            let tempFire: FirebaseBackendService = new FirebaseBackendService(newQid);
             await tempFire.getUserData().then(async usr => {
               this.profile = usr;
               newCon = this.profile.getQrCodes[0]['qContact'];
@@ -74,8 +75,7 @@ export class CameraPage implements OnInit {
             this.router.navigate(['home']);
           }
         });
-      }
-      else if (status.denied) {
+      } else if (status.denied) {
         alert('camera permission denied');
         this.qrScanCtrl.openSettings();
       }
