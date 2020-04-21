@@ -32,7 +32,7 @@
         <ion-row *ngFor="let row of chunks">
             <ion-col *ngFor="let item of row" class="ion-text-center">
                 <ion-avatar (click)="openPopover($event, item.name)">
-                    <ion-img src="./assets/{{item.logo}}"></ion-img>
+                    <ion-img src="./assets/{{item.logo}}" style="background:white;"></ion-img>
                 </ion-avatar>
             </ion-col>
         </ion-row>
