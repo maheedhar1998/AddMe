@@ -46,7 +46,7 @@ export class FirebaseBackendService {
   // Send users data to firebse and sets in the way desribed by architecture milestone
   public async sendUserDataSignUp(name_user: string, username_user: string, email_user: string, phoneNumber_user: string, dateOfBirth: Date, photo_user: string, uid: string ) {
     this.uid = uid;
-    var user: backend.user = new backend.user(this.uid, name_user, username_user, email_user, phoneNumber_user, dateOfBirth, photo_user, null, null, [new backend.qrCode(null, new backend.contact(null,username_user,name_user,email_user,phoneNumber_user,dateOfBirth,photo_user,null))],true);
+    var user: backend.user = new backend.user(this.uid, name_user, username_user, email_user, phoneNumber_user, dateOfBirth, photo_user, null, null, [new backend.qrCode(null, new backend.contact(uid,username_user,name_user,email_user,phoneNumber_user,dateOfBirth,photo_user,null))],true);
     console.log(this.uid);
     console.log(user);
     await firebase.database().ref('Users/'+this.uid).set(user).then((res) => {
@@ -361,6 +361,10 @@ export class FirebaseBackendService {
       ret = val;
     });
     return ret;
+  }
+  // Flags whether or not a given database 'location' has been changed
+  async checkChange(loc: string): Promise<boolean> {
+    return true;
   }
   // Logs Out
   async logOut() {

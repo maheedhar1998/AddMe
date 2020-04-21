@@ -1,3 +1,4 @@
+import { AlertController } from '@ionic/angular';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { QRScanner, QRScannerStatus } from '@ionic-native/qr-scanner/ngx';
@@ -13,7 +14,7 @@ import * as backend from '../backendClasses';
 export class CameraPage implements OnInit {
   private fire: FirebaseBackendService;
   private profile: backend.user;
-  constructor(private router: Router, private qrScanCtrl: QRScanner) {
+  constructor(private router: Router, private qrScanCtrl: QRScanner, private alertController: AlertController) {
     firebase.auth().onAuthStateChanged(firebaseUser => {
       if(!firebaseUser)
       {
@@ -38,18 +39,40 @@ export class CameraPage implements OnInit {
         const scanSub = this.qrScanCtrl.scan().subscribe(async (text: string) => {
           // At this point, a QR code was recognized and scanned
           // The QR data is stored in 'text'...
-          let newCon: backend.contact = JSON.parse(text).qContact;
+          let newCon: backend.contact = JSON.parse(text)['qContact'];
+          alert(JSON.stringify(newCon));
           if(newCon.getAccessSocials == null) {
-            await this.fire.getUserData().then(usr => {
+            let tempFire: FirebaseBackendService = new FirebaseBackendService(newCon.getId);
+            await tempFire.getUserData().then(async usr => {
               this.profile = usr;
               newCon = this.profile.getQrCodes[0]['qContact'];
+              this.fire.addToUserContacts(newCon);
+              const alert = await this.alertController.create({
+                header: 'Contact Added',
+                message: `Your friend ${newCon.getName} has been added to your contact list`,
+                buttons: ['OK']
+              });
+              await alert.present();
+              // Close QR scanner
+              this.qrScanCtrl.hide();
+              this.qrScanCtrl.destroy();
+              scanSub.unsubscribe();
+              this.router.navigate(['home']);
             });
+          } else {
+            this.fire.addToUserContacts(newCon);
+            const alert = await this.alertController.create({
+              header: 'Contact Added',
+              message: `Your friend ${newCon.getName} has been added to your contact list`,
+              buttons: ['OK']
+            });
+            await alert.present();
+            // Close QR scanner
+            this.qrScanCtrl.hide();
+            this.qrScanCtrl.destroy();
+            scanSub.unsubscribe();
+            this.router.navigate(['home']);
           }
-          this.fire.addToUserContacts(newCon);
-          // Close QR scanner
-          this.qrScanCtrl.hide();
-          this.qrScanCtrl.destroy();
-          scanSub.unsubscribe();
         });
       }
       else if (status.denied) {

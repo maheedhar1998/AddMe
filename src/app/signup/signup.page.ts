@@ -92,7 +92,16 @@ export class SignupPage implements OnInit {
     const alert = await this.alertController.create({
       header: 'Email Exists',
       message: 'The given email is already registered to an account. Would you like to Login?',
-      buttons: ['OK', 'Cancel']
+      buttons: [{
+        text: 'OK',
+        handler: () => {
+          this.router.navigate(['login']);
+        }
+      },
+      {
+        text: 'Try SignUp Again',
+        role: 'cancel'
+      }]
     });
     await alert.present();
   }
