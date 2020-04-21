@@ -4,6 +4,7 @@ import { EqualityValidator } from './validation/validators'
 import ValidationMessages from './validation/validationMessages'
 import { Router } from '@angular/router'
 import { FirebaseBackendService } from '../firebase-backend.service';
+import { AlertController } from '@ionic/angular';
 import { ToastController } from '@ionic/angular'
 
 @Component({
@@ -26,7 +27,8 @@ export class SignupPage implements OnInit {
 
   constructor(private formBuilder: FormBuilder,
               private router: Router,
-              private toastController: ToastController) {
+              private toastController: ToastController,
+              private alertController: AlertController) {
     this.name = "";
     this.username = "";
     this.password = "";
@@ -79,23 +81,43 @@ export class SignupPage implements OnInit {
     {
       var uid = "";
       const defaultProfilePicture = "https://firebasestorage.googleapis.com/v0/b/addme-cd3be.appspot.com/o/default-user.png?alt=media&token=8c6caf56-6236-475d-a301-095cb60d7c93"
-      await this.firebase.signupWithEmail(signupForm.value.matchingEmails.email, signupForm.value.matchingPasswords.password).then(val => {
+      await this.firebase.signupWithEmail(signupForm.value.matchingEmails.email, signupForm.value.matchingPasswords.password).then(async val => {
         uid = val.user.uid;
         console.log(val);
+        this.firebase.sendUserDataSignUp(signupForm.value.name, signupForm.value.username, signupForm.value.matchingEmails.email, signupForm.value.phone, null, defaultProfilePicture, uid);
+        const toast = await this.toastController.create({
+          message: 'Account created. You may now log in.',
+          duration: 4000,
+          color:"primary"
+        });
+
+        toast.present();
+        this.router.navigate(['login']);
+      }).catch((error) => {
+        if(error.code == 'auth/email-already-exists') {
+          this.presentEmailExistsAlert();
+        }
       });
-
-      this.firebase.sendUserDataSignUp(signupForm.value.name, signupForm.value.username, signupForm.value.matchingEmails.email, signupForm.value.phone, null, defaultProfilePicture, uid);
-
-      const toast = await this.toastController.create({
-        message: 'Account created. You may now log in.',
-        duration: 4000,
-        color:"primary"
-      });
-
-      toast.present();
-      this.router.navigate(['login']);
     }
-    return
+    return;
+  }
+
+  async presentEmailExistsAlert() {
+    const alert = await this.alertController.create({
+      header: 'Email Exists',
+      message: 'The given email is already registered to an account. Would you like to Login?',
+      buttons: [{
+        text: 'OK',
+        handler: () => {
+          this.router.navigate(['login']);
+        }
+      },
+      {
+        text: 'Try SignUp Again',
+        role: 'cancel'
+      }]
+    });
+    await alert.present();
   }
 
   goToLogin()
