@@ -17,14 +17,22 @@ export class ContactsPage implements OnInit {
   private username: string;
   private url: string;
   private socialAccounts: backend.socialAccount[];
+  private editing: boolean;
   private adding: boolean;
+  private mode: boolean;
   private none: boolean;
+  private usernameSM: string[];
+  private editingAccount: backend.socialAccount;
+
   constructor(private router: Router, private navParam: NavParams) {
     this.id = "";
     this.username = "";
     this.url = "";
     this.adding = false;
+    this.editing = false;
+    this.mode = false;
     this.none = false;
+    this.usernameSM = ["facebook", "instagram", "snapchat", "twitter"];
     firebase.auth().onAuthStateChanged(firebaseUser => {
       if(!firebaseUser)
       {
@@ -44,6 +52,7 @@ export class ContactsPage implements OnInit {
               this.none = true;
             }
           console.log(socialsArr);
+          this.editingAccount = new backend.socialAccount(null,null,null);
         });
       }
     });
@@ -57,9 +66,43 @@ export class ContactsPage implements OnInit {
     this.adding = true;
   }
 
+  edit(account: backend.socialAccount) {
+    console.log(account);
+    this.editingAccount = account;
+    this.id = account['id'];
+    this.username = account['user'];
+    this.url = account['url'];
+    this.editing = true;
+  }
+
+  modeChange() {
+    if(this.mode == false) {
+      this.mode = true;
+    }
+    else {
+      this.mode = false;
+    }
+  }
+
+  editAccount() {
+    this.id = this.username;
+    this.firebase.updateSocialAccount(this.type, this.editingAccount, this.firebase.generateSocialAccountFromInfo(this.type,this.username, this.id, this.url));
+    this.id = "";
+    this.username = "";
+    this.url = "";
+    this.modeChange();
+  }
+
+  deleteAccount(account: backend.socialAccount) {
+    console.log(account);
+    this.firebase.deleteSocialAccount(this.type, account);
+    this.modeChange();
+  }
+
   addSMAccount() {
-    this.firebase.addSocialAccount(this.type, new backend.socialAccount(this.id,this.username,this.url));
+    this.firebase.addSocialAccount(this.type, this.firebase.generateSocialAccountFromInfo(this.type,this.username, this.id, this.url));
     this.adding = false;
+    this.modeChange();
     this.id = "";
     this.username = "";
     this.url = "";

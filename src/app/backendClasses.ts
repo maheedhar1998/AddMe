@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 @Injectable({
   providedIn: 'root'
 })
+
 export class Message {
   private senderUid: string;
   private receiverUid: string;
@@ -110,6 +111,12 @@ export class socialAccount {
     this.setUrl = tempUrl;
     this.setUser = tempUser;
   }
+  public isEqual(sAcot: socialAccount): boolean {
+    if(this.id == sAcot.id && this.user == sAcot.user && this.url == sAcot.url){
+      return true;
+    }
+    return false;
+  }
   public get getId(): string {
     return this.id;
   }
@@ -163,6 +170,14 @@ export class contact {
       this.setDOB = tempDate;
       this.setPhoto = tempPhoto;
       this.setAccessSocials = tempAccessSocial;
+  }
+  public isEqual(cont: contact): boolean {
+    if(this.id == cont.id && this.name == cont.name && this.username == this.username && this.email == cont.email
+        && this.phoneNumber == cont.phoneNumber && this.DOB == cont.DOB && this.photo == cont.photo
+        && this.accessSocials == cont.accessSocials){
+      return true;
+    }
+    return false;
   }
   public get getId(): string {
     return this.id;
@@ -309,6 +324,7 @@ export class user {
   private name: string;
   private username: string;
   private email: string;
+  private first: boolean;
   private phoneNumber: string;
   private DOB: Date;
   private photo: string;
@@ -317,11 +333,12 @@ export class user {
   private qrCodes: qrCode[];
   constructor(u_id: string, name_user: string, username_user: string,
     email_user: string, phoneNumber_user: string, dob: Date, photo_user: string,
-    socials_user: social[], contacts_user: contact[], qrCode_user: qrCode[]) {
+    socials_user: social[], contacts_user: contact[], qrCode_user: qrCode[], first_user: boolean) {
       this.setUid = u_id;
       this.setName = name_user;
       this.setUsername = username_user;
       this.setEmail = email_user;
+      this.setFirst = first_user;
       this.setPhoneNumber = phoneNumber_user;
       this.setDOB = dob;
       this.setPhoto = photo_user;
@@ -340,6 +357,9 @@ export class user {
   }
   public get getEmail(): string {
     return this.email;
+  }
+  public get getFirst(): boolean {
+    return this.first;
   }
   public get getPhoneNumber(): string {
     return this.phoneNumber;
@@ -386,6 +406,9 @@ export class user {
     } else if(email_user == null) {
       this.email = "N/A";
     }
+  }
+  public set setFirst(fst: boolean) {
+    this.first = fst;
   }
   public set setPhoneNumber(phoneNumber_user: string) {
     if(phoneNumber_user != null) {

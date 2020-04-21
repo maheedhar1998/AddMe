@@ -1,58 +1,79 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-searchbar class="search">  </ion-searchbar>
-    <ion-button slot="end" fill="clear" (click)="goToCamera()">
-      <ion-icon name="camera"></ion-icon>
-    </ion-button>
-    <ion-button slot="end" fill="clear" (click)="logOut()">
-      <ion-icon name="log-out"></ion-icon>
-    </ion-button>
-  </ion-toolbar>
+    <ion-toolbar>
+        <ion-searchbar inputmode="search" placeHolder="Search Contacts" (ionChange)="filterContacts($event)" [(ngModel)]="searchKeyword"></ion-searchbar>
+        <ion-button fill="clear" slot="end" color="dark" (click)="goToCamera()">
+            <ion-icon name="camera" color="dark"></ion-icon>
+        </ion-button>
+        <ion-button slot="end" fill="clear" color="dark" (click)="logOut()">
+            <ion-icon name="log-out" color="dark"></ion-icon>
+        </ion-button>
+    </ion-toolbar>
 </ion-header>
 
-<ion-content (swipe)="swipe($event)">
-  <!-- main profile -->
-  <ion-item lines="none" id = "main" button (click)="goToProfile()">
-    <ion-avatar>
-      <ion-img src = "{{profile.photo}}"></ion-img>
-    </ion-avatar>
-    <ion-label  id = "main-head">
-      {{profile.name}}
-    </ion-label>
-    <ion-text id = "main-title">
-      Available
-    </ion-text>
-  </ion-item>
-  <!-- default QR Code -->
-  <div>
-    <div id="qr" *ngIf="qrData" (click)="goToQRCode()">
-      <ngx-qrcode id="qrcode"
-        [qrc-element-type]="elementType"
-        [qrc-value]="qrData"
-        qrc-class="qr-class"
-        qrc-erjrorCorrectionLevel="H">
-      </ngx-qrcode>
-    </div>
-  </div>
-  <!-- list of contacts -->
-  <div id="contacts">
-    <ion-card *ngFor="let contact of profile.contacts">
-      <ion-card-content>
-        <ion-grid>
-          <ion-row>
-            <ion-col id ="avtar-width">
-              <ion-avatar>
-                <ion-img src = "{{contact.photo}}"></ion-img>
-              </ion-avatar>
-            </ion-col>  
-            <ion-col id ="user-info">
-              <ion-item lines="none">
-                <ion-title>{{contact.name}}</ion-title>
-              </ion-item>
-            </ion-col>
-          </ion-row>
-        </ion-grid>
-      </ion-card-content>
+<ion-content>
+    <ion-card lines="none">
+        <ion-card-content class="ion-no-padding" lines="none">
+            <!-- main profile -->
+            <ion-item lines="none" id="main" button (click)="goToProfile()">
+                <ion-avatar>
+                    <ion-img src="{{profile.getPhoto}}"></ion-img>
+                </ion-avatar>
+                <ion-label id="main-head">
+                    {{profile.getName}}
+                    <br/>
+                    <small style="font-size:14px; color:#dd8429"><i>Click to view Your Profile</i></small>
+                </ion-label>
+            </ion-item>
+        </ion-card-content>
     </ion-card>
-  </div>
+    <!-- default QR Code -->
+    <div>
+        <ion-card-content id="dummy-qrcode" (click)="goToQRCode()">
+            <img src="../../assets/dummyqr.png"/>
+        </ion-card-content>
+        <!-- list of contacts -->
+        <div id="contacts">
+            <div *ngIf="filteredContacts.length == 0">
+                <ion-card>
+                    <ion-item>
+                        <ion-label class="ion-text-center">No contacts!
+                            <br>
+                            <small style="color:#dd8429"><i>Try sharing your QR Code with a friend!</i></small>
+                        </ion-label>
+                    </ion-item>
+                </ion-card>
+            </div>
+
+            <div *ngIf="filteredContacts.length != 0">
+                <ion-card *ngFor="let contact of filteredContacts; let i=index" (click)="goToUserContact(contact)">
+                    <ion-card-content>
+                        <ion-grid>
+                            <ion-row>
+                                <ion-col id="avtar-width">
+                                    <ion-avatar>
+                                        <ion-img src="{{contact.photo}}"></ion-img>
+                                    </ion-avatar>
+                                </ion-col>
+                                <ion-col id="user-info">
+                                    <ion-item lines="none">
+                                        <ion-title>{{contact.name}}</ion-title>
+                                        <ion-button color="dark" size="large" fill="clear" slot="end" (click)="openPopover($event, contact, i)">
+                                            <ion-icon slot="icon-only" name="more"></ion-icon>
+                                        </ion-button>
+                                    </ion-item>
+                                    <ion-item line="none" *ngIf="editContact[i]">
+                                        <ion-label>Name:</ion-label>
+                                        <ion-input type="text" [(ngModel)]="contact.name"></ion-input>
+                                        <ion-button fill="clear" (click)="saveContact(contact, i)">
+                                            <ion-icon name="save"></ion-icon>
+                                        </ion-button>
+                                    </ion-item>
+                                </ion-col>
+                            </ion-row>
+                        </ion-grid>
+                    </ion-card-content>
+                </ion-card>
+            </div>
+        </div>
+    </div>
 </ion-content>

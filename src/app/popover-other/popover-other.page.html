@@ -1,0 +1,10 @@
+<ion-content>
+  <ion-card>
+    <ion-card-title>{{type}}</ion-card-title>
+    <ion-list *ngIf="!none">
+      <ion-item *ngFor="let account of socialAccounts" href="{{account.url}}">
+        <ion-label>{{account.user}}</ion-label>
+      </ion-item>
+    </ion-list>
+  </ion-card>
+</ion-content>

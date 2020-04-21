@@ -1,0 +1,21 @@
+.social-grid ion-img {
+  width: 75%;
+  height: 75%;
+}
+
+.social-grid ion-col
+{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding:3%;
+}
+
+ion-col.profile-col
+{
+  display: flex;
+  flex-flow: column;
+  flex-grow: 1;
+  align-items: center;
+  justify-content: center;
+}
