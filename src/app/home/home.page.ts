@@ -1,12 +1,12 @@
 import { contact } from './../backendClasses';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { FirebaseBackendService } from '../firebase-backend.service';
 import * as firebase from 'firebase';
 import { ThrowStmt } from '@angular/compiler';
 import { ContactOptionsPage } from '../contact-options/contact-options.page';
 import { AlertController } from '@ionic/angular';
-import { PopoverController } from '@ionic/angular';
+import { PopoverController, Events } from '@ionic/angular';
 import * as backend from '../backendClasses';
 import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
 import { ImagePicker } from '@ionic-native/image-picker/ngx';
@@ -17,7 +17,7 @@ import { ToastController } from '@ionic/angular';
   templateUrl: 'home.page.html',
   styleUrls: ['home.page.scss'],
 })
-export class HomePage {
+export class HomePage implements OnInit {
   private firebase: FirebaseBackendService;
   private qrData: string;
   private searchKeyword: string;
@@ -25,7 +25,45 @@ export class HomePage {
   private editContact: boolean[] = [];
   private profile: backend.user = new backend.user(null,null,null,null,null,null,null,null,null,null, false);
   
-  constructor(private router: Router, private alertController: AlertController, private popOver: PopoverController, private camera: Camera, private imagePicker: ImagePicker) {
+  constructor(private router: Router,
+              private alertController: AlertController,
+              private popOver: PopoverController,
+              private camera: Camera,
+              private imagePicker: ImagePicker,
+              private events: Events) {
+    const self = this
+    firebase.auth().onAuthStateChanged(firebaseUser => {
+      if(!firebaseUser)
+      {
+        this.router.navigate(['login']);
+      }
+      else
+      {
+        this.events.subscribe('update-profile', () => {    
+          self.firebase =  new FirebaseBackendService(firebase.auth().currentUser.uid);
+          self.editContact = [];
+          self.firebase.getUserData().then(dat => {
+            self.profile = dat;
+            self.filteredContacts = this.profile.getContacts;
+            for(let i: number = 0; i<this.filteredContacts.length; i++) {
+              if(self.filteredContacts[i]['id'] == 'N/A') {
+                self.filteredContacts.splice(i,1);
+                i--;
+              }
+              self.editContact.push(false);
+            }
+            self.qrData = JSON.stringify(this.profile.getQrCodes).substr(0,100);
+            self.searchKeyword = "";
+            console.log(self.editContact);
+          })
+        });
+      }
+    });
+  }
+
+  ngOnInit()
+  {
+    const self = this
     firebase.auth().onAuthStateChanged(firebaseUser => {
       if(!firebaseUser)
       {
@@ -36,22 +74,23 @@ export class HomePage {
         this.firebase =  new FirebaseBackendService(firebase.auth().currentUser.uid);
         this.editContact = [];
         this.firebase.getUserData().then(dat => {
-          this.profile = dat;
-          this.filteredContacts = this.profile.getContacts;
+          self.profile = dat;
+          self.filteredContacts = this.profile.getContacts;
           for(let i: number = 0; i<this.filteredContacts.length; i++) {
-            if(this.filteredContacts[i]['id'] == 'N/A') {
-              this.filteredContacts.splice(i,1);
+            if(self.filteredContacts[i]['id'] == 'N/A') {
+              self.filteredContacts.splice(i,1);
               i--;
             }
-            this.editContact.push(false);
+            self.editContact.push(false);
           }
-          this.qrData = JSON.stringify(this.profile.getQrCodes).substr(0,100);
-          this.searchKeyword = "";
-          console.log(this.editContact);
-        });
+          self.qrData = JSON.stringify(this.profile.getQrCodes).substr(0,100);
+          self.searchKeyword = "";
+          console.log(self.editContact);
+        })
       }
-    });
+    })
   }
+
   ionViewDidEnter(){
     if (this.profile.getFirst) {
         console.log('profile');
