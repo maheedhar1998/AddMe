@@ -20,6 +20,7 @@ import { HomePage } from './home.page';
     ]),
     NgxQRCodeModule
   ],
-  declarations: [HomePage]
+  declarations: 
+  [HomePage],
 })
 export class HomePageModule {}

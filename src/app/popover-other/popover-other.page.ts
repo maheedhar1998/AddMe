@@ -33,15 +33,9 @@ export class PopoverOtherPage implements OnInit {
         this.firebase = new FirebaseBackendService(firebase.auth().currentUser.uid);
         this.type = this.navParam.get('type');
         this.username = this.navParam.get('username');
+        console.log(this.username)
         this.firebase.getSocialAccountsTypeContact(this.type, this.username).then(socialsArr => {
           this.socialAccounts = socialsArr;
-          if(this.socialAccounts.length == 1
-            && this.socialAccounts[0].getId == "N/A"
-            && this.socialAccounts[0].getUrl == "N/A"
-            && this.socialAccounts[0].getUser == "N/A") {
-              this.socialAccounts = [];
-              this.none = true;
-            }
           console.log(socialsArr);
         });
       }
