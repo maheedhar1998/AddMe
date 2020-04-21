@@ -11,6 +11,7 @@ import { ImagePicker, ImagePickerOptions, OutputType } from '@ionic-native/image
 export class FirebaseBackendService {
   private uid: string;
   private cam: BackendCameraService;
+
   constructor(uId: string) {
     this.uid = uId;
     this.cam = new BackendCameraService();
@@ -321,27 +322,16 @@ export class FirebaseBackendService {
       quality: 100,
       outputType: OutputType.DATA_URL
     }
-    // alert("options");
+  
     const name = new Date().getTime().toString();
-    await imagePicker.getPictures(options).then(async result => {
-      // alert("image recieved");
-      await firebase.storage().ref('Profile Pics/'+this.uid+'/'+name).putString('data:text/plain;base64,'+result, 'data_url', {contentType: 'image/jpeg'}).then(async urlSnap => {
-        // alert('Upload success');
-        await firebase.storage().ref('Profile Pics/'+this.uid+'/'+name).getDownloadURL().then(url => {
-          urlPic = url;
-          alert("url success");
-        }).catch(err => {
-          alert(err);
-        });
-      }).catch(err => {
-        alert(err);
-      });
-    });
+    const result = await imagePicker.getPictures(options)
+    const urlSnap =  await firebase.storage().ref('Profile Pics/'+this.uid+'/'+name).putString('data:text/plain;base64,'+result, 'data_url', {contentType: 'image/jpeg'})
+    const url = await firebase.storage().ref('Profile Pics/'+this.uid+'/'+name).getDownloadURL()
     var updates: {} = {};
-    updates['Users/'+this.uid+'/photo'] = urlPic;
+    updates['Users/'+this.uid+'/photo'] = url;
     updates['Users/'+this.uid+'/first'] = false;
     firebase.database().ref().update(updates);
-    return urlPic;
+    return url;
   }
   // Toggles the first boolean of a user
   async toggleFirst() {
@@ -371,5 +361,11 @@ export class FirebaseBackendService {
     await firebase.auth().signOut().then(res => {
       console.log("Logged Out");
     });
+  }
+
+  async deleteAccount(uid: string)
+  {
+    await firebase.database().ref('Users/'+ uid).remove()
+    console.log("Account deleted")
   }
 }

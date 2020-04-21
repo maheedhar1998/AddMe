@@ -44,14 +44,15 @@ ngx-qrcode
 ion-icon {
   color: black;
 }
+
 #main{
   ion-avatar{
-    height : 14vh;
-    width : 14vh;
+    height : 10vh;
+    width : 10vh;
   }
   #main-head{
     padding-left:30px;
-    font-size: 30px;
+    font-size: 1.25em;
   }
   #main-title{
     top:60%;
@@ -60,6 +61,7 @@ ion-icon {
   }
   border-radius: 30pt;
 }
+
 #user-info{
   width: 70%;
   left: 25%;
@@ -69,4 +71,17 @@ ion-icon {
 #avatar-width{
   width: 25%;
   position: absolute;
+}
+
+@media only screen and(max-width: 416px)
+{
+  #main-head 
+  {
+    font-size:16px !important;
+  }
+
+  ion-avatar{
+    height : 8vh !important;
+    width : 8vh !important;
+  }
 }
