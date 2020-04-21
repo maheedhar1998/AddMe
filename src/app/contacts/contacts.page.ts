@@ -4,6 +4,7 @@ import * as backend from '../backendClasses';
 import { FirebaseBackendService } from '../firebase-backend.service';
 import * as firebase from 'firebase';
 import { NavParams } from '@ionic/angular';
+import { ToastController } from '@ionic/angular';
 
 @Component({
   selector: 'app-contacts',
@@ -24,7 +25,7 @@ export class ContactsPage implements OnInit {
   private usernameSM: string[];
   private editingAccount: backend.socialAccount;
 
-  constructor(private router: Router, private navParam: NavParams) {
+  constructor(private router: Router, private navParam: NavParams, private toastController: ToastController) {
     this.id = "";
     this.username = "";
     this.url = "";
@@ -84,28 +85,169 @@ export class ContactsPage implements OnInit {
     }
   }
 
-  editAccount() {
-    this.id = this.username;
-    this.firebase.updateSocialAccount(this.type, this.editingAccount, this.firebase.generateSocialAccountFromInfo(this.type,this.username, this.id, this.url));
-    this.id = "";
-    this.username = "";
-    this.url = "";
-    this.modeChange();
+  async editAccount() {
+    if(this.type == "linkedin"){
+      if(this.username.trim() == "" || this.id.trim() == "" || this.url.trim() == ""){
+        const toast = await this.toastController.create({
+          message: "No fields may be blank",
+          duration: 4000,
+          color: "danger"
+        });
+        toast.present();
+      }
+      else{
+        if(this.hasDupilcateAccount()){
+          const toast = await this.toastController.create({
+            message: "No duplicate accounts allowed",
+            duration: 4000,
+            color: "danger"
+          });
+          toast.present();
+        }
+        else{
+          this.id = this.username;
+          this.firebase.updateSocialAccount(this.type, this.editingAccount, this.firebase.generateSocialAccountFromInfo(this.type, this.username.trim(), this.id.trim(), this.url.trim()));
+          this.id = "";
+          this.username = "";
+          this.url = "";
+          this.editing = false;
+          this.modeChange();
+          const toast = await this.toastController.create({
+            message: "Social Media account edited",
+            duration: 4000,
+            color: "success"
+          });
+          toast.present();
+        }
+      }
+    }
+    else if(this.username.trim() == ""){
+      const toast = await this.toastController.create({
+        message: "Username can not be blank",
+        duration: 4000,
+        color: "danger"
+      });
+      toast.present();
+    }
+    else{
+      if(this.hasDupilcateAccount()){
+        const toast = await this.toastController.create({
+          message: "No duplicate accounts allowed",
+          duration: 4000,
+          color: "danger"
+        });
+        toast.present();
+      }
+      else{
+        this.id = this.username;
+        this.firebase.updateSocialAccount(this.type, this.editingAccount, this.firebase.generateSocialAccountFromInfo(this.type, this.username.trim(), this.id.trim(), this.url.trim()));
+        this.id = "";
+        this.username = "";
+        this.url = "";
+        this.editing = false;
+        this.modeChange();
+        const toast = await this.toastController.create({
+          message: "Social Media account edited",
+          duration: 4000,
+          color: "success"
+        });
+        toast.present();
+      }
+    }
   }
 
-  deleteAccount(account: backend.socialAccount) {
+  async deleteAccount(account: backend.socialAccount) {
     console.log(account);
     this.firebase.deleteSocialAccount(this.type, account);
     this.modeChange();
+    const toast = await this.toastController.create({
+      message: "Social Media account deleted",
+      duration: 4000,
+      color: "success"
+    });
+    toast.present();
   }
 
-  addSMAccount() {
-    this.firebase.addSocialAccount(this.type, this.firebase.generateSocialAccountFromInfo(this.type,this.username, this.id, this.url));
-    this.adding = false;
-    this.modeChange();
-    this.id = "";
-    this.username = "";
-    this.url = "";
+  async addSMAccount() {
+    if(this.type == "linkedin"){
+      if(this.username.trim() == "" || this.id.trim() == "" || this.url.trim() == ""){
+        const toast = await this.toastController.create({
+          message: "No fields may be blank",
+          duration: 4000,
+          color: "danger"
+        });
+        toast.present();
+      }
+      else{
+        if(this.hasDupilcateAccount()){
+          const toast = await this.toastController.create({
+            message: "No duplicate accounts allowed",
+            duration: 4000,
+            color: "danger"
+          });
+          toast.present();
+        }
+        else{
+          this.firebase.addSocialAccount(this.type, this.firebase.generateSocialAccountFromInfo(this.type, this.username.trim(), this.id.trim(), this.url.trim()));
+          this.adding = false;
+          this.modeChange();
+          this.id = "";
+          this.username = "";
+          this.url = "";
+          const toast = await this.toastController.create({
+            message: "New Social Media account added",
+            duration: 4000,
+            color: "success"
+          });
+          toast.present();
+        }
+      }
+    }
+    else if(this.username.trim() == ""){
+      const toast = await this.toastController.create({
+        message: "Username can not be blank",
+        duration: 4000,
+        color: "danger"
+      });
+      toast.present();
+    }
+    else{
+      if(this.hasDupilcateAccount()){
+        const toast = await this.toastController.create({
+          message: "No duplicate accounts allowed",
+          duration: 4000,
+          color: "danger"
+        });
+        toast.present();
+      }
+      else{
+        this.firebase.addSocialAccount(this.type, this.firebase.generateSocialAccountFromInfo(this.type, this.username.trim(), this.id.trim(), this.url.trim()));
+        this.adding = false;
+        this.modeChange();
+        this.id = "";
+        this.username = "";
+        this.url = "";
+        const toast = await this.toastController.create({
+          message: "New Social Media account added",
+          duration: 4000,
+          color: "success"
+        });
+        toast.present();
+      }
+    }
+  }
+
+  hasDupilcateAccount(){
+    for(let i = 0; i < this.socialAccounts.length; i++)
+    {
+      console.log(this.username);
+      console.log(this.socialAccounts[i].user);
+      if(this.username == this.socialAccounts[i].user)
+      {
+        return true;
+      }
+    }
+    return false;
   }
 
   ngOnInit() {
