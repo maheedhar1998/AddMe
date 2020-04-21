@@ -36,6 +36,15 @@
                 </ion-button>
             </ion-col>
         </ion-row>
+
+        <ion-row>
+            <ion-col class="ion-text-center">
+                <ion-button (click)="forgotPassword()">
+                    Forgot Password
+                </ion-button>
+            </ion-col>
+        </ion-row>
+
         <ion-row *ngIf="rc1">
             <ion-col class="ion-text-center">
                 <ion-button color="light" (click)="loginGoogle()">

@@ -14,14 +14,23 @@
     <ion-list>
         <ion-item-group>
             <ion-item-divider>
-                <ion-img src="{{user.getPhoto}}" style="width: 50%; position: relative; left: 50%; transform: translateX(-50%);"></ion-img>
+                <ion-avatar>
+                    <ion-img src="{{user.getPhoto}}"></ion-img>
+                </ion-avatar>
                 <ion-fab vertical="top" horizontal="end">
-                    <ion-fab-button (click)="takeProfilePicture()">
-                        <ion-icon name="camera"></ion-icon>
+                    <ion-fab-button>
+                        <ion-icon name="settings"></ion-icon>
                     </ion-fab-button>
-                    <ion-fab-button (click)="selectProfilePicture()">
-                        <ion-icon name="images"></ion-icon>
-                    </ion-fab-button>
+                    <ion-fab-list side="start">
+                        <ion-fab-button (click)="takeProfilePicture()">
+                            <ion-icon name="camera"></ion-icon>
+                        </ion-fab-button>
+                    </ion-fab-list>
+                    <ion-fab-list side="bottom">
+                        <ion-fab-button (click)="selectProfilePicture()">
+                            <ion-icon name="images"></ion-icon>
+                        </ion-fab-button>
+                    </ion-fab-list>
                 </ion-fab>
             </ion-item-divider>
             <ion-item-divider>
