@@ -17,6 +17,7 @@
                 <ion-avatar>
                     <ion-img src="{{user.getPhoto}}"></ion-img>
                 </ion-avatar>
+                <ion-spinner *ngIf="photoUpload" name="bubbles"></ion-spinner>
                 <ion-fab vertical="top" horizontal="end">
                     <ion-fab-button>
                         <ion-icon name="settings"></ion-icon>

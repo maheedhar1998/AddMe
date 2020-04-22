@@ -81,6 +81,15 @@ export class SignupPage implements OnInit {
     {
       var uid = "";
       const defaultProfilePicture = "https://firebasestorage.googleapis.com/v0/b/addme-cd3be.appspot.com/o/default-user.png?alt=media&token=8c6caf56-6236-475d-a301-095cb60d7c93"
+      if(this.firebase.checkIfUsernameIsTaken(this.username) == true) {
+        const alert = await this.alertController.create({
+          header: 'Username is Taken',
+          message: 'The username you have chosen is taken. Please pick another username.',
+          buttons: ['OK']
+        });
+        await alert.present();
+        return;
+      }
       await this.firebase.signupWithEmail(signupForm.value.matchingEmails.email, signupForm.value.matchingPasswords.password).then(async val => {
         uid = val.user.uid;
         console.log(val);

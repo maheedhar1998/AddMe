@@ -14,6 +14,7 @@ import { ToastController, Events } from '@ionic/angular'
   styleUrls: ['./editprofile.page.scss'],
 })
 export class EditprofilePage implements OnInit {
+  private photoUpload: boolean;
   private firebaseService: FirebaseBackendService;
   private user: backend.user = {} as backend.user;
 
@@ -28,6 +29,7 @@ export class EditprofilePage implements OnInit {
         this.router.navigate(["/login"]);
       else
       {
+        this.photoUpload = false
         this.firebaseService = new FirebaseBackendService(firebase.auth().currentUser.uid);
         this.user = await this.firebaseService.getUserData();
       }
@@ -61,17 +63,21 @@ export class EditprofilePage implements OnInit {
 
   async takeProfilePicture() {
     const self = this
+    this.photoUpload = true;
     this.firebaseService.takeAndUploadProfilePhoto(this.camera).then(url => {
       self.user.setPhoto = url
       this.events.publish('update-profile')
     });
+    this.photoUpload = false;
   }
   async selectProfilePicture() {
     const self = this
+    this.photoUpload = true;
     this.firebaseService.uploadProfilePhoto(this.imagePicker).then(url => {
       self.user.setPhoto = url
       this.events.publish('update-profile')
     });
+    this.photoUpload = false;
   }
   goBack()
   {

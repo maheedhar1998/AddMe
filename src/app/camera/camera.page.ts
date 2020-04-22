@@ -1,10 +1,10 @@
-import { AlertController } from '@ionic/angular';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { QRScanner, QRScannerStatus } from '@ionic-native/qr-scanner/ngx';
 import { FirebaseBackendService } from '../firebase-backend.service';
 import * as firebase from 'firebase';
 import * as backend from '../backendClasses';
+import { ToastController } from '@ionic/angular'
 
 @Component({
   selector: 'app-camera',
@@ -14,7 +14,9 @@ import * as backend from '../backendClasses';
 export class CameraPage implements OnInit {
   private fire: FirebaseBackendService;
   private profile: backend.user;
-  constructor(private router: Router, private qrScanCtrl: QRScanner, private alertController: AlertController) {
+  constructor(private router: Router,
+              private qrScanCtrl: QRScanner,
+              private toastController: ToastController) {
     firebase.auth().onAuthStateChanged(firebaseUser => {
       if(!firebaseUser)
       {
@@ -28,6 +30,7 @@ export class CameraPage implements OnInit {
   }
 
   goToHome() {
+    this.qrScanCtrl.hide()
     this.router.navigate(['home']);
   }
   async ngOnInit(){
@@ -39,20 +42,23 @@ export class CameraPage implements OnInit {
         const scanSub = this.qrScanCtrl.scan().subscribe(async (text: string) => {
           // At this point, a QR code was recognized and scanned
           // The QR data is stored in 'text'...
+          this.qrScanCtrl.pausePreview()
           let newCon: backend.contact = JSON.parse(text)['qContact'];
-          alert(JSON.stringify(newCon));
+          let newQid: string = JSON.parse(text)['qid']
           if(newCon.getAccessSocials == null) {
-            let tempFire: FirebaseBackendService = new FirebaseBackendService(newCon.getId);
+            let tempFire: FirebaseBackendService = new FirebaseBackendService(newQid);
             await tempFire.getUserData().then(async usr => {
               this.profile = usr;
               newCon = this.profile.getQrCodes[0]['qContact'];
               this.fire.addToUserContacts(newCon);
-              const alert = await this.alertController.create({
-                header: 'Contact Added',
-                message: `Your friend ${newCon.getName} has been added to your contact list`,
-                buttons: ['OK']
+  
+              const toast = await this.toastController.create({
+                message: `${newCon.name} has been added to your contact list!`,
+                duration: 4000,
+                color: "success"
               });
-              await alert.present();
+              toast.present();
+              
               // Close QR scanner
               this.qrScanCtrl.hide();
               this.qrScanCtrl.destroy();
@@ -61,25 +67,30 @@ export class CameraPage implements OnInit {
             });
           } else {
             this.fire.addToUserContacts(newCon);
-            const alert = await this.alertController.create({
-              header: 'Contact Added',
-              message: `Your friend ${newCon.getName} has been added to your contact list`,
-              buttons: ['OK']
+            const toast = await this.toastController.create({
+              message: `${newCon.name} has been added to your contact list!`,
+              duration: 8000,
+              color: "success"
             });
-            await alert.present();
+            toast.present();
+            
             // Close QR scanner
             this.qrScanCtrl.hide();
             this.qrScanCtrl.destroy();
             scanSub.unsubscribe();
-            this.router.navigate(['home']);
+            this.router.navigate(['home']); 
           }
         });
-      }
-      else if (status.denied) {
+      } else if (status.denied) {
         alert('camera permission denied');
         this.qrScanCtrl.openSettings();
       }
     })
-    .catch((e: any) => {alert(e)});
+    .catch((e: any) => {console.log("error: e", alert(e))});
+  }
+
+  ionViewDidLeave()
+  {
+    this.qrScanCtrl.destroy();
   }
 }

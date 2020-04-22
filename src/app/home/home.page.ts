@@ -23,6 +23,7 @@ export class HomePage implements OnInit {
   private searchKeyword: string;
   private filteredContacts: {} [] = [];
   private editContact: boolean[] = [];
+  private data: boolean;
   private profile: backend.user = new backend.user(null,null,null,null,null,null,null,null,null,null, false);
   
   constructor(private router: Router,
@@ -31,6 +32,7 @@ export class HomePage implements OnInit {
               private camera: Camera,
               private imagePicker: ImagePicker,
               private events: Events) {
+    this.data = false;
     const self = this
     firebase.auth().onAuthStateChanged(firebaseUser => {
       if(!firebaseUser)
@@ -39,6 +41,7 @@ export class HomePage implements OnInit {
       }
       else
       {
+        this.firebase = new FirebaseBackendService(firebase.auth().currentUser.uid)
         this.events.subscribe('update-profile', () => {    
           self.firebase =  new FirebaseBackendService(firebase.auth().currentUser.uid);
           self.editContact = [];
@@ -55,6 +58,7 @@ export class HomePage implements OnInit {
             self.qrData = JSON.stringify(this.profile.getQrCodes).substr(0,100);
             self.searchKeyword = "";
             console.log(self.editContact);
+            this.data = true;
           })
         });
       }
@@ -63,14 +67,13 @@ export class HomePage implements OnInit {
 
   ngOnInit()
   {
+    this.data = false;
     const self = this
     firebase.auth().onAuthStateChanged(firebaseUser => {
       if(!firebaseUser)
       {
         this.router.navigate(['login']);
-      }
-      else
-      {
+      } else {
         this.firebase =  new FirebaseBackendService(firebase.auth().currentUser.uid);
         this.editContact = [];
         this.firebase.getUserData().then(dat => {
@@ -86,6 +89,7 @@ export class HomePage implements OnInit {
           self.qrData = JSON.stringify(this.profile.getQrCodes).substr(0,100);
           self.searchKeyword = "";
           console.log(self.editContact);
+          this.data = true;
         })
       }
     })
