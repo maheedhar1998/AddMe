@@ -366,7 +366,7 @@ export class FirebaseBackendService {
     console.log('toggle');
     await this.getUserData().then(async usr => {
       console.log(usr.getFirst);
-      updates['Users/'+this.uid+'/first'] = !usr.getFirst;
+      updates['Users/'+this.uid+'/first'] = false;
       await firebase.database().ref().update(updates);
     });
   }
