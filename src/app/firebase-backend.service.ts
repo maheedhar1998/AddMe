@@ -1,3 +1,4 @@
+import { async } from '@angular/core/testing';
 import { Injectable } from '@angular/core';
 import * as firebase from 'firebase';
 import * as backend from './backendClasses';
@@ -24,7 +25,25 @@ export class FirebaseBackendService {
   async signupWithEmail(email, password): Promise<firebase.auth.UserCredential> {
     return await firebase.auth().createUserWithEmailAndPassword(email, password);
   }
-
+  // Returns whether or not the username is already taken
+  checkIfUsernameIsTaken(usrName: string): boolean {
+    let usr_names: string [] = [];
+    console.log(usrName);
+    let exists: boolean = false;
+    console.log(exists);
+    firebase.database().ref('Users/').once('value', async snap => {
+      await snap.forEach(shot => {
+        let usr: backend.user = shot.val();
+        usr_names.push(usr['username']);
+      });
+      console.log(usr_names);
+      if(usr_names.indexOf(usrName) != -1) {
+        exists = true;
+      }
+      console.log(exists);
+    });
+    return exists;
+  }
   async loginWithGoogle(): Promise<boolean> {
     var provider = new firebase.auth.GoogleAuthProvider();
     var ret: boolean = false;
@@ -301,13 +320,20 @@ export class FirebaseBackendService {
   async takeAndUploadProfilePhoto(camera: Camera): Promise<string> {
     var urlPic: string;
     await this.cam.takeSelfie(camera).then(async profilePic => {
-      const name = new Date().getTime().toString();
-      await firebase.storage().ref('Profile Pics/'+this.uid+'/'+name).putString(profilePic, 'base64', {contentType: 'image/jpeg'}).then(async urlSnap => {
-        await firebase.storage().ref('Profile Pics/'+this.uid+'/'+name).getDownloadURL().then(url => {
-          urlPic = url;
+      if(!(profilePic == "N/A")) {
+        const name = new Date().getTime().toString();
+        await firebase.storage().ref('Profile Pics/'+this.uid+'/'+name).putString(profilePic, 'base64', {contentType: 'image/jpeg'}).then(async urlSnap => {
+          await firebase.storage().ref('Profile Pics/'+this.uid+'/'+name).getDownloadURL().then(url => {
+            urlPic = url;
+          });
         });
+      }
+    });
+    if(urlPic == null || urlPic == '' || urlPic == 'N/A') {
+      this.getUserData().then(usr => {
+        urlPic = usr.getPhoto;
       });
-    })
+    }
     var updates: {} = {};
     updates['Users/'+this.uid+'/photo'] = urlPic;
     updates['Users/'+this.uid+'/first'] = false;
@@ -324,14 +350,19 @@ export class FirebaseBackendService {
     }
   
     const name = new Date().getTime().toString();
-    const result = await imagePicker.getPictures(options)
-    const urlSnap =  await firebase.storage().ref('Profile Pics/'+this.uid+'/'+name).putString('data:text/plain;base64,'+result, 'data_url', {contentType: 'image/jpeg'})
-    const url = await firebase.storage().ref('Profile Pics/'+this.uid+'/'+name).getDownloadURL()
+    const result = await imagePicker.getPictures(options).then(async () => {
+      const urlSnap =  await firebase.storage().ref('Profile Pics/'+this.uid+'/'+name).putString('data:text/plain;base64,'+result, 'data_url', {contentType: 'image/jpeg'})
+      urlPic = await firebase.storage().ref('Profile Pics/'+this.uid+'/'+name).getDownloadURL();
+    }).catch(async () => {
+      await this.getUserData().then(usr => {
+        urlPic = usr.getPhoto;
+      });
+    });
     var updates: {} = {};
-    updates['Users/'+this.uid+'/photo'] = url;
+    updates['Users/'+this.uid+'/photo'] = urlPic;
     updates['Users/'+this.uid+'/first'] = false;
     firebase.database().ref().update(updates);
-    return url;
+    return urlPic;
   }
   // Toggles the first boolean of a user
   async toggleFirst() {

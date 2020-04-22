@@ -3,7 +3,7 @@ import { Router } from '@angular/router'
 import * as backend from '../backendClasses';
 import { FirebaseBackendService } from '../firebase-backend.service';
 import * as firebase from 'firebase';
-import { NavParams } from '@ionic/angular';
+import { NavParams, Events } from '@ionic/angular';
 
 @Component({
   selector: 'app-contacts',
@@ -24,7 +24,7 @@ export class ContactsPage implements OnInit {
   private usernameSM: string[];
   private editingAccount: backend.socialAccount;
 
-  constructor(private router: Router, private navParam: NavParams) {
+  constructor(private router: Router, private navParam: NavParams, private events: Events) {
     this.id = "";
     this.username = "";
     this.url = "";
@@ -40,19 +40,21 @@ export class ContactsPage implements OnInit {
       }
       else
       {
-        this.firebase = new FirebaseBackendService(firebase.auth().currentUser.uid);
-        this.type = this.navParam.get('type');
-        this.firebase.getSocialAccountsType(this.type).then(socialsArr => {
-          this.socialAccounts = socialsArr;
-          if(this.socialAccounts.length == 1
-            && this.socialAccounts[0].getId == "N/A"
-            && this.socialAccounts[0].getUrl == "N/A"
-            && this.socialAccounts[0].getUser == "N/A") {
-              this.socialAccounts = [];
-              this.none = true;
-            }
-          console.log(socialsArr);
-          this.editingAccount = new backend.socialAccount(null,null,null);
+        this.events.subscribe('update-accounts', () => {
+          this.firebase = new FirebaseBackendService(firebase.auth().currentUser.uid);
+          this.type = this.navParam.get('type');
+          this.firebase.getSocialAccountsType(this.type).then(socialsArr => {
+            this.socialAccounts = socialsArr;
+            if(this.socialAccounts.length == 1
+              && this.socialAccounts[0].getId == "N/A"
+              && this.socialAccounts[0].getUrl == "N/A"
+              && this.socialAccounts[0].getUser == "N/A") {
+                this.socialAccounts = [];
+                this.none = true;
+              }
+            console.log(socialsArr);
+            this.editingAccount = new backend.socialAccount(null,null,null);
+          });
         });
       }
     });
@@ -87,6 +89,7 @@ export class ContactsPage implements OnInit {
   editAccount() {
     this.id = this.username;
     this.firebase.updateSocialAccount(this.type, this.editingAccount, this.firebase.generateSocialAccountFromInfo(this.type,this.username, this.id, this.url));
+    this.events.publish('update-accounts');
     this.id = "";
     this.username = "";
     this.url = "";
@@ -96,11 +99,13 @@ export class ContactsPage implements OnInit {
   deleteAccount(account: backend.socialAccount) {
     console.log(account);
     this.firebase.deleteSocialAccount(this.type, account);
+    this.events.publish('update-accounts');
     this.modeChange();
   }
 
   addSMAccount() {
     this.firebase.addSocialAccount(this.type, this.firebase.generateSocialAccountFromInfo(this.type,this.username, this.id, this.url));
+    this.events.publish('update-accounts');
     this.adding = false;
     this.modeChange();
     this.id = "";
@@ -109,5 +114,28 @@ export class ContactsPage implements OnInit {
   }
 
   ngOnInit() {
+    firebase.auth().onAuthStateChanged(firebaseUser => {
+      if(!firebaseUser)
+      {
+        this.router.navigate(['login']);
+      }
+      else
+      {
+        this.firebase = new FirebaseBackendService(firebase.auth().currentUser.uid);
+        this.type = this.navParam.get('type');
+        this.firebase.getSocialAccountsType(this.type).then(socialsArr => {
+          this.socialAccounts = socialsArr;
+          if(this.socialAccounts.length == 1
+            && this.socialAccounts[0].getId == "N/A"
+            && this.socialAccounts[0].getUrl == "N/A"
+            && this.socialAccounts[0].getUser == "N/A") {
+              this.socialAccounts = [];
+              this.none = true;
+            }
+          console.log(socialsArr);
+          this.editingAccount = new backend.socialAccount(null,null,null);
+        });
+      }
+    });
   }
 }
