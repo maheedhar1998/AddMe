@@ -103,7 +103,7 @@ export class social {
 
 export class socialAccount {
   private id : string;
-  private user: string;
+  public user: string;
   private url: string;
 
   constructor(tempId: string, tempUser: string, tempUrl: string) {
