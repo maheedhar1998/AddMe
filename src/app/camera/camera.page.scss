@@ -1,6 +1,25 @@
-ion-content 
+ion-content
 {
   opacity:0;
+  background:none transparent !important;
   width:100vw;
   height:100vh;
+}
+
+.outline {
+  position:relative;
+  margin:50% auto;
+  width:50%;
+  padding-bottom:50%;
+  background-color:none;
+  border:2px solid red;
+}
+.outline:before {
+  content:'';
+  position:absolute;
+  top:-1px; left:-1px;
+  border:1px solid #fff;
+  height:100%;
+  width:100%;
+  border-radius: 10%;
 }

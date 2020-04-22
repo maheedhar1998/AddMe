@@ -150,14 +150,14 @@ export class socialAccount {
 }
 
 export class contact {
-  private id : string;
-  private name: string;
-  private username: string;
-  private email: string;
-  private phoneNumber: string;
-  private DOB: Date;
-  private photo: string;
-  private accessSocials: social[];
+  public id : string;
+  public name: string;
+  public username: string;
+  public email: string;
+  public phoneNumber: string;
+  public DOB: Date;
+  public photo: string;
+  public accessSocials: social[];
 
   constructor(tempId: string, tempUser: string, tempName: string,
     tempEmail: string, tempPhoneNum: string, tempDate: Date, tempPhoto: string,
