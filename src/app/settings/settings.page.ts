@@ -2,9 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import * as firebase from 'firebase';
 import { Router } from '@angular/router';
 import { FirebaseBackendService } from '../firebase-backend.service';
-import { ThemeService } from '../theme.service'
-import { Storage } from '@ionic/storage'
-import { ToastController } from '@ionic/angular'
+import { ThemeService } from '../theme.service';
+import { Storage } from '@ionic/storage';
+import { AlertController } from '@ionic/angular';
+import { ToastController } from '@ionic/angular';
 
 @Component({
   selector: 'app-settings',
@@ -15,6 +16,7 @@ export class SettingsPage {
   private firebase: FirebaseBackendService;
   private darkMode: boolean;
   constructor(private router: Router,
+              private alertController: AlertController,
               private themeService: ThemeService,
               private storage: Storage,
               private toastController: ToastController) {
@@ -40,6 +42,30 @@ export class SettingsPage {
   toggleDarkMode()
   {
     this.themeService.toggleDarkMode()
+  }
+
+  async logOut() {
+    const alert = await this.alertController.create({
+      header: 'Log Out?',
+      message: 'Are you sure you want to logout?',
+      buttons: [
+        {
+          text: 'OK',
+          handler: () => {
+            this.firebase.logOut();
+            this.router.navigate(['login']);
+          }
+        },
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          handler: () => {
+            console.log("dismiss logout");
+          }
+        }
+      ]
+    });
+    await alert.present();
   }
   
   async deleteAccount()
