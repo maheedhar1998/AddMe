@@ -5,6 +5,8 @@ import * as backend from './backendClasses';
 import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
 import { BackendCameraService } from './backend-camera.service'
 import { ImagePicker, ImagePickerOptions, OutputType } from '@ionic-native/image-picker/ngx';
+import { resolve } from 'url';
+import { promise } from 'protractor';
 
 @Injectable({
   providedIn: 'root'
@@ -26,23 +28,17 @@ export class FirebaseBackendService {
     return await firebase.auth().createUserWithEmailAndPassword(email, password);
   }
   // Returns whether or not the username is already taken
-  checkIfUsernameIsTaken(usrName: string): boolean {
-    let usr_names: string [] = [];
-    console.log(usrName);
-    let exists: boolean = false;
-    console.log(exists);
-    firebase.database().ref('Users/').once('value', async snap => {
-      await snap.forEach(shot => {
-        let usr: backend.user = shot.val();
-        usr_names.push(usr['username']);
+  checkIfUsernameIsTaken(usrName: string): Promise<boolean> {
+    return new Promise(resolve => {
+      console.log(usrName);
+      firebase.database().ref('Users/').orderByChild('username').equalTo(usrName).once('value', snap => {
+        if(snap.val()) {
+          resolve(true);
+        } else {
+          resolve(false);
+        }
       });
-      console.log(usr_names);
-      if(usr_names.indexOf(usrName) != -1) {
-        exists = true;
-      }
-      console.log(exists);
     });
-    return exists;
   }
   async loginWithGoogle(): Promise<boolean> {
     var provider = new firebase.auth.GoogleAuthProvider();
@@ -258,22 +254,19 @@ export class FirebaseBackendService {
   }
   // Getting social accounts of a given type
   async getSocialAccountsType(type: string) : Promise<backend.socialAccount []> {
-    // console.log(type)
     var socialAccs: backend.socialAccount[];
-    await this.getUserData().then(usr => {
-      let found: boolean = false;
-      let socials: {}[] = usr.getSocials;
-      for(let i: number = 0; i<socials.length && !found; i++) {
-        // console.log(socials[i]);
-        if(socials[i]['type'] == type) {
-          socialAccs = socials[i]['socialAccounts'];
-          found = true;
-        }
+    const usr = await this.getUserData()
+    let found: boolean = false;
+    let socials: {}[] = usr.getSocials;
+    for(let i: number = 0; i<socials.length && !found; i++) {
+      if(socials[i]['type'] == type) {
+        socialAccs = socials[i]['socialAccounts'];
+        found = true;
       }
-      if(!found){
-        socialAccs = [new backend.socialAccount(null,null,null)];
-      }
-    });
+    }
+    if(!found){
+      socialAccs = [new backend.socialAccount(null,null,null)];
+    }
     return socialAccs;
   }
   // Gets a contacts accessible socials
@@ -370,7 +363,7 @@ export class FirebaseBackendService {
     console.log('toggle');
     await this.getUserData().then(async usr => {
       console.log(usr.getFirst);
-      updates['Users/'+this.uid+'/first'] = !usr.getFirst;
+      updates['Users/'+this.uid+'/first'] = false;
       await firebase.database().ref().update(updates);
     });
   }

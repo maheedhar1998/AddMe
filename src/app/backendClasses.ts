@@ -102,9 +102,9 @@ export class social {
 }
 
 export class socialAccount {
-  private id : string;
+  public id : string;
   public user: string;
-  private url: string;
+  public url: string;
 
   constructor(tempId: string, tempUser: string, tempUrl: string) {
     this.setId = tempId;

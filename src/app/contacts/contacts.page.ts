@@ -41,21 +41,21 @@ export class ContactsPage implements OnInit {
       }
       else
       {
-        this.events.subscribe('update-accounts', () => {
+        this.events.subscribe('update-accounts', async () => {
           this.firebase = new FirebaseBackendService(firebase.auth().currentUser.uid);
           this.type = this.navParam.get('type');
-          this.firebase.getSocialAccountsType(this.type).then(socialsArr => {
+          const socialsArr = await this.firebase.getSocialAccountsType(this.type)
             this.socialAccounts = socialsArr;
-            if(this.socialAccounts.length == 1
+            if(this.socialAccounts == null)
+              this.socialAccounts = []
+            else if(this.socialAccounts.length == 1
               && this.socialAccounts[0].getId == "N/A"
               && this.socialAccounts[0].getUrl == "N/A"
               && this.socialAccounts[0].getUser == "N/A") {
                 this.socialAccounts = [];
                 this.none = true;
               }
-            console.log(socialsArr);
             this.editingAccount = new backend.socialAccount(null,null,null);
-          });
         });
       }
     });
@@ -98,7 +98,7 @@ export class ContactsPage implements OnInit {
         toast.present();
       }
       else{
-        if(this.hasDupilcateAccount()){
+        if(this.hasDuplicateAccount()){
           const toast = await this.toastController.create({
             message: "No duplicate accounts allowed",
             duration: 4000,
@@ -108,12 +108,19 @@ export class ContactsPage implements OnInit {
         }
         else{
           this.id = this.username;
-          this.firebase.updateSocialAccount(this.type, this.editingAccount, this.firebase.generateSocialAccountFromInfo(this.type, this.username.trim(), this.id.trim(), this.url.trim()));
-          this.events.publish('update-accounts');
+          const newSocialAccount = this.firebase.generateSocialAccountFromInfo(this.type, this.username.trim(), this.id.trim(), this.url.trim())
+          this.firebase.updateSocialAccount(this.type, this.editingAccount, newSocialAccount);
           this.id = "";
           this.username = "";
           this.url = "";
           this.editing = false;
+          let replaceIndex = -1
+          for(let i = 0; i < this.socialAccounts.length; i++)
+          {
+            if(this.socialAccounts[i].id === newSocialAccount.id)
+              replaceIndex = i
+          }
+          this.socialAccounts.splice(0, replaceIndex, newSocialAccount)
           this.modeChange();
           const toast = await this.toastController.create({
             message: "Social Media account edited",
@@ -133,7 +140,7 @@ export class ContactsPage implements OnInit {
       toast.present();
     }
     else{
-      if(this.hasDupilcateAccount()){
+      if(this.hasDuplicateAccount()){
         const toast = await this.toastController.create({
           message: "No duplicate accounts allowed",
           duration: 4000,
@@ -143,11 +150,18 @@ export class ContactsPage implements OnInit {
       }
       else{
         this.id = this.username;
-        this.firebase.updateSocialAccount(this.type, this.editingAccount, this.firebase.generateSocialAccountFromInfo(this.type, this.username.trim(), this.id.trim(), this.url.trim()));
-        this.events.publish('update-accounts');
+        const newSocialAccount = this.firebase.generateSocialAccountFromInfo(this.type, this.username.trim(), this.id.trim(), this.url.trim())
+        this.firebase.updateSocialAccount(this.type, this.editingAccount, newSocialAccount);
         this.id = "";
         this.username = "";
         this.url = "";
+        let replaceIndex = -1
+        for(let i = 0; i < this.socialAccounts.length; i++)
+        {
+          if(this.socialAccounts[i].id === newSocialAccount.id)
+            replaceIndex = i
+        }
+        this.socialAccounts.splice(replaceIndex, 1, newSocialAccount)
         this.editing = false;
         this.modeChange();
         const toast = await this.toastController.create({
@@ -161,14 +175,19 @@ export class ContactsPage implements OnInit {
   }
 
   async deleteAccount(account: backend.socialAccount) {
-    console.log(account);
     this.firebase.deleteSocialAccount(this.type, account);
-    this.events.publish('update-accounts');
+    let deleteIndex = -1
+    for(let i = 0; i < this.socialAccounts.length; i++)
+    {
+      if(this.socialAccounts[i].id === account.id)
+        deleteIndex = i
+    }
+    this.socialAccounts.splice(deleteIndex,1)
     this.modeChange();
     const toast = await this.toastController.create({
       message: "Social Media account deleted",
       duration: 4000,
-      color: "success"
+      color: "danger"
     });
     toast.present();
   }
@@ -184,7 +203,7 @@ export class ContactsPage implements OnInit {
         toast.present();
       }
       else{
-        if(this.hasDupilcateAccount()){
+        if(this.hasDuplicateAccount()){
           const toast = await this.toastController.create({
             message: "No duplicate accounts allowed",
             duration: 4000,
@@ -193,13 +212,14 @@ export class ContactsPage implements OnInit {
           toast.present();
         }
         else{
-          this.firebase.addSocialAccount(this.type, this.firebase.generateSocialAccountFromInfo(this.type, this.username.trim(), this.id.trim(), this.url.trim()));
-          this.events.publish('update-accounts');
+          const newSocialAccount = this.firebase.generateSocialAccountFromInfo(this.type, this.username.trim(), this.id.trim(), this.url.trim())
           this.adding = false;
           this.modeChange();
           this.id = "";
           this.username = "";
           this.url = "";
+          this.firebase.addSocialAccount(this.type, newSocialAccount);
+          this.socialAccounts.push(newSocialAccount)
           const toast = await this.toastController.create({
             message: "New Social Media account added",
             duration: 4000,
@@ -218,7 +238,7 @@ export class ContactsPage implements OnInit {
       toast.present();
     }
     else{
-      if(this.hasDupilcateAccount()){
+      if(this.hasDuplicateAccount()){
         const toast = await this.toastController.create({
           message: "No duplicate accounts allowed",
           duration: 4000,
@@ -227,13 +247,14 @@ export class ContactsPage implements OnInit {
         toast.present();
       }
       else{
-        this.firebase.addSocialAccount(this.type, this.firebase.generateSocialAccountFromInfo(this.type, this.username.trim(), this.id.trim(), this.url.trim()));
-        this.events.publish('update-accounts');
+        const newSocialAccount = this.firebase.generateSocialAccountFromInfo(this.type, this.username.trim(), this.id.trim(), this.url.trim())
         this.adding = false;
         this.modeChange();
         this.id = "";
         this.username = "";
         this.url = "";
+        this.firebase.addSocialAccount(this.type, newSocialAccount);
+        this.socialAccounts.push(newSocialAccount)
         const toast = await this.toastController.create({
           message: "New Social Media account added",
           duration: 4000,
@@ -244,7 +265,7 @@ export class ContactsPage implements OnInit {
     }
   }
 
-  hasDupilcateAccount(){
+  hasDuplicateAccount(){
     for(let i = 0; i < this.socialAccounts.length; i++)
     {
       console.log(this.username);
@@ -258,7 +279,7 @@ export class ContactsPage implements OnInit {
   }
 
   ngOnInit() {
-    firebase.auth().onAuthStateChanged(firebaseUser => {
+    firebase.auth().onAuthStateChanged(async firebaseUser => {
       if(!firebaseUser)
       {
         this.router.navigate(['login']);
@@ -267,18 +288,17 @@ export class ContactsPage implements OnInit {
       {
         this.firebase = new FirebaseBackendService(firebase.auth().currentUser.uid);
         this.type = this.navParam.get('type');
-        this.firebase.getSocialAccountsType(this.type).then(socialsArr => {
+        const socialsArr = await this.firebase.getSocialAccountsType(this.type)
           this.socialAccounts = socialsArr;
-          if(this.socialAccounts.length == 1
+
+          if(this.socialAccounts == null || (this.socialAccounts.length == 1
             && this.socialAccounts[0].getId == "N/A"
             && this.socialAccounts[0].getUrl == "N/A"
-            && this.socialAccounts[0].getUser == "N/A") {
+            && this.socialAccounts[0].getUser == "N/A")) {
               this.socialAccounts = [];
               this.none = true;
             }
-          console.log(socialsArr);
           this.editingAccount = new backend.socialAccount(null,null,null);
-        });
       }
     });
   }
