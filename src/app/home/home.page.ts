@@ -59,6 +59,9 @@ export class HomePage implements OnInit {
             self.searchKeyword = "";
             console.log(self.editContact);
             this.data = true;
+            if(this.profile.getFirst) {
+              this.presentAlert();
+            }
           })
         });
       }
@@ -90,30 +93,14 @@ export class HomePage implements OnInit {
           self.searchKeyword = "";
           console.log(self.editContact);
           this.data = true;
+          if(this.profile.getFirst) {
+            this.presentAlert();
+          }
         })
       }
     })
   }
 
-  ionViewDidEnter(){
-    if (this.profile.getFirst) {
-        console.log('profile');
-        this.presentAlert();
-    }
-    this.firebase.getUserData().then(dat => {
-      this.profile = dat;
-      this.filteredContacts = this.profile.getContacts;
-      for(let i: number = 0; i<this.filteredContacts.length; i++) {
-            if(this.filteredContacts[i]['id'] == 'N/A') {
-              this.filteredContacts.splice(i,1);
-              i--;
-            }
-            this.editContact.push(false);
-      }
-      this.qrData = JSON.stringify(this.profile.getQrCodes).substr(0,100);
-      this.searchKeyword = "";
-    });
-  }
   deleteContact(cont: backend.contact) {
     // console.log(cont);
     this.firebase.deleteFromUserContacts(cont);
@@ -165,7 +152,7 @@ export class HomePage implements OnInit {
 
   async presentAlert() {
     const alert =  await this.alertController.create({
-      message: 'Welcome to Connekt.\nClick the camera button to upload a profile picture.',
+      message: 'Welcome to Connekt.\nClick the camera button to upload a profile picture.\nOr the photos button to choose a photo from your library',
       buttons: [
         {
           text: 'Maybe Later',

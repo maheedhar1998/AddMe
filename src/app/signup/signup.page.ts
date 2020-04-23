@@ -81,7 +81,9 @@ export class SignupPage implements OnInit {
     {
       var uid = "";
       const defaultProfilePicture = "https://firebasestorage.googleapis.com/v0/b/addme-cd3be.appspot.com/o/default-user.png?alt=media&token=8c6caf56-6236-475d-a301-095cb60d7c93"
-      if(this.firebase.checkIfUsernameIsTaken(this.username) == true) {
+      const isTaken = await this.firebase.checkIfUsernameIsTaken(this.username);
+      console.log(isTaken);
+      if(isTaken) {
         const alert = await this.alertController.create({
           header: 'Username is Taken',
           message: 'The username you have chosen is taken. Please pick another username.',
@@ -103,7 +105,8 @@ export class SignupPage implements OnInit {
         toast.present();
         this.router.navigate(['login']);
       }).catch((error) => {
-        if(error.code == 'auth/email-already-exists') {
+        console.log(error);
+        if(error.code == 'auth/email-already-in-use') {
           this.presentEmailExistsAlert();
         }
       });
