@@ -258,22 +258,19 @@ export class FirebaseBackendService {
   }
   // Getting social accounts of a given type
   async getSocialAccountsType(type: string) : Promise<backend.socialAccount []> {
-    // console.log(type)
     var socialAccs: backend.socialAccount[];
-    await this.getUserData().then(usr => {
-      let found: boolean = false;
-      let socials: {}[] = usr.getSocials;
-      for(let i: number = 0; i<socials.length && !found; i++) {
-        // console.log(socials[i]);
-        if(socials[i]['type'] == type) {
-          socialAccs = socials[i]['socialAccounts'];
-          found = true;
-        }
+    const usr = await this.getUserData()
+    let found: boolean = false;
+    let socials: {}[] = usr.getSocials;
+    for(let i: number = 0; i<socials.length && !found; i++) {
+      if(socials[i]['type'] == type) {
+        socialAccs = socials[i]['socialAccounts'];
+        found = true;
       }
-      if(!found){
-        socialAccs = [new backend.socialAccount(null,null,null)];
-      }
-    });
+    }
+    if(!found){
+      socialAccs = [new backend.socialAccount(null,null,null)];
+    }
     return socialAccs;
   }
   // Gets a contacts accessible socials
