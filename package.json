@@ -36,6 +36,7 @@
     "cordova-android": "^8.1.0",
     "cordova-browser": "6.0.0",
     "cordova-ios": "^5.0.1",
+    "cordova-plugin-add-swift-support": "^2.0.2",
     "cordova-plugin-camera": "^4.1.0",
     "cordova-plugin-facebook4": "^6.2.0",
     "cordova-plugin-qrscanner": "3.0.1",
@@ -48,6 +49,7 @@
     "ionicons": "^4.5.10-0",
     "jasmine": "^3.5.0",
     "jasmine-node": "^3.0.0",
+    "mx.ferreyra.callnumber": "0.0.2",
     "ngx-qrcode2": "0.0.9",
     "node": "^12.16.1",
     "npm": "^6.14.4",
@@ -114,7 +116,8 @@
         "ANDROID_SUPPORT_V4_VERSION": "27.+"
       },
       "cordova-plugin-telerik-imagepicker": {},
-      "cordova-sqlite-storage": {}
+      "cordova-sqlite-storage": {},
+      "call-number": {}
     },
     "platforms": [
       "android",

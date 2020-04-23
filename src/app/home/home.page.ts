@@ -139,30 +139,6 @@ export class HomePage implements OnInit {
     this.router.navigate(['profile']);
   }
 
-  async logOut() {
-    const alert = await this.alertController.create({
-      header: 'Log Out?',
-      message: 'Are you sure you want to logout?',
-      buttons: [
-        {
-          text: 'OK',
-          handler: () => {
-            this.firebase.logOut();
-            this.router.navigate(['login']);
-          }
-        },
-        {
-          text: 'Cancel',
-          role: 'cancel',
-          handler: () => {
-            console.log("dismiss logout");
-          }
-        }
-      ]
-    });
-    await alert.present();
-  }
-
   async presentAlert() {
     const alert =  await this.alertController.create({
       message: 'Welcome to Connekt.\nClick the camera button to upload a profile picture.',
