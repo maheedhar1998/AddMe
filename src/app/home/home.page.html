@@ -1,6 +1,6 @@
 <ion-header>
     <ion-toolbar>
-        <ion-searchbar inputmode="search" placeHolder="Search Contacts" (ionChange)="filterContacts($event)" [(ngModel)]="searchKeyword"></ion-searchbar>
+        <ion-searchbar id="search" showCancelButton="focus" inputmode="search" placeHolder="Search Contacts" (ionChange)="filterContacts($event)" [(ngModel)]="searchKeyword"></ion-searchbar>
         <ion-button fill="clear" slot="end" color="dark" (click)="goToCamera()">
             <ion-icon name="camera" color="dark"></ion-icon>
         </ion-button>
@@ -96,9 +96,21 @@
         </ion-card>
     </div>
     <div *ngIf="data">
-        <ion-card lines="none">
+        <ion-fab vertical="bottom" horizontal="end" color="secondary">
+            <ion-fab-button>
+                <ion-icon name="add"></ion-icon>
+            </ion-fab-button>
+            <ion-fab-list side="top">
+                <ion-fab-button>
+                    <ion-icon name="person-add" color="dark"></ion-icon>
+                </ion-fab-button>
+                <ion-fab-button>
+                    <ion-icon name="camera" color="dark"></ion-icon>
+                </ion-fab-button>
+            </ion-fab-list>
+        </ion-fab>
+        <ion-card lines="none" id="userCard">
             <ion-card-content class="ion-no-padding" lines="none">
-                <!-- main profile -->
                 <ion-item lines="none" id="main" button (click)="goToProfile()">
                     <ion-avatar>
                         <ion-img src="{{profile.getPhoto}}"></ion-img>
@@ -108,6 +120,7 @@
                         <br/>
                         <small style="font-size:14px; color:#dd8429"><i>Click to view Your Profile</i></small>
                     </ion-label>
+
                 </ion-item>
             </ion-card-content>
         </ion-card>
@@ -141,7 +154,7 @@
                                     </ion-col>
                                     <ion-col id="user-info">
                                         <ion-item lines="none">
-                                            <ion-title>{{contact.name}}</ion-title>
+                                            <ion-title style="font-size: 1em;">{{contact.name}}</ion-title>
                                             <ion-button color="dark" size="large" fill="clear" slot="end" (click)="openPopover($event, contact, i)">
                                                 <ion-icon slot="icon-only" name="more"></ion-icon>
                                             </ion-button>

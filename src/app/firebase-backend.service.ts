@@ -98,6 +98,20 @@ export class FirebaseBackendService {
       firebase.database().ref().update(updates);
     });
   }
+  // add to user contacts from username of another user
+  async addToUserContactsFromUsername(usrName: string) {
+    var newContact: backend.contact;
+    firebase.database().ref('Users/').orderByChild('username').equalTo(usrName).once('value', snap => {
+      snap.forEach(shot => {
+        let uid: string = shot.key;
+        let tempFire: FirebaseBackendService = new FirebaseBackendService(uid);
+        tempFire.getUserData().then(usr => {
+          newContact = usr.getQrCodes[0]['qContact'];
+          this.addToUserContacts(newContact);
+        });
+      });
+    });
+  }
   // deletion from user contact list
   async deleteFromUserContacts(cont: backend.contact) {
     console.log(cont);
