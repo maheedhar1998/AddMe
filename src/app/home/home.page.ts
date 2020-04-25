@@ -62,7 +62,7 @@ export class HomePage implements OnInit {
             if(this.profile.getFirst) {
               this.presentAlert();
             }
-          })
+          });
         });
       }
     });
@@ -124,6 +124,10 @@ export class HomePage implements OnInit {
 
   goToProfile() {
     this.router.navigate(['profile']);
+  }
+
+  async addToUserContacts(usrName: string) {
+    this.firebase.addToUserContactsFromUsername(usrName);
   }
 
   async presentAlert() {
