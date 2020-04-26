@@ -130,6 +130,29 @@ export class HomePage implements OnInit {
     this.firebase.addToUserContactsFromUsername(usrName);
   }
 
+  async presentAddUserContactAlert() {
+    const alert = await this.alertController.create({
+      header: 'Add a Contact',
+      message: 'Enter a friend\'s username to add to contacts.',
+      inputs: [
+        {
+          name: 'username',
+          type: 'text',
+          placeholder: 'Enter an Username.'
+        }
+      ],
+      buttons: [
+        {
+          text: 'Add',
+          role: 'OK',
+          handler: () => {
+            
+          }
+        }
+      ]
+    });
+  }
+
   async presentAlert() {
     const alert =  await this.alertController.create({
       message: 'Welcome to Connekt.\nClick the camera button to upload a profile picture.\nOr the photos button to choose a photo from your library',
