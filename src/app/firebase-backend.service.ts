@@ -357,14 +357,14 @@ export class FirebaseBackendService {
     }
   
     const name = new Date().getTime().toString();
-    const result = await imagePicker.getPictures(options).then(async () => {
-      const urlSnap =  await firebase.storage().ref('Profile Pics/'+this.uid+'/'+name).putString('data:text/plain;base64,'+result, 'data_url', {contentType: 'image/jpeg'})
-      urlPic = await firebase.storage().ref('Profile Pics/'+this.uid+'/'+name).getDownloadURL();
-    }).catch(async () => {
-      await this.getUserData().then(usr => {
-        urlPic = usr.getPhoto;
-      });
+    const result = await imagePicker.getPictures(options)
+    .catch((error) => {
+      throw new Error(error)
     });
+
+    const urlSnap =  await firebase.storage().ref('Profile Pics/'+this.uid+'/'+name).putString('data:text/plain;base64,'+result, 'data_url', {contentType: 'image/jpeg'})
+    urlPic = await firebase.storage().ref('Profile Pics/'+this.uid+'/'+name).getDownloadURL();
+  
     var updates: {} = {};
     updates['Users/'+this.uid+'/photo'] = urlPic;
     updates['Users/'+this.uid+'/first'] = false;
