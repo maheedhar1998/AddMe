@@ -30,7 +30,6 @@ export class FirebaseBackendService {
   // Returns whether or not the username is already taken
   checkIfUsernameIsTaken(usrName: string): Promise<boolean> {
     return new Promise(resolve => {
-      console.log(usrName);
       firebase.database().ref('Users/').orderByChild('username').equalTo(usrName).once('value', snap => {
         if(snap.val()) {
           resolve(true);
@@ -45,36 +44,32 @@ export class FirebaseBackendService {
     var ret: boolean = false;
     await firebase.auth().signInWithPopup(provider).then(async res => {
       await this.sendUserDataSignUp(res.user.displayName,res.user.uid,res.user.email,res.user.phoneNumber,null,res.user.photoURL,res.user.uid);
-      console.log("Songong");
       ret = true;
     }).catch(err => {
-      console.log(err);
       ret = false;
     });
     return ret;
   }
   async loginWithFacebook(): Promise<any> {
     var provider = new firebase.auth.FacebookAuthProvider();
-    firebase.auth().signInWithPopup(provider).then(res => {
-      console.log(res.user);
-    });
+    firebase.auth().signInWithPopup(provider)
   }
   // Send users data to firebse and sets in the way desribed by architecture milestone
   public async sendUserDataSignUp(name_user: string, username_user: string, email_user: string, phoneNumber_user: string, dateOfBirth: Date, photo_user: string, uid: string ) {
     this.uid = uid;
     var user: backend.user = new backend.user(this.uid, name_user, username_user, email_user, phoneNumber_user, dateOfBirth, photo_user, null, null, [new backend.qrCode(uid, new backend.contact(uid,username_user,name_user,email_user,phoneNumber_user,dateOfBirth,photo_user,null))],true);
-    console.log(this.uid);
-    console.log(user);
-    await firebase.database().ref('Users/'+this.uid).set(user).then((res) => {
-      console.log("success");
-    });
+    await firebase.database().ref('Users/'+this.uid).set(user)
   }
   // Getting user data from firebase
   async getUserData(): Promise<backend.user> {
     var userProfile: backend.user;
+    const self = this
     await firebase.database().ref('Users/'+this.uid).once('value', function(snap) {
       var val = snap.val();
-      userProfile = new backend.user(val.uid, val.name, val.username, val.email, val.phoneNumber, val.DOB, val.photo, val.socials, val.contacts, val.qrCodes,val.first);
+      if(val)
+        userProfile = new backend.user(val.uid, val.name, val.username, val.email, val.phoneNumber, val.DOB, val.photo, val.socials, val.contacts, val.qrCodes,val.first);
+      else 
+        self.logOut()  
     });
     return userProfile;
   }
@@ -114,17 +109,13 @@ export class FirebaseBackendService {
   }
   // deletion from user contact list
   async deleteFromUserContacts(cont: backend.contact) {
-    console.log(cont);
     var userContacts: {} [];
     await this.getUserData().then(usr => {
       userContacts = usr.getContacts;
       for(let i: number = 0; i < userContacts.length; i++){
-        console.log(userContacts);
-        console.log(cont);
         if(userContacts[i]['id'] == cont['id'] && userContacts[i]['name'] == cont['name'] && userContacts[i]['username'] == cont['username'] && userContacts[i]['email'] == cont['email']
             && userContacts[i]['phoneNumber'] == cont['phoneNumber'] && userContacts[i]['DOB'] == cont['DOB'] && userContacts[i]['photo'] == cont['photo'])
         {
-          console.log(userContacts);
           userContacts.splice(i,1);
           break;
         }
@@ -137,21 +128,16 @@ export class FirebaseBackendService {
   // Updating user contact
   async updateUsersContact(old: backend.contact, saerowon: backend.contact) {
     var userContacts: {}[] = [];
-    console.log(old);
-    console.log(saerowon);
     await this.getUserData().then(usr => {
       userContacts = usr.getContacts;
-      console.log(userContacts)
       for(let i: number = 0; i<userContacts.length; i++) {
         if(userContacts[i]['id'] == old['id'] && userContacts[i]['name'] == old['name'] && userContacts[i]['username'] == old['username'] && userContacts[i]['email'] == old['email']
             && userContacts[i]['phoneNumber'] == old['phoneNumber'] && userContacts[i]['DOB'] == old['DOB'] && userContacts[i]['photo'] == old['photo'])
         {
-          console.log("hello")
           userContacts[i] = saerowon;
           break;
         }
       }
-      console.log(userContacts)
       var updates: {} = {};
       updates['Users/'+this.uid+'/contacts'] = userContacts;
       firebase.database().ref().update(updates);
@@ -200,18 +186,16 @@ export class FirebaseBackendService {
       this.getSocialAccountsType(typ).then(dat => {
         userSocialAccounts = dat;
         for(let j:number = 0; j < userSocialAccounts.length; j++){
-          console.log(userSocialAccounts[j]);
           if(userSocialAccounts[j]['id'] == sAcot['id'] && userSocialAccounts[j]['user'] == sAcot['user'] && userSocialAccounts[j]['url'] == sAcot['url']){
             userSocialAccounts.splice(j,1);
             break;
           }
         }
-        console.log(userSocialAccounts);
         var updates = {};
         userSocials[i]['socialAccounts'] = userSocialAccounts;
         var newCon: backend.contact = new backend.contact(this.uid, usr.getUsername, usr.getName, usr.getEmail, usr.getPhoneNumber, usr.getDOB, usr.getPhoto, usr.getSocials);
         var newQr: backend.qrCode = new backend.qrCode(this.uid, newCon);
-        console.log(userSocials);
+
         updates['Users/'+this.uid+'/socials'] = userSocials;
         updates['Users/'+this.uid+'/qrCodes/0/'] = newQr;
         firebase.database().ref().update(updates);
@@ -240,7 +224,6 @@ export class FirebaseBackendService {
         }
         var updates = {};
         userSocials[i]['socialAccounts'] = userSocialAccounts;
-        // console.log(userSocials[i]);
         var newCon: backend.contact = new backend.contact(this.uid, usr.getUsername, usr.getName, usr.getEmail, usr.getPhoneNumber, usr.getDOB, usr.getPhoto, usr.getSocials);
         var newQr: backend.qrCode = new backend.qrCode(this.uid, newCon);
         updates['Users/'+this.uid+'/socials'] = userSocials;
@@ -290,28 +273,23 @@ export class FirebaseBackendService {
     await this.getUserData().then(usr => {
       conts = usr.getContacts;
       for(let i: number = 0; i<conts.length; i++) {
-        console.log(usrName)
+    
         if(conts[i]['username'] == usrName) {
           accessSocials.push(conts[i]['accessSocials']);
         }
       }
     });
-    console.log(accessSocials);
+
     return accessSocials;
   }
   // Gets social accounts of a type from a contact
   async getSocialAccountsTypeContact(type: string, usrName: string) : Promise<backend.socialAccount []> {
-    // console.log(type)
     var socialAccs: backend.socialAccount[];
     await this.getContactAccessSocials(usrName).then(usr => {
       let found: boolean = false;
       let socials: {} [] = usr['0'];
-      // console.log(usr);
       for(let i: number = 0; i<socials.length && !found; i++) {
-        // console.log(socials[i]['type'] == type)
-        // console.log(socials[i])
         if(socials[i]['type'] == type) {
-          // console.log(socials[i]);
           socialAccs = socials[i]['socialAccounts'];
           found = true;
         }
@@ -320,7 +298,6 @@ export class FirebaseBackendService {
         socialAccs = [new backend.socialAccount(null,null,null)];
       }
     });
-    // console.log(socialAccs);
     return socialAccs;
   }
   // Upload user taken photo to profile and return url
@@ -374,9 +351,7 @@ export class FirebaseBackendService {
   // Toggles the first boolean of a user
   async toggleFirst() {
     var updates: {} = {};
-    console.log('toggle');
     await this.getUserData().then(async usr => {
-      console.log(usr.getFirst);
       updates['Users/'+this.uid+'/first'] = false;
       await firebase.database().ref().update(updates);
     });
@@ -396,14 +371,11 @@ export class FirebaseBackendService {
   }
   // Logs Out
   async logOut() {
-    await firebase.auth().signOut().then(res => {
-      console.log("Logged Out");
-    });
+    await firebase.auth().signOut()
   }
 
   async deleteAccount(uid: string)
   {
     await firebase.database().ref('Users/'+ uid).remove()
-    console.log("Account deleted")
   }
 }
