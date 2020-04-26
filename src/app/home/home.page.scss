@@ -83,6 +83,11 @@ ion-icon {
     position: absolute;
 }
 
+#fab {
+    padding-right: 2%;
+    padding-bottom: 2%;
+}
+
 @media only screen and(max-width: 416px) {
     #main-head {
         font-size: 16px !important;

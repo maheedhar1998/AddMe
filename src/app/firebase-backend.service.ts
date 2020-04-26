@@ -80,9 +80,11 @@ export class FirebaseBackendService {
   }
   // Update user data on firebase
   async updateUserData(usr: backend.user): Promise<any> {
-    var updates: {} = {};
-    updates['Users/'+this.uid+'/'] = usr;
-    return firebase.database().ref().update(updates);
+    if(!this.checkIfUsernameIsTaken(usr.getUsername)) {
+      var updates: {} = {};
+      updates['Users/'+this.uid+'/'] = usr;
+      return firebase.database().ref().update(updates);
+    }
   }
   // adding user contact list with new contact
   async addToUserContacts(cont: backend.contact) {
