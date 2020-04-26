@@ -117,14 +117,14 @@ export class ContactsPage implements OnInit {
           let replaceIndex = -1
           for(let i = 0; i < this.socialAccounts.length; i++)
           {
-            if(this.socialAccounts[i].id === newSocialAccount.id)
+            if(this.socialAccounts[i].id === this.editingAccount.id)
               replaceIndex = i
           }
           this.socialAccounts.splice(0, replaceIndex, newSocialAccount)
           this.modeChange();
           const toast = await this.toastController.create({
             message: "Social Media account edited",
-            duration: 4000,
+            duration: 4000 ,
             color: "success"
           });
           toast.present();
@@ -149,18 +149,19 @@ export class ContactsPage implements OnInit {
         toast.present();
       }
       else{
+        
         this.id = this.username;
         const newSocialAccount = this.firebase.generateSocialAccountFromInfo(this.type, this.username.trim(), this.id.trim(), this.url.trim())
         this.firebase.updateSocialAccount(this.type, this.editingAccount, newSocialAccount);
+        
+        let replaceIndex = -1
+        for(let i = 0; i < this.socialAccounts.length; i++)
+          if(this.socialAccounts[i].id === this.editingAccount.id)
+            replaceIndex = i
+  
         this.id = "";
         this.username = "";
         this.url = "";
-        let replaceIndex = -1
-        for(let i = 0; i < this.socialAccounts.length; i++)
-        {
-          if(this.socialAccounts[i].id === newSocialAccount.id)
-            replaceIndex = i
-        }
         this.socialAccounts.splice(replaceIndex, 1, newSocialAccount)
         this.editing = false;
         this.modeChange();
@@ -268,8 +269,6 @@ export class ContactsPage implements OnInit {
   hasDuplicateAccount(){
     for(let i = 0; i < this.socialAccounts.length; i++)
     {
-      console.log(this.username);
-      console.log(this.socialAccounts[i].user);
       if(this.username == this.socialAccounts[i].user)
       {
         return true;
