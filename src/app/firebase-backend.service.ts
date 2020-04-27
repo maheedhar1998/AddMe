@@ -382,10 +382,6 @@ export class FirebaseBackendService {
     });
     return ret;
   }
-  // Flags whether or not a given database 'location' has been changed
-  async checkChange(loc: string): Promise<boolean> {
-    return true;
-  }
   // Logs Out
   async logOut() {
     await firebase.auth().signOut()
