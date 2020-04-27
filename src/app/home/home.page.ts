@@ -128,13 +128,16 @@ export class HomePage implements OnInit {
   }
 
   async addToUserContacts(usrName: string) {
-    this.firebase.addToUserContactsFromUsername(usrName);
+    await this.firebase.addToUserContactsFromUsername(usrName);
   }
 
   async presentAddUserContactAlert() {
     const self = this;
-    let callAddUsername: (usrName: string) => void = function(usrName: string) {
-      self.addToUserContacts(usrName);
+    let callAddUsername: (usrName: string) => void = async function(usrName: string) {
+      await self.addToUserContacts(usrName).then(() => {
+        self.events.publish('update-profile');
+        self.ngOnInit();
+      });
     };
     const alert = await this.alertController.create({
       header: 'Add a Contact',
@@ -234,11 +237,13 @@ export class HomePage implements OnInit {
   async takeProfilePicture() {
     this.firebase.takeAndUploadProfilePhoto(this.camera).then(url => {
       console.log(url);
+      this.firebase.updateUserData(this.profile);
     });
   }
   async selectProfilePicture() {
     this.firebase.uploadProfilePhoto(this.imagePicker).then(url => {
       console.log(url);
+      this.firebase.updateUserData(this.profile);
     });
   }
 }

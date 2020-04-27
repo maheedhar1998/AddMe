@@ -89,6 +89,9 @@ export class FirebaseBackendService {
   }
   // Update user data on firebase
   async updateUserData(usr: backend.user): Promise<any> {
+    let qrCodes: backend.qrCode[] = [new backend.qrCode(usr.getUid, new backend.contact(usr.getUid, usr.getUsername, usr.getName, usr.getEmail, usr.getPhoneNumber, usr.getDOB, usr.getPhoto, usr.getSocials))];
+    console.log(qrCodes);
+    usr.setQrCodes = qrCodes;
     var updates: {} = {};
     updates['Users/'+this.uid+'/'] = usr;
     return firebase.database().ref().update(updates);
