@@ -24,6 +24,7 @@ export class HomePage implements OnInit {
   private filteredContacts: {} [] = [];
   private editContact: boolean[] = [];
   private data: boolean;
+
   private profile: backend.user = new backend.user(null,null,null,null,null,null,null,null,null,null, false);
   
   constructor(private router: Router,
@@ -131,6 +132,10 @@ export class HomePage implements OnInit {
   }
 
   async presentAddUserContactAlert() {
+    const self = this;
+    let callAddUsername: (usrName: string) => void = function(usrName: string) {
+      self.addToUserContacts(usrName);
+    };
     const alert = await this.alertController.create({
       header: 'Add a Contact',
       message: 'Enter a friend\'s username to add to contacts.',
@@ -145,12 +150,20 @@ export class HomePage implements OnInit {
         {
           text: 'Add',
           role: 'OK',
+          handler: (inputs) => {
+            callAddUsername(inputs.username);
+          }
+        },
+        {
+          text: 'Cancel',
+          role: 'cancel',
           handler: () => {
             
           }
         }
       ]
     });
+    alert.present();
   }
 
   async presentAlert() {
