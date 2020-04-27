@@ -24,6 +24,7 @@ export class HomePage implements OnInit {
   private filteredContacts: {} [] = [];
   private editContact: boolean[] = [];
   private data: boolean;
+  private popover: boolean;
 
   private profile: backend.user = new backend.user(null,null,null,null,null,null,null,null,null,null, false);
   
@@ -63,6 +64,7 @@ export class HomePage implements OnInit {
             if(this.profile.getFirst) {
               this.presentAlert();
             }
+            this.popover = false;
           });
         });
       }
@@ -70,7 +72,6 @@ export class HomePage implements OnInit {
   }
 
   ionViewDidEnter() {
-    this.data = false;
     const self = this;
     self.firebase =  new FirebaseBackendService(firebase.auth().currentUser.uid);
     self.editContact = [];
@@ -133,7 +134,11 @@ export class HomePage implements OnInit {
   }
 
   goToUserContact( cont: backend.contact ) {
-    this.router.navigate(['user-contact', {contact: JSON.stringify(cont)}]);
+    setTimeout(() => {
+      if(!this.popover) {
+        this.router.navigate(['user-contact', {contact: JSON.stringify(cont)}]);
+      }
+    }, 100);
   }
 
   goToCamera() {
@@ -245,6 +250,7 @@ export class HomePage implements OnInit {
     this.router.navigate(['profile']);
   }
   async openPopover(ev: any, contact: backend.contact, i) {
+    this.popover = true;
     const pop = await this.popOver.create({
       component: ContactOptionsPage,
       componentProps: {'contact': contact},
@@ -259,6 +265,7 @@ export class HomePage implements OnInit {
       if(option.data == 'edit') {
         this.editContact[i] = true;
       }
+      this.popover = false;
     });
   }
   async saveContact(cont: backend.contact, i) {
