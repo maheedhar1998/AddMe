@@ -8,7 +8,7 @@ describe('ThemeService', () => {
   let service: ThemeService
   beforeEach(async () => 
   {
-    storageSpy = jasmine.createSpyObj('Storage', [])
+    storageSpy = jasmine.createSpyObj('Storage', ['get'])
     service = new ThemeService(storageSpy)
   });
 

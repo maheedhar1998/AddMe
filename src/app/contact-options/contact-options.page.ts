@@ -17,7 +17,10 @@ export class ContactOptionsPage implements OnInit {
   private contact: backend.contact;
   private option: string;
 
-  constructor(private popOver: PopoverController, private router: Router, private navParam: NavParams, public alertController: AlertController) {
+  constructor(private popOver: PopoverController,
+              private router: Router,
+              private navParam: NavParams,
+              public alertController: AlertController) {
     firebase.auth().onAuthStateChanged(firebaseUser => {
       if(!firebaseUser)
       {

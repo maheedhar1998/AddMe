@@ -25,7 +25,10 @@ export class ContactsPage implements OnInit {
   private usernameSM: string[];
   private editingAccount: backend.socialAccount;
 
-  constructor(private router: Router, private navParam: NavParams, private toastController: ToastController, private events: Events) {
+  constructor(private router: Router,
+              private navParam: NavParams,
+              private toastController: ToastController,
+              private events: Events) {
     this.id = "";
     this.username = "";
     this.url = "";
@@ -98,7 +101,7 @@ export class ContactsPage implements OnInit {
         toast.present();
       }
       else{
-        if(this.hasDuplicateAccount()){
+        if(this.hasDuplicateAccount(this.username, this.socialAccounts)){
           const toast = await this.toastController.create({
             message: "No duplicate accounts allowed",
             duration: 4000,
@@ -140,7 +143,7 @@ export class ContactsPage implements OnInit {
       toast.present();
     }
     else{
-      if(this.hasDuplicateAccount()){
+      if(this.hasDuplicateAccount(this.username, this.socialAccounts)){
         const toast = await this.toastController.create({
           message: "No duplicate accounts allowed",
           duration: 4000,
@@ -204,7 +207,7 @@ export class ContactsPage implements OnInit {
         toast.present();
       }
       else{
-        if(this.hasDuplicateAccount()){
+        if(this.hasDuplicateAccount(this.username, this.socialAccounts)){
           const toast = await this.toastController.create({
             message: "No duplicate accounts allowed",
             duration: 4000,
@@ -239,7 +242,7 @@ export class ContactsPage implements OnInit {
       toast.present();
     }
     else{
-      if(this.hasDuplicateAccount()){
+      if(this.hasDuplicateAccount(this.username, this.socialAccounts)){
         const toast = await this.toastController.create({
           message: "No duplicate accounts allowed",
           duration: 4000,
@@ -266,10 +269,10 @@ export class ContactsPage implements OnInit {
     }
   }
 
-  hasDuplicateAccount(){
-    for(let i = 0; i < this.socialAccounts.length; i++)
+  hasDuplicateAccount(username, socialAccounts){
+    for(let i = 0; i < socialAccounts.length; i++)
     {
-      if(this.username == this.socialAccounts[i].user)
+      if(username == socialAccounts[i].user)
       {
         return true;
       }

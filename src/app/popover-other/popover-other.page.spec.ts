@@ -10,7 +10,7 @@ describe('PopoverOtherPage', () => {
   let fixture: ComponentFixture<PopoverOtherPage>;
 
   beforeEach(async(() => {
-    routerSpy = jasmine.createSpyObj("Router", [''])
+    routerSpy = jasmine.createSpyObj("Router", ['navigate'])
     navParamsSpy = jasmine.createSpyObj("NavParams", [''])
     TestBed.configureTestingModule({
       declarations: [ PopoverOtherPage ],

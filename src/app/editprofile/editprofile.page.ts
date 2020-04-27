@@ -79,6 +79,7 @@ export class EditprofilePage implements OnInit {
     });
     this.photoUpload = false;
   }
+
   goBack()
   {
     this.location.back();
