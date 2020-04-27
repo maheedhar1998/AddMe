@@ -70,6 +70,7 @@ export class HomePage implements OnInit {
   }
 
   ionViewDidEnter() {
+    this.data = false;
     const self = this;
     self.firebase =  new FirebaseBackendService(firebase.auth().currentUser.uid);
     self.editContact = [];
