@@ -3,7 +3,7 @@
     <name>Connekt</name>
     <description>Connekt - Exchange social media seamlessly!</description>
     <author email="hi@ionicframework.com" href="http://ionicframework.com/">Ionic Framework Team</author>
-    <content src="index.html" />
+    <content original-src="index.html" src="http://172.16.104.68:8100" />
     <access origin="*" />
     <allow-intent href="http://*/*" />
     <allow-intent href="https://*/*" />
