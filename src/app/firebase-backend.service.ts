@@ -346,7 +346,7 @@ export class FirebaseBackendService {
     var urlPic: string;
     var options: ImagePickerOptions = {
       maximumImagesCount: 1,
-      quality: 100,
+      quality: 75,
       outputType: OutputType.DATA_URL
     }
   

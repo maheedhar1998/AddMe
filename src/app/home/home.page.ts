@@ -71,27 +71,25 @@ export class HomePage implements OnInit {
 
   ionViewDidEnter() {
     const self = this;
-    this.events.subscribe('update-profile', () => {    
-      self.firebase =  new FirebaseBackendService(firebase.auth().currentUser.uid);
-      self.editContact = [];
-      self.firebase.getUserData().then(dat => {
-        self.profile = dat;
-        self.filteredContacts = this.profile.getContacts;
-        for(let i: number = 0; i<this.filteredContacts.length; i++) {
-          if(self.filteredContacts[i]['id'] == 'N/A') {
-            self.filteredContacts.splice(i,1);
-            i--;
-          }
-          self.editContact.push(false);
+    self.firebase =  new FirebaseBackendService(firebase.auth().currentUser.uid);
+    self.editContact = [];
+    self.firebase.getUserData().then(dat => {
+      self.profile = dat;
+      self.filteredContacts = this.profile.getContacts;
+      for(let i: number = 0; i<this.filteredContacts.length; i++) {
+        if(self.filteredContacts[i]['id'] == 'N/A') {
+          self.filteredContacts.splice(i,1);
+          i--;
         }
-        self.qrData = JSON.stringify(this.profile.getQrCodes).substr(0,100);
-        self.searchKeyword = "";
-        console.log(self.editContact);
-        this.data = true;
-        if(this.profile.getFirst) {
-          this.presentAlert();
-        }
-      });
+        self.editContact.push(false);
+      }
+      self.qrData = JSON.stringify(this.profile.getQrCodes).substr(0,100);
+      self.searchKeyword = "";
+      console.log(self.editContact);
+      this.data = true;
+      if(this.profile.getFirst) {
+        this.presentAlert();
+      }
     });
   }
 
@@ -154,15 +152,25 @@ export class HomePage implements OnInit {
   }
 
   async addToUserContacts(usrName: string) {
-    await this.firebase.addToUserContactsFromUsername(usrName);
+    const exists: boolean = await this.firebase.checkIfUsernameIsTaken(usrName);
+    if(exists) {
+      await this.firebase.addToUserContactsFromUsername(usrName);
+    } else if(!exists) {
+      const alert = await this.alertController.create({
+        header: 'Cannot add new contact.',
+        message: 'The entered username does not exist, please make sure you have entered the correct username.',
+        buttons: ['OK']
+      });
+    }
   }
 
   async presentAddUserContactAlert() {
     const self = this;
     let callAddUsername: (usrName: string) => void = async function(usrName: string) {
       await self.addToUserContacts(usrName).then(() => {
-        self.events.publish('update-profile');
-        self.ngOnInit();
+        setTimeout(() => {
+          self.ionViewDidEnter();
+        }, 1000);
       });
     };
     const alert = await this.alertController.create({

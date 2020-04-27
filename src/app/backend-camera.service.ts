@@ -10,7 +10,7 @@ export class BackendCameraService {
   async takeSelfie(cam: Camera): Promise<string> {
     var urlPic: string;
     const options: CameraOptions = {
-      quality: 100,
+      quality: 75,
       destinationType: cam.DestinationType.DATA_URL,
       encodingType: cam.EncodingType.JPEG,
       mediaType: cam.MediaType.PICTURE,

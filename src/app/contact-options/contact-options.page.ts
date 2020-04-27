@@ -5,7 +5,7 @@ import { FirebaseBackendService } from '../firebase-backend.service';
 import * as firebase from 'firebase';
 import { PopoverController } from '@ionic/angular';
 import { AlertController } from '@ionic/angular';
-import { NavParams } from '@ionic/angular';
+import { NavParams, Events } from '@ionic/angular';
 
 @Component({
   selector: 'app-contact-options',
@@ -17,7 +17,7 @@ export class ContactOptionsPage implements OnInit {
   private contact: backend.contact;
   private option: string;
 
-  constructor(private popOver: PopoverController, private router: Router, private navParam: NavParams, public alertController: AlertController) {
+  constructor(private popOver: PopoverController,private events: Events, private router: Router, private navParam: NavParams, public alertController: AlertController) {
     firebase.auth().onAuthStateChanged(firebaseUser => {
       if(!firebaseUser)
       {
@@ -41,6 +41,7 @@ export class ContactOptionsPage implements OnInit {
           text: 'Yes',
           handler: () => {
             this.firebase.deleteFromUserContacts(this.contact);
+            this.events.publish('update-profile');
             this.popOver.dismiss(this.option);
           }
         },
