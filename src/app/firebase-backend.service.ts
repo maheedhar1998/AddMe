@@ -32,6 +32,7 @@ export class FirebaseBackendService {
     return new Promise(resolve => {
       console.log(usrName);
       firebase.database().ref('Users/').orderByChild('username').equalTo(usrName).once('value', snap => {
+        console.log(snap.val());
         if(snap.val()) {
           resolve(true);
         } else {
@@ -40,6 +41,19 @@ export class FirebaseBackendService {
       });
     });
   }
+  // Returns Whether on not the email is already linked to an account
+  checkIfEmailIsTaken(usrEmail: string): Promise<boolean> {
+    return new Promise(resolve => {
+      firebase.database().ref('Users/').orderByChild('email').equalTo(usrEmail).once('value', snap => {
+        if(snap.val()) {
+          resolve(true);
+        } else {
+          resolve(false);
+        }
+      });
+    });
+  }
+  // Login with google
   async loginWithGoogle(): Promise<boolean> {
     var provider = new firebase.auth.GoogleAuthProvider();
     var ret: boolean = false;
@@ -80,11 +94,9 @@ export class FirebaseBackendService {
   }
   // Update user data on firebase
   async updateUserData(usr: backend.user): Promise<any> {
-    if(!this.checkIfUsernameIsTaken(usr.getUsername)) {
-      var updates: {} = {};
-      updates['Users/'+this.uid+'/'] = usr;
-      return firebase.database().ref().update(updates);
-    }
+    var updates: {} = {};
+    updates['Users/'+this.uid+'/'] = usr;
+    return firebase.database().ref().update(updates);
   }
   // adding user contact list with new contact
   async addToUserContacts(cont: backend.contact) {
