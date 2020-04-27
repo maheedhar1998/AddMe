@@ -69,6 +69,32 @@ export class HomePage implements OnInit {
     });
   }
 
+  ionViewDidEnter() {
+    const self = this;
+    this.events.subscribe('update-profile', () => {    
+      self.firebase =  new FirebaseBackendService(firebase.auth().currentUser.uid);
+      self.editContact = [];
+      self.firebase.getUserData().then(dat => {
+        self.profile = dat;
+        self.filteredContacts = this.profile.getContacts;
+        for(let i: number = 0; i<this.filteredContacts.length; i++) {
+          if(self.filteredContacts[i]['id'] == 'N/A') {
+            self.filteredContacts.splice(i,1);
+            i--;
+          }
+          self.editContact.push(false);
+        }
+        self.qrData = JSON.stringify(this.profile.getQrCodes).substr(0,100);
+        self.searchKeyword = "";
+        console.log(self.editContact);
+        this.data = true;
+        if(this.profile.getFirst) {
+          this.presentAlert();
+        }
+      });
+    });
+  }
+
   ngOnInit()
   {
     this.data = false;
@@ -238,12 +264,14 @@ export class HomePage implements OnInit {
     this.firebase.takeAndUploadProfilePhoto(this.camera).then(url => {
       console.log(url);
       this.firebase.updateUserData(this.profile);
+      this.events.publish('update-profile');
     });
   }
   async selectProfilePicture() {
     this.firebase.uploadProfilePhoto(this.imagePicker).then(url => {
       console.log(url);
       this.firebase.updateUserData(this.profile);
+      this.events.publish('update-profile');
     });
   }
 }
