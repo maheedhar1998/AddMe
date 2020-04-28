@@ -1,9 +1,6 @@
 <ion-header>
     <ion-toolbar>
         <ion-searchbar id="search" showCancelButton="focus" inputmode="search" placeHolder="Search Contacts" (ionChange)="filterContacts($event)" [(ngModel)]="searchKeyword"></ion-searchbar>
-        <ion-button fill="clear" slot="end" color="dark" (click)="goToCamera()">
-            <ion-icon name="camera" color="dark"></ion-icon>
-        </ion-button>
     </ion-toolbar>
 </ion-header>
 
@@ -96,19 +93,6 @@
         </ion-card>
     </div>
     <div *ngIf="data">
-        <ion-fab vertical="bottom" horizontal="end" color="secondary">
-            <ion-fab-button>
-                <ion-icon name="add"></ion-icon>
-            </ion-fab-button>
-            <ion-fab-list side="top">
-                <ion-fab-button>
-                    <ion-icon name="person-add" color="dark"></ion-icon>
-                </ion-fab-button>
-                <ion-fab-button>
-                    <ion-icon name="camera" color="dark"></ion-icon>
-                </ion-fab-button>
-            </ion-fab-list>
-        </ion-fab>
         <ion-card lines="none" id="userCard">
             <ion-card-content class="ion-no-padding" lines="none">
                 <ion-item lines="none" id="main" button (click)="goToProfile()">
@@ -146,7 +130,7 @@
                     <ion-card *ngFor="let contact of filteredContacts; let i=index" (click)="goToUserContact(contact)">
                         <ion-card-content>
                             <ion-grid>
-                                <ion-row>
+                                <ion-row id="contactRow">
                                     <ion-col id="avtar-width">
                                         <ion-avatar>
                                             <ion-img src="{{contact.photo}}"></ion-img>
@@ -159,13 +143,6 @@
                                                 <ion-icon slot="icon-only" name="more"></ion-icon>
                                             </ion-button>
                                         </ion-item>
-                                        <ion-item line="none" *ngIf="editContact[i]">
-                                            <ion-label>Name:</ion-label>
-                                            <ion-input type="text" [(ngModel)]="contact.name"></ion-input>
-                                            <ion-button fill="clear" (click)="saveContact(contact, i)">
-                                                <ion-icon name="save"></ion-icon>
-                                            </ion-button>
-                                        </ion-item>
                                     </ion-col>
                                 </ion-row>
                             </ion-grid>
@@ -176,3 +153,18 @@
         </div>
     </div>
 </ion-content>
+<ion-footer>
+    <ion-fab id="fab" vertical="bottom" horizontal="end" color="secondary">
+        <ion-fab-button>
+            <ion-icon name="add"></ion-icon>
+        </ion-fab-button>
+        <ion-fab-list side="top">
+            <ion-fab-button (click)="presentAddUserContactAlert()">
+                <ion-icon name="person-add" color="dark"></ion-icon>
+            </ion-fab-button>
+            <ion-fab-button (click)="goToCamera()">
+                <ion-icon name="qr-scanner" color="dark"></ion-icon>
+            </ion-fab-button>
+        </ion-fab-list>
+    </ion-fab>
+</ion-footer>

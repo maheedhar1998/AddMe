@@ -31,6 +31,7 @@ export class FirebaseBackendService {
   checkIfUsernameIsTaken(usrName: string): Promise<boolean> {
     return new Promise(resolve => {
       firebase.database().ref('Users/').orderByChild('username').equalTo(usrName).once('value', snap => {
+        console.log(snap.val());
         if(snap.val()) {
           resolve(true);
         } else {
@@ -39,6 +40,19 @@ export class FirebaseBackendService {
       });
     });
   }
+  // Returns Whether on not the email is already linked to an account
+  checkIfEmailIsTaken(usrEmail: string): Promise<boolean> {
+    return new Promise(resolve => {
+      firebase.database().ref('Users/').orderByChild('email').equalTo(usrEmail).once('value', snap => {
+        if(snap.val()) {
+          resolve(true);
+        } else {
+          resolve(false);
+        }
+      });
+    });
+  }
+  // Login with google
   async loginWithGoogle(): Promise<boolean> {
     var provider = new firebase.auth.GoogleAuthProvider();
     var ret: boolean = false;
@@ -75,6 +89,9 @@ export class FirebaseBackendService {
   }
   // Update user data on firebase
   async updateUserData(usr: backend.user): Promise<any> {
+    let qrCodes: backend.qrCode[] = [new backend.qrCode(usr.getUid, new backend.contact(usr.getUid, usr.getUsername, usr.getName, usr.getEmail, usr.getPhoneNumber, usr.getDOB, usr.getPhoto, usr.getSocials))];
+    console.log(qrCodes);
+    usr.setQrCodes = qrCodes;
     var updates: {} = {};
     updates['Users/'+this.uid+'/'] = usr;
     return firebase.database().ref().update(updates);
@@ -329,7 +346,7 @@ export class FirebaseBackendService {
     var urlPic: string;
     var options: ImagePickerOptions = {
       maximumImagesCount: 1,
-      quality: 100,
+      quality: 75,
       outputType: OutputType.DATA_URL
     }
   
@@ -364,10 +381,6 @@ export class FirebaseBackendService {
       ret = val;
     });
     return ret;
-  }
-  // Flags whether or not a given database 'location' has been changed
-  async checkChange(loc: string): Promise<boolean> {
-    return true;
   }
   // Logs Out
   async logOut() {

@@ -5,7 +5,7 @@ import { FirebaseBackendService } from '../firebase-backend.service';
 import * as firebase from 'firebase';
 import { PopoverController } from '@ionic/angular';
 import { AlertController } from '@ionic/angular';
-import { NavParams } from '@ionic/angular';
+import { NavParams, Events } from '@ionic/angular';
 
 @Component({
   selector: 'app-contact-options',
@@ -16,11 +16,10 @@ export class ContactOptionsPage implements OnInit {
   private firebase: FirebaseBackendService;
   private contact: backend.contact;
   private option: string;
+  private contactName: string;
+  private editing: boolean;
 
-  constructor(private popOver: PopoverController,
-              private router: Router,
-              private navParam: NavParams,
-              public alertController: AlertController) {
+  constructor(private popOver: PopoverController,private events: Events, private router: Router, private navParam: NavParams, public alertController: AlertController) {
     firebase.auth().onAuthStateChanged(firebaseUser => {
       if(!firebaseUser)
       {
@@ -29,8 +28,10 @@ export class ContactOptionsPage implements OnInit {
       else
       {
         this.option = "";
+        this.editing = false;
         this.firebase = new FirebaseBackendService(firebase.auth().currentUser.uid);
         this.contact = this.navParam.get('contact');
+        this.contactName = this.contact['name'];
       }
     })
   }
@@ -44,6 +45,7 @@ export class ContactOptionsPage implements OnInit {
           text: 'Yes',
           handler: () => {
             this.firebase.deleteFromUserContacts(this.contact);
+            this.events.publish('update-profile');
             this.popOver.dismiss(this.option);
           }
         },
@@ -59,9 +61,16 @@ export class ContactOptionsPage implements OnInit {
     await alert.present();
   }
 
+  save() {
+    let editCon: backend.contact = this.contact;
+    editCon['name'] = this.contactName;
+    console.log(editCon);
+    this.firebase.updateUsersContact(this.contact, editCon);
+    this.editing = false;
+  }
+
   edit() {
-    console.log(this.option);
-    this.popOver.dismiss(this.option);
+    this.editing = true;
   }
 
   ngOnInit() {

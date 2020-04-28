@@ -1,3 +1,4 @@
+import { ContactOptionsPage } from './../contact-options/contact-options.page';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { IonicModule } from '@ionic/angular';
@@ -20,7 +21,10 @@ import { HomePage } from './home.page';
     ]),
     NgxQRCodeModule
   ],
-  declarations: 
-  [HomePage],
+  declarations: [
+    HomePage,
+    ContactOptionsPage
+  ],
+  entryComponents: [ContactOptionsPage]
 })
 export class HomePageModule {}

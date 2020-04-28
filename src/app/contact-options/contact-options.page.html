@@ -3,6 +3,12 @@
         <ion-item (click)="option='edit';edit()">
             Edit Contact
         </ion-item>
+        <ion-item *ngIf="editing">
+            <ion-input type="text" [(ngModel)]="contactName"></ion-input>
+            <ion-button (click)="save()">
+                <ion-icon name="create" color="dark"></ion-icon>
+            </ion-button>
+        </ion-item>
         <ion-item (click)="option='delete';delete()">
             Delete Contact
         </ion-item>

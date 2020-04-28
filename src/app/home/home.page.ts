@@ -22,8 +22,9 @@ export class HomePage implements OnInit {
   private qrData: string;
   private searchKeyword: string;
   private filteredContacts: {} [] = [];
-  private editContact: boolean[] = [];
   private data: boolean;
+  private popover: boolean;
+
   private profile: backend.user = new backend.user(null,null,null,null,null,null,null,null,null,null, false);
   
   constructor(private router: Router,
@@ -44,7 +45,6 @@ export class HomePage implements OnInit {
         this.firebase = new FirebaseBackendService(firebase.auth().currentUser.uid)
         this.events.subscribe('update-profile', () => {    
           self.firebase =  new FirebaseBackendService(firebase.auth().currentUser.uid);
-          self.editContact = [];
           self.firebase.getUserData().then(dat => {
             self.profile = dat;
             self.filteredContacts = this.profile.getContacts;
@@ -53,17 +53,34 @@ export class HomePage implements OnInit {
                 self.filteredContacts.splice(i,1);
                 i--;
               }
-              self.editContact.push(false);
             }
             self.qrData = JSON.stringify(this.profile.getQrCodes).substr(0,100);
             self.searchKeyword = "";
-            console.log(self.editContact);
             this.data = true;
-            if(this.profile.getFirst) {
-              this.presentAlert();
-            }
+            this.popover = false;
           });
         });
+      }
+    });
+  }
+
+  ionViewDidEnter() {
+    const self = this;
+    self.firebase =  new FirebaseBackendService(firebase.auth().currentUser.uid);
+    self.firebase.getUserData().then(dat => {
+      self.profile = dat;
+      self.filteredContacts = this.profile.getContacts;
+      for(let i: number = 0; i<this.filteredContacts.length; i++) {
+        if(self.filteredContacts[i]['id'] == 'N/A') {
+          self.filteredContacts.splice(i,1);
+          i--;
+        }
+      }
+      self.qrData = JSON.stringify(this.profile.getQrCodes).substr(0,100);
+      self.searchKeyword = "";
+      this.data = true;
+      if(this.profile.getFirst) {
+        this.presentAlert();
       }
     });
   }
@@ -78,7 +95,6 @@ export class HomePage implements OnInit {
         this.router.navigate(['login']);
       } else {
         this.firebase =  new FirebaseBackendService(firebase.auth().currentUser.uid);
-        this.editContact = [];
         this.firebase.getUserData().then(dat => {
           self.profile = dat;
           self.filteredContacts = this.profile.getContacts;
@@ -87,15 +103,10 @@ export class HomePage implements OnInit {
               self.filteredContacts.splice(i,1);
               i--;
             }
-            self.editContact.push(false);
           }
           self.qrData = JSON.stringify(this.profile.getQrCodes).substr(0,100);
           self.searchKeyword = "";
-          console.log(self.editContact);
           this.data = true;
-          if(this.profile.getFirst) {
-            this.presentAlert();
-          }
         })
       }
     })
@@ -107,7 +118,11 @@ export class HomePage implements OnInit {
   }
 
   goToUserContact( cont: backend.contact ) {
-    this.router.navigate(['user-contact', {contact: JSON.stringify(cont)}]);
+    setTimeout(() => {
+      if(!this.popover) {
+        this.router.navigate(['user-contact', {contact: JSON.stringify(cont)}]);
+      }
+    }, 100);
   }
 
   goToCamera() {
@@ -127,7 +142,56 @@ export class HomePage implements OnInit {
   }
 
   async addToUserContacts(usrName: string) {
-    this.firebase.addToUserContactsFromUsername(usrName);
+    const exists: boolean = await this.firebase.checkIfUsernameIsTaken(usrName);
+    if(exists) {
+      await this.firebase.addToUserContactsFromUsername(usrName);
+    } else if(!exists) {
+      const alert = await this.alertController.create({
+        header: 'Cannot add new contact.',
+        message: 'The entered username does not exist, please make sure you have entered the correct username.',
+        buttons: ['OK']
+      });
+      await alert.present();
+    }
+  }
+
+  async presentAddUserContactAlert() {
+    const self = this;
+    let callAddUsername: (usrName: string) => void = async function(usrName: string) {
+      await self.addToUserContacts(usrName).then(() => {
+        setTimeout(() => {
+          self.ionViewDidEnter();
+        }, 1000);
+      });
+    };
+    const alert = await this.alertController.create({
+      header: 'Add a Contact',
+      message: 'Enter a friend\'s username to add to contacts.',
+      inputs: [
+        {
+          name: 'username',
+          type: 'text',
+          placeholder: 'Enter an Username.'
+        }
+      ],
+      buttons: [
+        {
+          text: 'Add',
+          role: 'OK',
+          handler: (inputs) => {
+            callAddUsername(inputs.username);
+          }
+        },
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          handler: () => {
+            
+          }
+        }
+      ]
+    });
+    alert.present();
   }
 
   async presentAlert() {
@@ -171,6 +235,7 @@ export class HomePage implements OnInit {
     this.router.navigate(['profile']);
   }
   async openPopover(ev: any, contact: backend.contact, i) {
+    this.popover = true;
     const pop = await this.popOver.create({
       component: ContactOptionsPage,
       componentProps: {'contact': contact},
@@ -182,27 +247,26 @@ export class HomePage implements OnInit {
     await pop.present();
     pop.onDidDismiss().then(option => {
       console.log(option)
-      if(option.data == 'edit') {
-        this.editContact[i] = true;
+      if(option.data == 'delete') {
+        setTimeout(() => {
+          this.ionViewDidEnter();
+        }, 500);
       }
-    });
-  }
-  async saveContact(cont: backend.contact, i) {
-    console.log("attempt")
-    await this.firebase.getUserData().then(async usr => {
-      console.log("usr")
-      await this.firebase.updateUsersContact(usr.getContacts[i], cont);
-      this.editContact[i] = false;
+      this.popover = false;
     });
   }
   async takeProfilePicture() {
-    this.firebase.takeAndUploadProfilePhoto(this.camera).then(url => {
+    this.firebase.takeAndUploadProfilePhoto(this.camera).then(async url => {
       console.log(url);
+      this.firebase.updateUserData(await this.firebase.getUserData());
+      this.events.publish('update-profile');
     });
   }
   async selectProfilePicture() {
-    this.firebase.uploadProfilePhoto(this.imagePicker).then(url => {
+    this.firebase.uploadProfilePhoto(this.imagePicker).then(async url => {
       console.log(url);
+      this.firebase.updateUserData(await this.firebase.getUserData());
+      this.events.publish('update-profile');
     });
   }
 }
