@@ -10,6 +10,11 @@ describe('new App', () => {
   it('goes to login page', () => {
     page.navigateToRoot();
     console.log(page.checkPage());
-    expect(page.checkPage()).toBe('http://localhost:4200/');
+    expect(page.checkPage()).toBe('http://localhost:4200/login');
+  });
+  it('should login with valid credentials', () => {
+    page.navigateToRoot();
+    page.login();
+    expect(page.checkPage()).toBe('http://localhost:4200/home');
   });
 });
