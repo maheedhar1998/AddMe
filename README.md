@@ -38,7 +38,7 @@ To run unit tests for the app
    * ```npm test```
 
 To run behavioral/end to end tests for the app
-   * ```ng e2e```
+   * ```npm run e2e```
 ***
 # Deployment
 To run on a mobile device natively

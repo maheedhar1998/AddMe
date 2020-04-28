@@ -2,8 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import * as firebase from 'firebase';
 import { Router } from '@angular/router';
 import { FirebaseBackendService } from '../firebase-backend.service';
-import { ThemeService } from '../theme.service'
-import { Storage } from '@ionic/storage'
+import { ThemeService } from '../theme.service';
+import { Storage } from '@ionic/storage';
+import { AlertController } from '@ionic/angular';
+import { ToastController } from '@ionic/angular';
 
 @Component({
   selector: 'app-settings',
@@ -13,7 +15,11 @@ import { Storage } from '@ionic/storage'
 export class SettingsPage {
   private firebase: FirebaseBackendService;
   private darkMode: boolean;
-  constructor(private router: Router, private themeService: ThemeService, private storage: Storage) {
+  constructor(private router: Router,
+              private alertController: AlertController,
+              private themeService: ThemeService,
+              private storage: Storage,
+              private toastController: ToastController) {
     const self = this
     firebase.auth().onAuthStateChanged(firebaseUser => {
       if(!firebaseUser)
@@ -36,5 +42,48 @@ export class SettingsPage {
   toggleDarkMode()
   {
     this.themeService.toggleDarkMode()
+  }
+
+  async logOut() {
+    const alert = await this.alertController.create({
+      header: 'Log Out?',
+      message: 'Are you sure you want to logout?',
+      buttons: [
+        {
+          text: 'OK',
+          handler: () => {
+            this.firebase.logOut();
+            this.router.navigate(['login']);
+          }
+        },
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          handler: () => {
+            console.log("dismiss logout");
+          }
+        }
+      ]
+    });
+    await alert.present();
+  }
+  
+  async deleteAccount()
+  {
+    const answer = confirm("Are you sure you want to delete your account?")
+    if(answer === true)
+    {
+      const uid = firebase.auth().currentUser.uid
+      await firebase.auth().currentUser.delete().catch(err => {throw new Error(err)})
+      await this.firebase.deleteAccount(uid).catch(err => {throw new Error(err)})
+      await this.firebase.logOut().catch(err => {throw new Error(err)})
+
+      const toast = await this.toastController.create({
+        message: "Your account has been deleted.",
+        duration: 4000,
+        color: "danger"
+      });
+      toast.present();
+    }
   }
 }

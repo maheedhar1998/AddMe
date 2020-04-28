@@ -25,13 +25,14 @@ export class UserContactPage implements OnInit {
       }else{
         this.firebase = new FirebaseBackendService(firebase.auth().currentUser.uid);
         this.route.params.subscribe(data => {
+          this.chunks = [];
           this.profile = JSON.parse(data['contact']) as backend.contact;
           console.log(this.profile)
           this.logos = [
             { name: 'instagram', logo:'instagram-2-1.svg'},
             { name: 'facebook', logo:'facebook-icon.svg'},
             { name: 'snapchat', logo:'snapchat.svg'},
-            { name: 'twitter', logo:'twitter.svg'},
+            { name: 'twitter', logo:'twitter-new.svg'},
             { name: 'linkedin', logo:'linkedin-icon-2.svg'},
             // { name: 'github', logo:'github.svg'},
             // { name: 'tiktok', logo:'tiktok-logo.svg'},

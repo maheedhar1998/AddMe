@@ -1,52 +1,31 @@
 <!-- <script src="https://hammerjs.github.io/dist/hammer.js"></script> -->
 <ion-header>
-  <ion-toolbar>
-    <ion-button fill="clear" (click)="goToHome()">
-      <ion-icon name="arrow-back" color="dark"></ion-icon>
-    </ion-button>
-  </ion-toolbar>
+    <ion-toolbar>
+        <ion-button fill="clear" (click)="goToHome()">
+            <ion-icon name="arrow-back" color="dark"></ion-icon>
+        </ion-button>
+    </ion-toolbar>
 </ion-header>
 <ion-content fullscreen id="pContent" (swipe)="swipeEvent($event)">
-  <ion-card lines="none">
-    <ion-card-content lines="none">
-      <ion-grid>
-        <ion-row>
-          <ion-col size="4" class="profile-col">
-            <ion-avatar>
-              <ion-img src="{{profile.photo}}"></ion-img>
-            </ion-avatar>
-          </ion-col>
-          <ion-col size="8">
-            <ion-list>
-              <ion-item lines="none">
-                <ion-label class="ion-text-center" style="font-size: 175%;">
-                  {{profile.name}}
+    <ion-card lines="none">
+        <ion-card-content class="ion-no-padding" lines="none">
+            <ion-item lines="none" id="main">
+                <ion-avatar>
+                    <ion-img src="{{profile['photo']}}"></ion-img>
+                </ion-avatar>
+                <ion-label id="main-head">
+                    {{profile['name']}}
                 </ion-label>
-              </ion-item>
-              <ion-item lines="none">
-                <ion-button fill="clear" (click)="mail()">
-                  <ion-icon name="mail" color="dark" size="large"></ion-icon>
-                </ion-button>
-                <ion-button fill="clear" (click)="call()">
-                  <ion-icon name="call" color="dark" size="large"></ion-icon>
-                </ion-button>
-                <ion-button fill="clear" (click)="facebook()">
-                  <ion-icon name="logo-facebook" color="dark" size="large"></ion-icon>
-                </ion-button>
-              </ion-item>
-            </ion-list>
-          </ion-col>
+            </ion-item>
+        </ion-card-content>
+    </ion-card>
+    <ion-grid class="social-grid">
+        <ion-row *ngFor="let row of chunks">
+            <ion-col *ngFor="let item of row" class="ion-text-center">
+                <ion-avatar (click)="openPopover($event, item.name)">
+                    <ion-img src="./assets/{{item.logo}}" style="background:white;"></ion-img>
+                </ion-avatar>
+            </ion-col>
         </ion-row>
-      </ion-grid>
-    </ion-card-content>
-  </ion-card>
-  <ion-grid class="social-grid">
-    <ion-row  *ngFor="let row of chunks"  >
-      <ion-col *ngFor="let item of row" class="ion-text-center">
-        <ion-avatar (click)="openPopover($event, item.name)">
-          <ion-img src="./assets/{{item.logo}}"></ion-img>
-        </ion-avatar>
-      </ion-col>
-    </ion-row>
-  </ion-grid>
+    </ion-grid>
 </ion-content>

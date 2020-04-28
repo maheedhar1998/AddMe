@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { FirebaseBackendService } from './firebase-backend.service';
-import testCredentials from '../../firebaseTestCredentials'
+import testCredentials from 'firebaseTestCredentials'
 import * as firebase from 'firebase';
 import firebaseConfig from '../../firebaseConfig'
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';

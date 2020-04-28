@@ -1,12 +1,12 @@
 import { contact } from './../backendClasses';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { FirebaseBackendService } from '../firebase-backend.service';
 import * as firebase from 'firebase';
 import { ThrowStmt } from '@angular/compiler';
 import { ContactOptionsPage } from '../contact-options/contact-options.page';
 import { AlertController } from '@ionic/angular';
-import { PopoverController } from '@ionic/angular';
+import { PopoverController, Events } from '@ionic/angular';
 import * as backend from '../backendClasses';
 import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
 import { ImagePicker } from '@ionic-native/image-picker/ngx';
@@ -17,15 +17,24 @@ import { ToastController } from '@ionic/angular';
   templateUrl: 'home.page.html',
   styleUrls: ['home.page.scss'],
 })
-export class HomePage {
+export class HomePage implements OnInit {
   private firebase: FirebaseBackendService;
   private qrData: string;
   private searchKeyword: string;
   private filteredContacts: {} [] = [];
-  private editContact: boolean[] = [];
+  private data: boolean;
+  private popover: boolean;
+
   private profile: backend.user = new backend.user(null,null,null,null,null,null,null,null,null,null, false);
   
-  constructor(private router: Router, private alertController: AlertController, private popOver: PopoverController, private camera: Camera, private imagePicker: ImagePicker) {
+  constructor(private router: Router,
+              private alertController: AlertController,
+              private popOver: PopoverController,
+              private camera: Camera,
+              private imagePicker: ImagePicker,
+              private events: Events) {
+    this.data = false;
+    const self = this
     firebase.auth().onAuthStateChanged(firebaseUser => {
       if(!firebaseUser)
       {
@@ -33,38 +42,87 @@ export class HomePage {
       }
       else
       {
-        this.firebase =  new FirebaseBackendService(firebase.auth().currentUser.uid);
-        this.editContact = [];
-        this.firebase.getUserData().then(dat => {
-          this.profile = dat;
-          this.filteredContacts = this.profile.getContacts;
-          for(let i: number = 0; i<this.filteredContacts.length; i++) {
-            if(this.filteredContacts[i]['id'] == 'N/A') {
-              this.filteredContacts.splice(i,1);
-              i--;
+        this.firebase = new FirebaseBackendService(firebase.auth().currentUser.uid)
+        this.events.subscribe('update-profile', () => {    
+          self.firebase =  new FirebaseBackendService(firebase.auth().currentUser.uid);
+          self.firebase.getUserData().then(dat => {
+            self.profile = dat;
+            self.filteredContacts = this.profile.getContacts;
+            for(let i: number = 0; i<this.filteredContacts.length; i++) {
+              if(self.filteredContacts[i]['id'] == 'N/A') {
+                self.filteredContacts.splice(i,1);
+                i--;
+              }
             }
-            this.editContact.push(false);
-          }
-          this.qrData = JSON.stringify(this.profile.getQrCodes).substr(0,100);
-          this.searchKeyword = "";
-          console.log(this.editContact);
+            self.qrData = JSON.stringify(this.profile.getQrCodes).substr(0,100);
+            self.searchKeyword = "";
+            this.data = true;
+            this.popover = false;
+          });
         });
       }
     });
   }
-  ionViewDidEnter(){
-    if (this.profile.getFirst) {
-        console.log('profile');
+
+  ionViewDidEnter() {
+    const self = this;
+    self.firebase =  new FirebaseBackendService(firebase.auth().currentUser.uid);
+    self.firebase.getUserData().then(dat => {
+      self.profile = dat;
+      self.filteredContacts = this.profile.getContacts;
+      for(let i: number = 0; i<this.filteredContacts.length; i++) {
+        if(self.filteredContacts[i]['id'] == 'N/A') {
+          self.filteredContacts.splice(i,1);
+          i--;
+        }
+      }
+      self.qrData = JSON.stringify(this.profile.getQrCodes).substr(0,100);
+      self.searchKeyword = "";
+      this.data = true;
+      if(this.profile.getFirst) {
         this.presentAlert();
-    }
+      }
+    });
   }
+
+  ngOnInit()
+  {
+    this.data = false;
+    const self = this
+    firebase.auth().onAuthStateChanged(firebaseUser => {
+      if(!firebaseUser)
+      {
+        this.router.navigate(['login']);
+      } else {
+        this.firebase =  new FirebaseBackendService(firebase.auth().currentUser.uid);
+        this.firebase.getUserData().then(dat => {
+          self.profile = dat;
+          self.filteredContacts = this.profile.getContacts;
+          for(let i: number = 0; i<this.filteredContacts.length; i++) {
+            if(self.filteredContacts[i]['id'] == 'N/A') {
+              self.filteredContacts.splice(i,1);
+              i--;
+            }
+          }
+          self.qrData = JSON.stringify(this.profile.getQrCodes).substr(0,100);
+          self.searchKeyword = "";
+          this.data = true;
+        })
+      }
+    })
+  }
+
   deleteContact(cont: backend.contact) {
     // console.log(cont);
     this.firebase.deleteFromUserContacts(cont);
   }
 
   goToUserContact( cont: backend.contact ) {
-    this.router.navigate(['user-contact', {contact: JSON.stringify(cont)}]);
+    setTimeout(() => {
+      if(!this.popover) {
+        this.router.navigate(['user-contact', {contact: JSON.stringify(cont)}]);
+      }
+    }, 100);
   }
 
   goToCamera() {
@@ -83,33 +141,62 @@ export class HomePage {
     this.router.navigate(['profile']);
   }
 
-  async logOut() {
+  async addToUserContacts(usrName: string) {
+    const exists: boolean = await this.firebase.checkIfUsernameIsTaken(usrName);
+    if(exists) {
+      await this.firebase.addToUserContactsFromUsername(usrName);
+    } else if(!exists) {
+      const alert = await this.alertController.create({
+        header: 'Cannot add new contact.',
+        message: 'The entered username does not exist, please make sure you have entered the correct username.',
+        buttons: ['OK']
+      });
+      await alert.present();
+    }
+  }
+
+  async presentAddUserContactAlert() {
+    const self = this;
+    let callAddUsername: (usrName: string) => void = async function(usrName: string) {
+      await self.addToUserContacts(usrName).then(() => {
+        setTimeout(() => {
+          self.ionViewDidEnter();
+        }, 1000);
+      });
+    };
     const alert = await this.alertController.create({
-      header: 'Log Out?',
-      message: 'Are you sure you want to logout?',
+      header: 'Add a Contact',
+      message: 'Enter a friend\'s username to add to contacts.',
+      inputs: [
+        {
+          name: 'username',
+          type: 'text',
+          placeholder: 'Enter an Username.'
+        }
+      ],
       buttons: [
         {
-          text: 'OK',
-          handler: () => {
-            this.firebase.logOut();
-            this.router.navigate(['login']);
+          text: 'Add',
+          role: 'OK',
+          handler: (inputs) => {
+            callAddUsername(inputs.username);
           }
         },
         {
           text: 'Cancel',
           role: 'cancel',
           handler: () => {
-            console.log("dismiss logout");
+            
           }
         }
       ]
     });
-    await alert.present();
+    alert.present();
   }
 
   async presentAlert() {
     const alert =  await this.alertController.create({
-      message: 'Welcome to Connekt.\nClick the camera button to upload a profile picture.',
+      message: 'Welcome to Connekt.\nClick the camera button to upload a profile picture.\nOr the photos button to choose a photo from your library',
       buttons: [
         {
           text: 'Maybe Later',
@@ -148,6 +235,7 @@ export class HomePage {
     this.router.navigate(['profile']);
   }
   async openPopover(ev: any, contact: backend.contact, i) {
+    this.popover = true;
     const pop = await this.popOver.create({
       component: ContactOptionsPage,
       componentProps: {'contact': contact},
@@ -159,27 +247,26 @@ export class HomePage {
     await pop.present();
     pop.onDidDismiss().then(option => {
       console.log(option)
-      if(option.data == 'edit') {
-        this.editContact[i] = true;
+      if(option.data == 'delete') {
+        setTimeout(() => {
+          this.ionViewDidEnter();
+        }, 500);
       }
-    });
-  }
-  async saveContact(cont: backend.contact, i) {
-    console.log("attempt")
-    await this.firebase.getUserData().then(async usr => {
-      console.log("usr")
-      await this.firebase.updateUsersContact(usr.getContacts[i], cont);
-      this.editContact[i] = false;
+      this.popover = false;
     });
   }
   async takeProfilePicture() {
-    this.firebase.takeAndUploadProfilePhoto(this.camera).then(url => {
+    this.firebase.takeAndUploadProfilePhoto(this.camera).then(async url => {
       console.log(url);
+      this.firebase.updateUserData(await this.firebase.getUserData());
+      this.events.publish('update-profile');
     });
   }
   async selectProfilePicture() {
-    this.firebase.uploadProfilePhoto(this.imagePicker).then(url => {
+    this.firebase.uploadProfilePhoto(this.imagePicker).then(async url => {
       console.log(url);
+      this.firebase.updateUserData(await this.firebase.getUserData());
+      this.events.publish('update-profile');
     });
   }
 }

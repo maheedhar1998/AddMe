@@ -18,7 +18,8 @@ export default {
       { type: 'areEqual', message: 'Password mismatch.' }
     ],
     'name': [
-      { type: 'required', message: 'Name is required.' }
+      { type: 'required', message: 'Name is required.' },
+      { type: 'maxlength', message: 'Username cannot be more than 20 characters long.' },
     ],
     'email': [
       { type: 'required', message: 'Email is required.' },
