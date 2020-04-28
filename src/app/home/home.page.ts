@@ -57,9 +57,6 @@ export class HomePage implements OnInit {
             self.qrData = JSON.stringify(this.profile.getQrCodes).substr(0,100);
             self.searchKeyword = "";
             this.data = true;
-            if(this.profile.getFirst) {
-              this.presentAlert();
-            }
             this.popover = false;
           });
         });
@@ -110,9 +107,6 @@ export class HomePage implements OnInit {
           self.qrData = JSON.stringify(this.profile.getQrCodes).substr(0,100);
           self.searchKeyword = "";
           this.data = true;
-          if(this.profile.getFirst) {
-            this.presentAlert();
-          }
         })
       }
     })
@@ -262,16 +256,16 @@ export class HomePage implements OnInit {
     });
   }
   async takeProfilePicture() {
-    this.firebase.takeAndUploadProfilePhoto(this.camera).then(url => {
+    this.firebase.takeAndUploadProfilePhoto(this.camera).then(async url => {
       console.log(url);
-      this.firebase.updateUserData(this.profile);
+      this.firebase.updateUserData(await this.firebase.getUserData());
       this.events.publish('update-profile');
     });
   }
   async selectProfilePicture() {
-    this.firebase.uploadProfilePhoto(this.imagePicker).then(url => {
+    this.firebase.uploadProfilePhoto(this.imagePicker).then(async url => {
       console.log(url);
-      this.firebase.updateUserData(this.profile);
+      this.firebase.updateUserData(await this.firebase.getUserData());
       this.events.publish('update-profile');
     });
   }

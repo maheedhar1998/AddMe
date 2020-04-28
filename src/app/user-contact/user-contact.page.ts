@@ -25,6 +25,7 @@ export class UserContactPage implements OnInit {
       }else{
         this.firebase = new FirebaseBackendService(firebase.auth().currentUser.uid);
         this.route.params.subscribe(data => {
+          this.chunks = [];
           this.profile = JSON.parse(data['contact']) as backend.contact;
           console.log(this.profile)
           this.logos = [
