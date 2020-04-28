@@ -1,3 +1,4 @@
+import { browser } from 'protractor';
 import { AppPage } from './app.po';
 
 describe('new App', () => {
@@ -12,9 +13,13 @@ describe('new App', () => {
     console.log(page.checkPage());
     expect(page.checkPage()).toBe('http://localhost:4200/login');
   });
-  it('should login with valid credentials', () => {
-    page.navigateToRoot();
-    page.login();
-    expect(page.checkPage()).toBe('http://localhost:4200/home');
+  it('goes to sign up page', () => {
+    page.navigateToSignUp();
+    expect(page.checkPage()).toBe('http://localhost:4200/signup');
   });
+  // it('should navigate back to login page form home page if a user is not logged in', () => {
+  //   page.navigateToHome();
+  //   browser.sleep(1000);
+  //   expect(page.checkPage()).toBe('http://localhost:4200/login');
+  // });
 });

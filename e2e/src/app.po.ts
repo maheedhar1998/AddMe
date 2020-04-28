@@ -7,6 +7,12 @@ export class AppPage {
   navigateToRoot() {
     return browser.get('/login');
   }
+  navigateToSignUp() {
+    return browser.get('/signup');
+  }
+  navigateToHome() {
+    return browser.get('/home');
+  }
   // inputLoginCredentialsAndLogin() {
   //   delay(30000);
   //   var email = element(by.css(`${'ion-content'}${'#email'}`));
