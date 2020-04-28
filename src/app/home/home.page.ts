@@ -22,7 +22,6 @@ export class HomePage implements OnInit {
   private qrData: string;
   private searchKeyword: string;
   private filteredContacts: {} [] = [];
-  private editContact: boolean[] = [];
   private data: boolean;
   private popover: boolean;
 
@@ -46,7 +45,6 @@ export class HomePage implements OnInit {
         this.firebase = new FirebaseBackendService(firebase.auth().currentUser.uid)
         this.events.subscribe('update-profile', () => {    
           self.firebase =  new FirebaseBackendService(firebase.auth().currentUser.uid);
-          self.editContact = [];
           self.firebase.getUserData().then(dat => {
             self.profile = dat;
             self.filteredContacts = this.profile.getContacts;
@@ -55,11 +53,9 @@ export class HomePage implements OnInit {
                 self.filteredContacts.splice(i,1);
                 i--;
               }
-              self.editContact.push(false);
             }
             self.qrData = JSON.stringify(this.profile.getQrCodes).substr(0,100);
             self.searchKeyword = "";
-            console.log(self.editContact);
             this.data = true;
             if(this.profile.getFirst) {
               this.presentAlert();
@@ -74,7 +70,6 @@ export class HomePage implements OnInit {
   ionViewDidEnter() {
     const self = this;
     self.firebase =  new FirebaseBackendService(firebase.auth().currentUser.uid);
-    self.editContact = [];
     self.firebase.getUserData().then(dat => {
       self.profile = dat;
       self.filteredContacts = this.profile.getContacts;
@@ -83,11 +78,9 @@ export class HomePage implements OnInit {
           self.filteredContacts.splice(i,1);
           i--;
         }
-        self.editContact.push(false);
       }
       self.qrData = JSON.stringify(this.profile.getQrCodes).substr(0,100);
       self.searchKeyword = "";
-      console.log(self.editContact);
       this.data = true;
       if(this.profile.getFirst) {
         this.presentAlert();
@@ -105,7 +98,6 @@ export class HomePage implements OnInit {
         this.router.navigate(['login']);
       } else {
         this.firebase =  new FirebaseBackendService(firebase.auth().currentUser.uid);
-        this.editContact = [];
         this.firebase.getUserData().then(dat => {
           self.profile = dat;
           self.filteredContacts = this.profile.getContacts;
@@ -114,11 +106,9 @@ export class HomePage implements OnInit {
               self.filteredContacts.splice(i,1);
               i--;
             }
-            self.editContact.push(false);
           }
           self.qrData = JSON.stringify(this.profile.getQrCodes).substr(0,100);
           self.searchKeyword = "";
-          console.log(self.editContact);
           this.data = true;
           if(this.profile.getFirst) {
             this.presentAlert();
@@ -167,6 +157,7 @@ export class HomePage implements OnInit {
         message: 'The entered username does not exist, please make sure you have entered the correct username.',
         buttons: ['OK']
       });
+      await alert.present();
     }
   }
 
@@ -262,18 +253,12 @@ export class HomePage implements OnInit {
     await pop.present();
     pop.onDidDismiss().then(option => {
       console.log(option)
-      if(option.data == 'edit') {
-        this.editContact[i] = true;
+      if(option.data == 'delete') {
+        setTimeout(() => {
+          this.ionViewDidEnter();
+        }, 500);
       }
       this.popover = false;
-    });
-  }
-  async saveContact(cont: backend.contact, i) {
-    console.log("attempt")
-    await this.firebase.getUserData().then(async usr => {
-      console.log("usr")
-      await this.firebase.updateUsersContact(usr.getContacts[i], cont);
-      this.editContact[i] = false;
     });
   }
   async takeProfilePicture() {

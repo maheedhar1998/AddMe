@@ -130,7 +130,7 @@
                     <ion-card *ngFor="let contact of filteredContacts; let i=index" (click)="goToUserContact(contact)">
                         <ion-card-content>
                             <ion-grid>
-                                <ion-row>
+                                <ion-row id="contactRow">
                                     <ion-col id="avtar-width">
                                         <ion-avatar>
                                             <ion-img src="{{contact.photo}}"></ion-img>
@@ -141,13 +141,6 @@
                                             <ion-title style="font-size: 1em;">{{contact.name}}</ion-title>
                                             <ion-button color="dark" size="large" fill="clear" slot="end" (click)="openPopover($event, contact, i)">
                                                 <ion-icon slot="icon-only" name="more"></ion-icon>
-                                            </ion-button>
-                                        </ion-item>
-                                        <ion-item line="none" *ngIf="editContact[i]">
-                                            <ion-label>Name:</ion-label>
-                                            <ion-input type="text" [(ngModel)]="contact.name"></ion-input>
-                                            <ion-button fill="clear" (click)="saveContact(contact, i)">
-                                                <ion-icon name="save"></ion-icon>
                                             </ion-button>
                                         </ion-item>
                                     </ion-col>
