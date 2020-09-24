@@ -52,7 +52,7 @@
     "mx.ferreyra.callnumber": "0.0.2",
     "ngx-qrcode2": "0.0.9",
     "node": "^12.16.1",
-    "npm": "^6.14.4",
+    "npm": "^6.14.8",
     "ode": "0.0.3",
     "rxjs": "~6.5.1",
     "sharp": "^0.25.2",
@@ -62,7 +62,7 @@
   },
   "devDependencies": {
     "@angular-devkit/architect": "~0.801.2",
-    "@angular-devkit/build-angular": "^0.803.23",
+    "@angular-devkit/build-angular": "^0.1001.3",
     "@angular-devkit/core": "~8.1.2",
     "@angular-devkit/schematics": "~8.1.2",
     "@angular/cli": "8.1.3",
